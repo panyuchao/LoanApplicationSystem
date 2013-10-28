@@ -2,4 +2,4 @@
 %p ahahahahahahaha!
 
 = submit_tag 'English'
-= submit_tag 'Chinese'
+= submit_tag '中文'
