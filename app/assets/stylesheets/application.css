@@ -11,29 +11,19 @@
  *= require_self
  *= require_tree .
  */
- 
- html, body {
-  margin: 0;
-  padding: 0;
-  background: Green;
-  color: DarkSlateGrey;
-  font-family: Tahoma, Verdana, sans-serif;
-  font-size: 10pt;
+html, body {
+  margin: 10px 5px 15px 20px;
+  padding: 10px 5px 15px 20px;
+  background: #7FBFFF;
+  color: #1F1F1F;
+  font-family: :"Times New Roman",Georgia,Serif;
+  font-size: 15pt;
 }
-div#main {
-  margin: 0;
-  padding: 0 20px 20px;
-}
-a {
-  background: transparent;
-  color: maroon;
-  text-decoration: underline;
-  font-weight: bold;
-}
+
 h1 {
-  color: maroon;
+  color: #FFFF3F;
   font-size: 150%;
-  font-style: italic;
+  font-style: normal;
   display: block;
   width: 100%;
   border-bottom: 1px solid DarkSlateGrey;
@@ -47,29 +37,17 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
-table#movies {
-  margin: 10px;
-  border-collapse: collapse;
-  width: 100%;
-  border-bottom: 2px solid black;
+p {
+  margin: 10px 5px 15px 20px;
+  padding: 0;
+  color: #000000;
+  font-family: :"Tahoma",Georgia,Serif;
+  font-size: 15pt;
 }
-table#movies th {
-  border: 2px solid white;
-  font-weight: bold;
-  background-color: wheat;
-}
-table#movies th, table#movies td {
-  padding: 4px;
-  text-align: left;
-}
-#notice #warning {
-  background: rosybrown;
-  margin: 1em 0;
-  padding: 4px;
-}
-form label {
+form{
   display: block;
-  line-height: 25px;
+  line-height: 35px;
   font-weight: bold;
-  color: maroon;
+  color: Blue;
+  font-size: 13pt;
 }
