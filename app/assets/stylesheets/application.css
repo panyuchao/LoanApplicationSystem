@@ -44,6 +44,13 @@ p {
   font-family: :"Tahoma",Georgia,Serif;
   font-size: 15pt;
 }
+p {
+  margin: 10px 5px 15px 20px;
+  padding: 0;
+  color: #000000;
+  font-family: :"Tahoma",Georgia,Serif;
+  font-size: 9pt;
+}
 form{
   display: block;
   line-height: 35px;
