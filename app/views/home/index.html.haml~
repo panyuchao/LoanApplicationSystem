@@ -1,7 +1,17 @@
-%h1 Welcome to this Loan Application System!
-%p Please select the language:
+%h2 清华大学 交叉信息研究院
+%h1 财务报销申请系统
+%p 欢迎来到本系统！请登录：
 
-= submit_tag 'English'
-= submit_tag '中文'
+
+= text_field_tag :username
+%br/
+= password_field_tag :password
+%br/
+= submit_tag '登录'
+= check_box_tag 'cookies'
+= '保存cookies'
+%br
+%p2= link_to '忘记密码？'
+%br/
 
 %p1 Designed by IIIS, Tsinghua University.

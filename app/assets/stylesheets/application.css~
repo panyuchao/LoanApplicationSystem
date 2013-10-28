@@ -20,6 +20,13 @@ html, body {
   font-size: 15pt;
 }
 
+h2 {
+  color: #FFFF3F;
+  font-size: 150%;
+  font-style: normal;
+  display: block;
+  width: 100%;
+}
 h1 {
   color: #FFFF3F;
   font-size: 150%;
@@ -50,6 +57,13 @@ p1 {
   color: #000000;
   font-family: :"Tahoma",Georgia,Serif;
   font-size: 9pt;
+}
+p2 {
+  margin: 50px 25px 75px 100px;
+  padding: 0;
+  color: #0000FF;
+  font-family: :"Tahoma",Georgia,Serif;
+  font-size: 12pt;
 }
 form{
   display: block;
