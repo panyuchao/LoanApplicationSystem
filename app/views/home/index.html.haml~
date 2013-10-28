@@ -1,5 +1,5 @@
 %h1 Welcome to LoanApplicationSystem
-%p ahahahahahahaha!
+%p Please select the language:
 
 = submit_tag 'English'
 = submit_tag '中文'
