@@ -1,4 +1,8 @@
 LoanApplicationSystem::Application.routes.draw do
+  get "en/index"
+
+  get "ch/index"
+
   get "home/index"
 
   # The priority is based upon order of creation:
@@ -60,5 +64,9 @@ LoanApplicationSystem::Application.routes.draw do
 end
 
 LoanApplicationSystem::Application.routes.draw do
-	root :to => 'home#index'
+  get "en/index"
+
+  get "ch/index"
+
+	root :to => 'ch#index'
 end

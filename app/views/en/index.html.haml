@@ -1,0 +1,25 @@
+= image_tag("iiis.gif")
+%h1 Loan Application System
+%p Welcome to this system! Please log in:
+
+= 'username'
+%br/
+= text_field_tag :username
+%br/
+= 'password'
+%br/
+= password_field_tag :password
+%br/
+= submit_tag 'Log in'
+= check_box_tag 'cookies'
+= 'Keep the cookies'
+%br
+%p2= link_to 'Forget password?'
+%br/
+%p2= link_to '中文版', '/ch/index.html'
+%br/
+%p2= link_to "Home page of IIIS, Tsinghua", "http://iiis.tsinghua.edu.cn"
+%br/
+%p1 More is supposed to be added!
+%br/
+%p1 Designed by IIIS, Tsinghua University.
