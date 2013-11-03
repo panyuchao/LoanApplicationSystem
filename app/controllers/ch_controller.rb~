@@ -5,6 +5,6 @@ class ChController < ApplicationController
      @id = params[:id]
   end
   def apply
-     @id = params[:ch_id]
+     @id = params[:id]
   end
 end

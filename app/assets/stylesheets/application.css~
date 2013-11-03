@@ -48,22 +48,48 @@ p {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #000000;
-  font-family: :"Tahoma",Georgia,Serif;
+  font-family: "Tahoma",Georgia,Serif;
   font-size: 15pt;
 }
 p1 {
   margin: 100px 50px 150px 200px;
   padding: 0;
   color: #000000;
-  font-family: :"Tahoma",Georgia,Serif;
+  font-family: "Tahoma",Georgia,Serif;
   font-size: 9pt;
 }
 p2 {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #0000FF;
-  font-family: :"Tahoma",Georgia,Serif;
+  font-family: "Tahoma",Georgia,Serif;
   font-size: 12pt;
+}
+p2b {
+  margin: 10px 5px 15px 20px;
+  padding: 0;
+  color: #000000;
+  font-family: "Tahoma",Georgia,Serif;
+  font-weight: bold;
+  font-size: 16pt;
+}
+table#movies {
+  margin: 10px;
+  border-collapse: collapse;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+table#movies th {
+  border: 2px solid white;
+  font-weight: bold;
+  background-color: #FF77FF;
+}
+table#movies th, table#movies td {
+  padding: 4px;
+  text-align: left;
+}
+table#movies th.hilite {
+  background-color: #FFBBFF;
 }
 form{
   display: block;

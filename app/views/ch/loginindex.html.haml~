@@ -1,5 +1,9 @@
 = image_tag("iiis.gif")
 %h1 财务报销申请系统
+%p2= '您好，Name'
+%p2= link_to '主页'
+%p2= link_to '申请'
+%p2= link_to '
 %p 欢迎来到本系统！请登录：
 
 = '用户名'
@@ -15,8 +19,6 @@
 = '保存cookies'
 %br
 %p2= link_to '忘记密码？'
-%br/
-%p2= link_to '登录系统尚未完成，临时跳转至用户页面', '/ch/Name'
 %br/
 %p2= link_to 'English Version', '/en/index.html'
 %br/

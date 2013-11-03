@@ -1,0 +1,46 @@
+= image_tag("iiis.gif")
+%h1 财务报销申请系统
+%p2= ('您好，'+@id)
+%p2= link_to '主页', ('/ch/'+@id)
+%p2= link_to '申请', ('/ch/'+@id+'/apply')
+%p2= link_to '注销', '/ch'
+%br/
+%p2b= '申请中'
+%br/
+%table#movies
+  %thead
+    %tr
+      %th 申请事项
+      %th 申请时间
+      %th 详细信息
+  %tbody
+    %tr
+      %td= 'test1'
+      %td= '2013-11-02'
+      %td= 'test1'
+    %tr
+      %td= 'test2'
+      %td= '2013-11-03'
+      %td= 'test2'
+%br/
+%p2b= '已申报'
+%br/
+%table#movies
+  %thead
+    %tr
+      %th 申请事项
+      %th 申请时间
+      %th 详细信息
+      %th 申请结果
+  %tbody
+    %tr
+      %td= 'test3'
+      %td= '2013-11-01'
+      %td= 'test3'
+      %td= 'test3'
+%br
+%p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
+%br/
+%p1 More is supposed to be added!
+%br/
+%p1 Designed by IIIS, Tsinghua University.
