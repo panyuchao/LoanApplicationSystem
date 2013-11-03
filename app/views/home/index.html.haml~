@@ -19,4 +19,5 @@
 %p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
 %br/
 %p1 More is supposed to be added!
+%br/
 %p1 Designed by IIIS, Tsinghua University.
