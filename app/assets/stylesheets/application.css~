@@ -71,7 +71,7 @@ p2b {
   color: #000000;
   font-family: "Tahoma",Georgia,Serif;
   font-weight: bold;
-  font-size: 16pt;
+  font-size: 15pt;
 }
 table#movies {
   margin: 10px;
