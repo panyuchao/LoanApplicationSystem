@@ -1,0 +1,46 @@
+= image_tag("iiis.gif")
+%h1 Loan Application System
+%p2= ('Welcome'+@id)
+%p2= link_to 'Home Page', ('/en/'+@id)
+%p2= link_to 'Apply', ('/en/'+@id+'/apply')
+%p2= link_to 'Log out', '/en'
+%br/
+%p2b= 'Applying'
+%br/
+%table#movies
+  %thead
+    %tr
+      %th Application Title
+      %th Applying Date
+      %th Details
+  %tbody
+    %tr
+      %td= 'test1'
+      %td= '2013-11-02'
+      %td= 'test1'
+    %tr
+      %td= 'test2'
+      %td= '2013-11-03'
+      %td= 'test2'
+%br/
+%p2b= 'Checked'
+%br/
+%table#movies
+  %thead
+    %tr
+      %th Application Title
+      %th Applying Date
+      %th Details
+      %th Result
+  %tbody
+    %tr
+      %td= 'test3'
+      %td= '2013-11-01'
+      %td= 'test3'
+      %td= 'test3'
+%br
+%p2= link_to "Home page of IIIS, Tsinghua", "http://iiis.tsinghua.edu.cn"
+%br/
+%p1 More is supposed to be added!
+%br/
+%p1 Designed by IIIS, Tsinghua University.

@@ -16,9 +16,9 @@
 %br
 %p2= link_to 'Forget password?'
 %br/
-%p2= link_to '中文版', '/en/index.html'
+%p2= link_to '中文版', '/ch/index.html'
 %br/
-%p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
+%p2= link_to "Home page of IIIS, Tsinghua", "http://iiis.tsinghua.edu.cn"
 %br/
 %p1 More is supposed to be added!
 %br/

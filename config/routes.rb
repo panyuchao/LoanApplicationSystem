@@ -9,4 +9,7 @@ LoanApplicationSystem::Application.routes.draw do
   resources :ch do
       match 'apply' => 'ch#apply'
   end
+  resources :en do
+      match 'apply' => 'en#apply'
+  end
 end
