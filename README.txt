@@ -31,4 +31,3 @@ As an administrator,
 I want an application form from users,
 so that they can apply for loan.
 ---------------------------------------------------
-
