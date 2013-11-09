@@ -1,0 +1,18 @@
+%h1 我的申请
+%table#movies
+  %thead
+    %tr
+      %th 内容
+      %th 金额
+      %th 申请人
+      %th 日期
+  %tbody
+    - @apps.each do |a|
+      %tr
+        %td= a.details
+        %td= a.amount
+        %td= a.applicant
+        %td= a.application_date
+        
+= link_to '填写新申请', new_app_path        
+

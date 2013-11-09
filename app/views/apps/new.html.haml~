@@ -1,0 +1,14 @@
+%h1 填写新申请
+
+= form_tag apps_path do
+
+  = label :app, :detail, '内容'
+  = text_field :app, 'details'
+
+  = label :app, :amount, '金额'
+  = text_field :app, 'amount'
+
+  = label :app, :pay_method, '报销方式'
+  = select :app, :pay_method, ['G','PG','PG-13','R','NC-17']
+
+  = submit_tag '提交'
