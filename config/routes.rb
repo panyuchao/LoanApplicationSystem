@@ -6,6 +6,7 @@ LoanApplicationSystem::Application.routes.draw do
 
 	root :to => 'ch#index'
 
+  resources :apps
   resources :ch do
       match 'apply' => 'ch#apply'
   end
