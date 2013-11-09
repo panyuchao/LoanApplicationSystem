@@ -11,6 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20131109141832) do
+
+  create_table "apps", :force => true do |t|
+    t.string   "details"
+    t.string   "amount"
+    t.string   "pay_method"
+    t.string   "account_num"
+    t.string   "applicant"
+    t.datetime "app_date"
+    t.string   "checked_by"
+    t.string   "handled_by"
+    t.integer  "app_type"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
 end

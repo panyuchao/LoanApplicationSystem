@@ -21,8 +21,8 @@ html, body {
 }
 
 h2 {
-  color: #FFFF3F;
-  font-size: 150%;
+  color: #43FF3F;
+  font-size: 100%;
   font-style: normal;
   display: block;
   width: 100%;
@@ -48,28 +48,28 @@ p {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #000000;
-  font-family: "Tahoma",Georgia,Serif;
+  font-family: "Times New Roman",Georgia,Serif;
   font-size: 15pt;
 }
 p1 {
   margin: 100px 50px 150px 200px;
   padding: 0;
   color: #000000;
-  font-family: "Tahoma",Georgia,Serif;
+  font-family: "Times New Roman",Georgia,Serif;
   font-size: 9pt;
 }
 p2 {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #0000FF;
-  font-family: "Tahoma",Georgia,Serif;
+  font-family: "Times New Roman",Georgia,Serif;
   font-size: 12pt;
 }
 p2b {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #000000;
-  font-family: "Tahoma",Georgia,Serif;
+  font-family: "Times New Roman",Georgia,Serif;
   font-weight: bold;
   font-size: 15pt;
 }

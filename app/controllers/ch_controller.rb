@@ -1,5 +1,6 @@
 class ChController < ApplicationController
   def index
+  	flash[:notice] = "aaaaaaaaaaaaaaaaaaaa"
   end
   def show
      @id = params[:id]

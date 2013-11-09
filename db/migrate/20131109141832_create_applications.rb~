@@ -6,10 +6,10 @@ class CreateApplications < ActiveRecord::Migration
       t.integer :pay_method	
       t.string :account_num
       t.string :applicant
-      t.datetime :application_date
+      t.datetime :app_date
       t.string :checked_by
       t.string :handled_by
-      t.integer :type
+      t.integer :app_type
       # Add fields that let Rails automatically keep track
       # of when movies are added or modified:
       t.timestamps
@@ -17,6 +17,6 @@ class CreateApplications < ActiveRecord::Migration
   end
 
   def down
-    drop_table :applications
+    drop_table :apps
   end
 end
