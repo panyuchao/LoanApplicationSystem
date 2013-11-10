@@ -29,7 +29,6 @@ class AppsController < ApplicationController
 	end
 
 	def new_app
-		flash[:notice] = "#{session[:current_user]}aaaaaaaaaaa"
 		@app_type = params[:app_type]
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
@@ -45,7 +44,10 @@ class AppsController < ApplicationController
 			flash[:notice] = "Application successfully created."
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
 		else
-			flash[:notice] = "Details should not be empty!"
+			if params[:commit] != nil then
+				flash[:notice] = "#{params[:app_type]}Details should not be empty!"
+				#redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
+			end
 		end
 	end
 
