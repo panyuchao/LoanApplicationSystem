@@ -1,21 +1,37 @@
-= image_tag("iiis.gif")
+/**= image_tag("iiis.gif")
 %h1 财务报销申请系统
 %p2= link_to '登录系统尚未完成，临时跳转至用户页面', '/apps'
 %br/
 %p 欢迎来到本系统！请登录：
 
+= form_tag '/ch/login' do
+
+  = label :user, :name, 'Username'
+  = text_field :user, 'username'
+  
+  = label :uer, :pass, 'Password'
+  = text_field :user, 'password'
+
+  = submit_tag 'Login'
+  
 = '用户名'
 %br/
-= text_field_tag :username
+= text_field_tag :usere
 %br/
 = '密码'
 %br/
-= password_field_tag :password
+= password_field_tag :pas
 %br/
 = submit_tag '登录'
 = check_box_tag 'cookies'
 = '保存cookies'
 %br
+
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value
 %p2= link_to '忘记密码？'
 %br/
 

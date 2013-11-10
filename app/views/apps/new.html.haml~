@@ -1,3 +1,5 @@
+= image_tag("iiis.gif")
+%h1 财务报销申请系统
 %h1 填写新申请
 
 = form_tag apps_path do
@@ -9,6 +11,6 @@
   = text_field :app, 'amount'
 
   = label :app, :pay_method, '报销方式'
-  = select :app, :pay_method, ['G','PG','PG-13','R','NC-17']
+  = select :app, :pay_method, ['现金','支票','汇款','银行卡']
 
   = submit_tag '提交'
