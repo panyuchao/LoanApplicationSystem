@@ -6,6 +6,11 @@ class AppsController < ApplicationController
 	end
 
 	def index
+		if session[:current_user] == nil then
+			flash[:notice] = "Login timed out!"
+			redirect_to "/#{params[:ver]}/index" and return
+		end
+			
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		flash[:notice] = "#{@current_user.user_name}"
 		if @current_user.is_admin then
@@ -28,7 +33,7 @@ class AppsController < ApplicationController
 		@app_type = params[:app_type]
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index"
+			redirect_to "/#{params[:ver]}/index" and return
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if params[:app] != nil && params[:app][:details] != '' then
@@ -38,9 +43,9 @@ class AppsController < ApplicationController
 			@app.app_type = App.get_app_type[@app_type]
 			@app.save!
 			flash[:notice] = "Application successfully created."
-			redirect_to 
+			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
 		else
-			#flash[:notice] = "Details should not be empty!"
+			flash[:notice] = "Details should not be empty!"
 		end
 	end
 
