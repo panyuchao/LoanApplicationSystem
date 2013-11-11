@@ -1,7 +1,7 @@
 class AppsController < ApplicationController
 
 	def show
-		id = params[:id] # retrieve movie ID from URI route
+#		id = params[:id] # retrieve movie ID from URI route
 		# will render app/views/movies/show.<extension> by default
 	end
 
@@ -35,11 +35,11 @@ class AppsController < ApplicationController
 			redirect_to "/#{params[:ver]}/index" and return
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
-		if params[:app] != nil && params[:app][:details] != '' then
+		if params[:commit] != nil && params[:app][:details] != '' then
 			@app = App.create!(params[:app])
 			@app.app_date = Time.new
 			@app.applicant = session[:current_user][:username]
-			@app.app_type = App.get_app_type[@app_type]
+			@app.app_type = App.get_pay_methods[@app_type]
 			@app.save!
 			flash[:notice] = "Application successfully created."
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"

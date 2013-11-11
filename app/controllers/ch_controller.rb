@@ -3,10 +3,10 @@ class ChController < ApplicationController
 		# just render 'index'
 	end
 	def show
-		@id = params[:id]
+#		@id = params[:id]
 	end
 	def apply
-		@id = params[:ch_id]
+#		@id = params[:ch_id]
 	end
 	def destroy
 #		@flash[:notice]

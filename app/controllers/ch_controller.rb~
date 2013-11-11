@@ -1,6 +1,6 @@
 class ChController < ApplicationController
 	def index
-		# just render index
+		# just render 'index'
 	end
 	def show
 		@id = params[:id]
