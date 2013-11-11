@@ -1,22 +1,31 @@
 = image_tag("iiis.gif")
-%h1 Loan Application System
-%p2= link_to 'Login system not finished, jump to the user homepage temporarily', '/en/Name'
+%h1 Loan&Reimbursement Application System
 %br/
-%p Welcome to this system! Please log in:
+%p Welcome! Please login:
 
-= 'username'
-%br/
-= text_field_tag :username
-%br/
-= 'password'
-%br/
-= password_field_tag :password
-%br/
-= submit_tag 'Log in'
+= form_tag '/ch/login' do
+
+  = label :user, :name, 'Username'
+  %br/
+  = text_field :user, 'username'
+  
+  %br/ 
+  = label :uer, :pass, 'Password'
+  %br/
+  = text_field :user, 'password'
+  %br/
+  = submit_tag 'Login'
+
 = check_box_tag 'cookies'
-= 'Keep the cookies'
+= 'keep the cookies'
 %br
-%p2= link_to 'Forget password?'
+
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value
+%p2= link_to 'Forget password？'
 %br/
 %p2= link_to '中文版', '/ch/index.html'
 %br/
