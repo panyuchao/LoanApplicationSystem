@@ -8,9 +8,9 @@ Background:
 
   Given I am on the home page
 
-Scenario:
+Scenario: an English Version page
   When I follow "English Version"
-  Then I should see "Loan Application System"
+  Then I should see "Loan&Reimbursement Application System"
   And I should not see "用户名"
-  And I should see "username"
+  And I should see "Username"
 
