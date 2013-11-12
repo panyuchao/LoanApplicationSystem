@@ -10,7 +10,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'debugger', :require => 'ruby-debug'
   gem 'database_cleaner'
-  gem 'capybara'
+  gem 'capybara',   '~> 2.0.3'
   gem 'launchy'
   gem 'rspec-rails'
   gem 'simplecov'
