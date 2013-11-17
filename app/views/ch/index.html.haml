@@ -10,11 +10,11 @@
   = text_field :user, 'username'
   
   %br/ 
-  = label :uer, :pass, '密码'
+  = label :user, :pass, '密码'
   %br/
-  = text_field :user, 'password'
+  = password_field :user, 'password'
   %br/
-  = submit_tag '登录'
+  = submit_tag '登录' 
 
 = check_box_tag 'cookies'
 = '保存cookies'

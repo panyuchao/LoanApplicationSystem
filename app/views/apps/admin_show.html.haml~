@@ -24,7 +24,7 @@
         %td= a.pay_method
         %td= a.app_date
         %td= a.applicant
-        %td= link_to '删除', '/ch/'+a.details+'/delete' 
+        %td= link_to '删除', '/'+a.details+'/delete' 
 
 %h2 借款申请      
 %table#movies
@@ -44,7 +44,7 @@
         %td= a.pay_method
         %td= a.app_date   
         %td= a.applicant  
-        %td= link_to '删除', '/ch/'+a.details+'/delete'   
+        %td= link_to '删除', '/'+a.details+'/delete'   
             
 = flash.each do |key, value|
   .alert{ :class => "alert-#{key}" }

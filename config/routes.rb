@@ -19,6 +19,8 @@ LoanApplicationSystem::Application.routes.draw do
   
   # App
   match "/:ver/:current_user/new_(:app_type)_app" => 'apps#new_app'
+
+  match "/:ver/:details/delete" => 'apps#delete'
   
   resources :en do
       match 'apply' => 'en#apply'
