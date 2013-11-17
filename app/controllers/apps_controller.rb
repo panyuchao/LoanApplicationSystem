@@ -55,6 +55,10 @@ class AppsController < ApplicationController
         def delete
                 detail = params[:details]
                 delist = App.find_by_details(detail)
+                if(delist == nil || ( delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false) )
+                    flash[:notice] = "No permission"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                end
                 App.destroy(delist)
                 flash[:notice] = "#{detail} has been removed."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
