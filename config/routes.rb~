@@ -20,8 +20,9 @@ LoanApplicationSystem::Application.routes.draw do
   # App
   match "/:ver/:current_user/new_(:app_type)_app" => 'apps#new_app'
 
-  match "/:details/delete" => 'apps#delete'
-  
+  match "/:ver/:details/delete" => 'apps#delete'
+  match "/:ver/user_management" => 'apps#user_management'
+
   resources :en do
       match 'apply' => 'en#apply'
   end

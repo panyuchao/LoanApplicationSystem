@@ -72,5 +72,10 @@ class AppsController < ApplicationController
 
 	def destroy
 	end
+        
+        def user_management
+            @current_user = User.find_by_user_name(session[:current_user][:username])
+            @user = User.all
+        end
 
 end

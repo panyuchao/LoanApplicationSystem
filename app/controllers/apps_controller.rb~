@@ -55,7 +55,7 @@ class AppsController < ApplicationController
         def delete
                 detail = params[:details]
                 delist = App.find_by_details(detail)
-                if(delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false)
+                if(delist == nil || ( delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false) )
                     flash[:notice] = "No permission"
                     redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
                 end
@@ -72,5 +72,10 @@ class AppsController < ApplicationController
 
 	def destroy
 	end
+        
+        def user_management
+            @current_user = User.find_by_user_name(session[:current_user][:username])
+            @user = User.find_all
+        end
 
 end

@@ -1,0 +1,29 @@
+= image_tag("iiis.gif")
+%h1 财务报销申请系统
+%p2= ('您好，' + @current_user.user_name)
+%p2= link_to '主页', ('/ch/')
+%p2= link_to '申请', ('/ch/')
+%p2= link_to '账户', ('/ch/#{@current_user.user_name}/user_management')
+%p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
+%h1 我的申请
+%h2 报销申请
+%table#movies
+  %thead
+    %tr
+      %th 用户名
+      %th 密码
+      %th 是否管理员
+  %tbody
+    - @user.each do |a|
+      %tr
+        %td= a[:user_name]
+        %td= '********'
+        %td= a[:is_admin]
+
+   
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value  
+
