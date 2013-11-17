@@ -13,12 +13,14 @@
       %th 用户名
       %th 密码
       %th 是否管理员
+      %th 删除
   %tbody
     - @user.each do |a|
       %tr
         %td= a[:user_name]
         %td= '********'
         %td= a[:is_admin]
+        %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
 
    
 = flash.each do |key, value|
