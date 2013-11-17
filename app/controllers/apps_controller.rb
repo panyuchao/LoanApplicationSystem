@@ -53,14 +53,20 @@ class AppsController < ApplicationController
 	end
 
         def delete
-                detail = params[:details]
-                delist = App.find_by_details(detail)
-                if(delist == nil || ( delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false) )
+                times = params[:details]
+                delist = {}
+                App.all.each do |a|
+                    if a.created_at.to_i.to_s == times
+                        delist = a
+                    end
+                end
+                #delist = App.find_by_created_at(times.to_i)
+                if(delist == nil || delist == {} || ( delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false) )
                     flash[:notice] = "No permission"
                     redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
                 end
                 App.destroy(delist)
-                flash[:notice] = "#{detail} has been removed."
+                flash[:notice] = "#{times} has been removed."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 

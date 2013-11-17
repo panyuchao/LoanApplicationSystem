@@ -2,7 +2,7 @@
 %h1 财务报销申请系统
 %p2= ('您好，' + @current_user.user_name)
 %p2= link_to '主页', ('/ch/')
-%p2= link_to '申请', ('/ch/')
+%p2= link_to '申请', ('/ch/apps')
 %p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
 %p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
 %h1 所有申请
@@ -23,9 +23,9 @@
         %td= a.details
         %td= a.amount
         %td= a.pay_method
-        %td= a.app_date
+        %td= a.created_at
         %td= a.applicant
-        %td= link_to '删除', '/ch/'+a.details+'/delete' 
+        %td= link_to '删除', '/ch/'+a.created_at+'/delete' 
 
 %h2 借款申请      
 %table#movies
@@ -43,9 +43,9 @@
         %td= a.details
         %td= a.amount
         %td= a.pay_method
-        %td= a.app_date   
+        %td= a.created_at   
         %td= a.applicant  
-        %td= link_to '删除', '/ch/'+a.details+'/delete'   
+        %td= link_to '删除', '/ch/'+a.created_at+'/delete'   
             
 = flash.each do |key, value|
   .alert{ :class => "alert-#{key}" }
