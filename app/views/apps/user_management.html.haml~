@@ -17,7 +17,7 @@
     - @user.each do |a|
       %tr
         %td= a[:user_name]
-        %td= ********
+        %td= '********'
         %td= a[:is_admin]
 
    

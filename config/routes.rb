@@ -22,6 +22,7 @@ LoanApplicationSystem::Application.routes.draw do
 
   match "/:ver/:details/delete" => 'apps#delete'
   match "/:ver/:current_user/user_management" => 'apps#user_management'
+  match "/:ver/:user_name/removeuser" => 'user#remove'
 
   resources :en do
       match 'apply' => 'en#apply'
