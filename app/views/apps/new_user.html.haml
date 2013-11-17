@@ -1,0 +1,22 @@
+= image_tag("iiis.gif")
+%h1 财务报销申请系统
+%h2 添加新用户
+
+= form_tag "/ch/#{params[:current_user]}/new_userc" do
+
+  = label :user, :user_name, '用户名'
+  = text_field :user, 'user_name'
+  %br/
+  = label :user, :user_pass, '密码'
+  = password_field :user, 'user_pass'
+  %br/
+  = label :user, :is_admin, '是否管理员(Y/n)'
+  = text_field :user, 'is_admin'
+  %br/
+  = submit_tag '提交'
+  
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value  
