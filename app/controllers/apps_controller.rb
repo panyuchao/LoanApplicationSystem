@@ -62,7 +62,7 @@ class AppsController < ApplicationController
 		else
 			if params[:commit] != nil then
 				flash[:notice] = "#{params[:app_type]}Details should not be empty!"
-				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
+				#redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
 			end
 		end
 	end

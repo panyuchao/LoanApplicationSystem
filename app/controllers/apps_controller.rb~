@@ -48,7 +48,7 @@ class AppsController < ApplicationController
                            end
                         end
                         if cn >= 2
-                            flash[:notice] = "#{params[:app_type]}Invalid amount!"
+                            flash[:notice] = "Invalid amount!"
                             redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app" and return
                         end
                         params[:app][:amount] = sa.to_f.to_s

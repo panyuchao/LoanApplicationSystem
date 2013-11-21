@@ -34,7 +34,7 @@ describe AppsController do
 			current_user = mock('user', :user_name => 'user')
 			User.should_receive(:find_by_user_name).with('user').and_return(current_user)
 			app = mock('app', :details => 'details', :amount => '123', :pay_method => 0)
-			App.should_receive(:create!).with({'details' => 'details', 'amount' => '123.0', 'pay_method' => '0'}).and_return(app)
+			App.should_receive(:create!).with({'details' => 'details', 'amount' => '123', 'pay_method' => '0'}).and_return(app)
 			app.stub(:app_date=)
 			app.stub(:applicant=)
 			app.stub(:app_type=)
