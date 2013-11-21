@@ -37,7 +37,9 @@ class AppsController < ApplicationController
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if params[:commit] != nil && params[:app][:details] != '' then
-			@app = App.create!(params[:app])
+			sa = params[:app][:amounts]
+                        params[:app][:amounts] = "0"
+                        @app = App.create!(params[:app])
 			@app.app_date = Time.new
 			@app.applicant = session[:current_user][:username]
 			@app.app_type = App.get_pay_methods[@app_type]

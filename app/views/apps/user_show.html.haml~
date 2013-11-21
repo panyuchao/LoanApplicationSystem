@@ -21,7 +21,7 @@
         %td= a.amount
         %td= a.pay_method
         %td= a.app_date
-        %td= link_to '删除', '/ch/'+a.created_at+'/delete'
+        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'
 = link_to '填写报销申请', "/ch/#{@current_user.user_name}/new_reim_app"  
 
 %h2 借款申请      
@@ -40,7 +40,7 @@
         %td= a.amount
         %td= a.pay_method
         %td= a.app_date   
-        %td= link_to '删除', '/ch/'+a.created_at+'/delete'     
+        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'     
         
 = link_to '填写借款申请', "/ch/#{@current_user.user_name}/new_loan_app"      
 = flash.each do |key, value|

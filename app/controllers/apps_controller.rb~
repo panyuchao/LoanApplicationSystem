@@ -84,28 +84,6 @@ class AppsController < ApplicationController
             @user = User.all
         end
 
-       def new_user
-                redirect_to '/' and return
-		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index" and return
-		end
-                if session[:is_admin] == false then
-			flash[:notice] = "No permission"
-			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps" and return 
-                end
-		@current_user = User.find_by_user_name(session[:current_user][:username])
-		if params[:commit] != nil && params[:user][:user_name] != '' then
-			@user = User.create!(params[:user])
-			@app.save!
-			flash[:notice] = "User successfully created."
-			redirect_to "/#{params[:ver]}/#{params[:current_user]}/user_management"
-		else
-			if params[:commit] != nil then
-				flash[:notice] = "#{params[:app_type]}Details should not be empty!"
-				#redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
-			end
-		end
-        end
+
 
 end
