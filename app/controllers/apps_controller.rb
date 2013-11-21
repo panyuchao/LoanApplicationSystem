@@ -37,8 +37,21 @@ class AppsController < ApplicationController
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if params[:commit] != nil && params[:app][:details] != '' then
-			sa = params[:app][:amounts]
-                        params[:app][:amounts] = "0"
+			sa = params[:app][:amount]
+                        cn = 0
+                        sa.each_byte do |t|
+                           if t>=48 and t<=57
+                           elsif t==46
+                               cn = cn+1
+                           else
+                               cn = cn+2
+                           end
+                        end
+                        if cn >= 2
+                            flash[:notice] = "Invalid amount!"
+                            redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app" and return
+                        end
+                        params[:app][:amount] = sa.to_f.to_s
                         @app = App.create!(params[:app])
 			@app.app_date = Time.new
 			@app.applicant = session[:current_user][:username]
@@ -49,7 +62,7 @@ class AppsController < ApplicationController
 		else
 			if params[:commit] != nil then
 				flash[:notice] = "#{params[:app_type]}Details should not be empty!"
-				#redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
+				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
 			end
 		end
 	end
