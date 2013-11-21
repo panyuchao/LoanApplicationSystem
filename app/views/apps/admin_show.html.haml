@@ -2,7 +2,7 @@
 %h1 财务报销申请系统
 %p2= ('您好，' + @current_user.user_name)
 %p2= link_to '主页', ('/ch/')
-%p2= link_to '申请', ('/ch/#{@current_user.user_name}/apps')
+%p2= link_to '申请', "/ch/#{@current_user.user_name}/apps"
 %p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
 %p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
 %h1 所有申请
