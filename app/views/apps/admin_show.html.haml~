@@ -6,7 +6,7 @@
 %p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
 %p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
 %h1 所有申请
-%h2 报销借款申请
+%h2 报销申请
 %table#movies
   %thead
     %tr
@@ -28,8 +28,22 @@
         %td= a.created_at
         %td= a.app_type==0? '报销' : '借款'
         %td= a.applicant
-        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to 'accept', '/ch/'+a.created_at.to_i.to_s+'/check'): ('accepted by ' + a.checked_by))
-        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete' 
+        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/check'): (link_to '取消', '/ch/'+a.created_at.to_i.to_s+'/uncheck'))
+        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'  
+
+%h2 借款申请      
+%table#movies
+  %thead
+    %tr
+      %th 内容
+      %th 金额
+      %th 支付方式
+      %th 申请日期
+      %th 申请类型
+      %th 申请人
+      %th 处理
+      %th 删除
+  %tbody
     - @apps_loan.each do |a|
       %tr
         %td= a.details
@@ -38,7 +52,7 @@
         %td= a.created_at  
         %td= a.app_type==0? '报销' : '借款' 
         %td= a.applicant  
-        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to 'accept', '/ch/'+a.created_at.to_i.to_s+'/check'): ('accepted by ' + a.checked_by))
+        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/check'): (link_to '取消', '/ch/'+a.created_at.to_i.to_s+'/uncheck'))
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'   
             
 = flash.each do |key, value|

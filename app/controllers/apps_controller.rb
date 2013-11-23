@@ -15,12 +15,12 @@ class AppsController < ApplicationController
                 
 		flash[:notice] = "#{@current_user.user_name}"
 		if @current_user.is_admin then
-			@apps_reim = App.find_all_by_app_type(0)
-			@apps_loan = App.find_all_by_app_type(1)
+                        @apps_reim = App.find(:all, :conditions => {:app_type => 0}, :order => :checked_by)
+			@apps_loan = App.find(:all, :conditions => {:app_type => 1}, :order => :checked_by)
 			render "admin_show"
 		else
-			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name})
-			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name})
+			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name}, :order => :checked_by)
+			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name}, :order => :checked_by)
 			render "user_show"
 		end
 	end
@@ -102,6 +102,26 @@ class AppsController < ApplicationController
                 delist.save!
                 
                 flash[:notice] = "#{times} has been accepted."
+                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+        end
+
+        def uncheck
+                times = params[:details]
+                delist = {}
+                App.all.each do |a|
+                    if a.created_at.to_i.to_s == times
+                        delist = a
+                    end
+                end
+                #delist = App.find_by_created_at(times.to_i)
+                if(delist == nil || delist == {} || ( session[:current_user][:is_admin] == false) )
+                    flash[:notice] = "No permission"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                end
+                delist.checked_by = nil
+                delist.save!
+                
+                flash[:notice] = "#{times} has not been accepted."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 
