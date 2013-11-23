@@ -62,7 +62,7 @@ class AppsController < ApplicationController
 		else
 			if params[:commit] != nil then
 				flash[:notice] = "#{params[:app_type]}Details should not be empty!"
-				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
+				#redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_app"
 			end
 		end
 	end
@@ -82,6 +82,26 @@ class AppsController < ApplicationController
                 end
                 App.destroy(delist)
                 flash[:notice] = "#{times} has been removed."
+                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+        end
+
+        def check
+                times = params[:details]
+                delist = {}
+                App.all.each do |a|
+                    if a.created_at.to_i.to_s == times
+                        delist = a
+                    end
+                end
+                #delist = App.find_by_created_at(times.to_i)
+                if(delist == nil || delist == {} || ( session[:current_user][:is_admin] == false) )
+                    flash[:notice] = "No permission"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                end
+                delist.checked_by = session[:current_user][:username]
+                delist.save!
+                #App.destroy(delist)
+                #flash[:notice] = "#{times} has been removed."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 

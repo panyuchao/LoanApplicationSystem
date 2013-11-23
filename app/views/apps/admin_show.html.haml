@@ -1,7 +1,7 @@
 = image_tag("iiis.gif")
 %h1 财务报销申请系统
 %p2= ('您好，' + @current_user.user_name)
-%p2= link_to '主页', ('/ch/')
+
 %p2= link_to '申请', "/ch/#{@current_user.user_name}/apps"
 %p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
 %p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
@@ -15,6 +15,7 @@
       %th 报销方式
       %th 申请日期
       %th 申请人
+      %th 处理
       %th 删除
   
   %tbody
@@ -25,6 +26,7 @@
         %td= a.pay_method
         %td= a.created_at
         %td= a.applicant
+        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to 'accept', '/ch/'+a.created_at.to_i.to_s+'/check'): ('accepted by ' + a.checked_by))
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete' 
 
 %h2 借款申请      

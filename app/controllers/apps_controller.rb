@@ -85,6 +85,26 @@ class AppsController < ApplicationController
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 
+        def check
+                times = params[:details]
+                delist = {}
+                App.all.each do |a|
+                    if a.created_at.to_i.to_s == times
+                        delist = a
+                    end
+                end
+                #delist = App.find_by_created_at(times.to_i)
+                if(delist == nil || delist == {} || ( session[:current_user][:is_admin] == false) )
+                    flash[:notice] = "No permission"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                end
+                delist.checked_by = session[:current_user][:username]
+                delist.save!
+                
+                flash[:notice] = "#{times} has been accepted."
+                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+        end
+
 	def edit
 	end
 
