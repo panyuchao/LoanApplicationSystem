@@ -34,6 +34,7 @@
       %th 金额
       %th 支付方式
       %th 申请日期
+      %th 处理结果
       %th 删除
   %tbody
     - @apps_loan.each do |a|
@@ -41,7 +42,8 @@
         %td= a.details
         %td= a.amount
         %td= a.pay_method
-        %td= a.app_date   
+        %td= a.app_date 
+        %td= (a.checked_by=='' or a.checked_by==nil ? '未处理' : 'accepted by ' + a.checked_by)  
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'     
         
 = link_to '填写借款申请', "/ch/#{@current_user.user_name}/new_loan_app"      

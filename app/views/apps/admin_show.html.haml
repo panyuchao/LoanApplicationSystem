@@ -38,6 +38,7 @@
       %th 支付方式
       %th 申请日期
       %th 申请人
+      %th 处理
       %th 删除
   %tbody
     - @apps_loan.each do |a|
@@ -47,6 +48,7 @@
         %td= a.pay_method
         %td= a.created_at   
         %td= a.applicant  
+        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to 'accept', '/ch/'+a.created_at.to_i.to_s+'/check'): ('accepted by ' + a.checked_by))
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'   
             
 = flash.each do |key, value|
