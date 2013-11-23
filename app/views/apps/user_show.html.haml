@@ -13,6 +13,7 @@
       %th 金额
       %th 报销方式
       %th 申请日期
+      %th 申请类型
       %th 处理结果
       %th 删除
   %tbody
@@ -22,8 +23,9 @@
         %td= a.amount
         %td= a.pay_method
         %td= a.app_date
+        %td= a.app_type==0? '报销' : '借款'
         %td= (a.checked_by=='' or a.checked_by==nil ? '未处理' : 'accepted by ' + a.checked_by)
-        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'
+        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete' 
 = link_to '填写报销申请', "/ch/#{@current_user.user_name}/new_reim_app"  
 
 %h2 借款申请      
@@ -34,6 +36,7 @@
       %th 金额
       %th 支付方式
       %th 申请日期
+      %th 申请类型
       %th 处理结果
       %th 删除
   %tbody
@@ -43,6 +46,7 @@
         %td= a.amount
         %td= a.pay_method
         %td= a.app_date 
+        %td= a.app_type==0? '报销' : '借款'
         %td= (a.checked_by=='' or a.checked_by==nil ? '未处理' : 'accepted by ' + a.checked_by)  
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'     
         
