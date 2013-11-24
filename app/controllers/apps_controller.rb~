@@ -128,7 +128,7 @@ class AppsController < ApplicationController
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if @current_user.is_admin then
-			@get_apps = App.find(:all, :conditions => {:check_status => [1,2]})
+			@get_apps = App.find(:all, :conditions => {:check_status => [1, 2]})
 			@check_status_num = App.get_check_status_num
 		else
 			# current user is not admin

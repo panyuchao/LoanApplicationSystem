@@ -13,7 +13,7 @@ class AppsController < ApplicationController
 
 		@current_user = User.find_by_user_name(session[:current_user][:username])
                 
-		flash[:notice] = "#{@current_user.user_name}aaaaaaa"
+		#flash[:notice] = "#{@current_user.user_name}aaaaaaa"
 		
 		if @current_user.is_admin then  # admin default - show all the unchecked apps
 			@get_apps = App.find(:all, :conditions => {:check_status => 0})
