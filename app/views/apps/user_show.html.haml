@@ -24,9 +24,8 @@
         %td= a.pay_method
         %td= a.app_date
         %td= a.app_type==0? '报销' : '借款'
-        %td= (a.checked_by=='' or a.checked_by==nil ? '未处理' : '已审核')
-        %td= (a.checked_by=='' or a.checked_by==nil ? (link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete') : '' )
-= link_to '填写报销申请', "/ch/#{@current_user.user_name}/new_reim_app"  
+        %td= 'aa'
+        %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
 
 %h2 借款申请      
 %table#movies
@@ -47,8 +46,6 @@
         %td= a.pay_method
         %td= a.app_date 
         %td= a.app_type==0? '报销' : '借款'
-        %td= (a.checked_by=='' or a.checked_by==nil ? '未处理' : '已审核')
-        %td= (a.checked_by=='' or a.checked_by==nil ? (link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete') : '' )     
         
 = link_to '填写借款申请', "/ch/#{@current_user.user_name}/new_loan_app"      
 = flash.each do |key, value|

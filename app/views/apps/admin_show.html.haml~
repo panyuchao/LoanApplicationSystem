@@ -1,4 +1,8 @@
-= image_tag("iiis.gif")
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+
+%div.container
+  = image_tag("iiis.gif")
 %h1 财务报销申请系统
 %p2= ('您好，' + @current_user.user_name)
 
@@ -14,7 +18,6 @@
       %th 金额
       %th 报销方式
       %th 申请日期
-      %th 申请类型
       %th 申请人
       %th 处理
       %th 删除
@@ -26,10 +29,7 @@
         %td= a.amount
         %td= a.pay_method
         %td= a.created_at
-        %td= a.app_type==0? '报销' : '借款'
         %td= a.applicant
-        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/check'): (link_to '取消', '/ch/'+a.created_at.to_i.to_s+'/uncheck'))
-        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'  
 
 %h2 借款申请      
 %table#movies
@@ -39,9 +39,7 @@
       %th 金额
       %th 支付方式
       %th 申请日期
-      %th 申请类型
       %th 申请人
-      %th 处理
       %th 删除
   %tbody
     - @apps_loan.each do |a|
@@ -49,10 +47,8 @@
         %td= a.details
         %td= a.amount
         %td= a.pay_method
-        %td= a.created_at  
-        %td= a.app_type==0? '报销' : '借款' 
+        %td= a.created_at   
         %td= a.applicant  
-        %td= ((a.checked_by == '' or a.checked_by == nil) ? (link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/check'): (link_to '取消', '/ch/'+a.created_at.to_i.to_s+'/uncheck'))
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'   
             
 = flash.each do |key, value|
@@ -60,4 +56,102 @@
     /%button.close{ :data => { :dismiss => "alert" } } 
     %strong
       = value  
-
+%nav{:class => "navbar navbar-default", :role => "navigation"}
+  %div{:class => "navbar-header"}
+    %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+      %span{:class => "sr-only"}Toggle navigation
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+    %a{:class => "navbar-brand"} 您好，admin
+  %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+    %ul{:class => "nav navbar-nav"}
+      - App.get_admin_tags.each do |a|
+        %li{:class => ""}
+          %a
+            = a
+            %span{:class => "badge pull-right"} 42
+      %li.dropdown
+        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          Dropdown
+          %b.caret 
+        %ul{:class => "dropdown-menu"}
+          %li
+            %a Action
+          %li
+            %a Another action
+          %li
+            %a Something else here
+          %li.divider
+          %li
+            %a Separated link
+          %li.divider
+          %li
+            %a One more separated link
+    %ul{:class => "nav navbar-nav navbar-right"}
+      %li
+        %a Link
+      %li.dropdown
+        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          Dropdown
+          %b.caret 
+        %ul{:class => "dropdown-menu"}
+          %li
+            %a Action
+          %li
+            %a Another action
+          %li
+            %a Something else here
+          %li.divider
+          %li
+            %a Separated link
+    
+%div.container
+  %table.table
+    %thead
+      %tr
+        %th 申请人
+        %th 申请时间
+        %th 内容
+        %th 金额
+        %th 申请类型
+        %th 支付方式
+        %th 审核
+    %tbody
+      %tr
+        %td 1
+        %td TB - Monthly
+        %td 01/04/2012
+        %td Default
+      %tr.success
+        %td 1
+        %td TB - Monthly
+        %td 01/04/2012
+        %td Approved
+      %tr.error
+        %td 2
+        %td TB - Monthly
+        %td 02/04/2012
+        %td Declined
+      %tr
+      %tr.warning
+        %td 3
+        %td TB - Monthly
+        %td 03/04/2012
+        %td  Pending
+      %tr.info
+        %td 4
+        %td TB - Monthly
+        %td 04/04/2012
+        %td Call in to confirm
+      - @get_apps.each do |a|
+        %tr{:class => "success"}
+          %td= a.applicant  
+          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
+          %td= a.details  
+          %td= a.amount
+          %td= App.take_pay_methods[a.app_type]
+          %td= a.pay_method
+          %td
+            =link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/delete'
+            =link_to '拒绝', '/ch/'+a.created_at.to_i.to_s+'/delete'

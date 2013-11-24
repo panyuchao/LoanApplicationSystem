@@ -13,14 +13,13 @@ class AppsController < ApplicationController
 
 		@current_user = User.find_by_user_name(session[:current_user][:username])
                 
-		flash[:notice] = "#{@current_user.user_name}"
+		flash[:notice] = "#{@current_user.user_name}aaaaaaa"
 		if @current_user.is_admin then
-                        @apps_reim = App.find(:all, :conditions => {:app_type => 0}, :order => :checked_by)
-			@apps_loan = App.find(:all, :conditions => {:app_type => 1}, :order => :checked_by)
+			@get_apps = App.find(:all, :conditions => {:check_status => 0})
 			render "admin_show"
 		else
-			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name}, :order => :checked_by)
-			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name}, :order => :checked_by)
+			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name})
+			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name})
 			render "user_show"
 		end
 	end
@@ -56,6 +55,7 @@ class AppsController < ApplicationController
 			@app.app_date = Time.new
 			@app.applicant = session[:current_user][:username]
 			@app.app_type = App.get_pay_methods[@app_type]
+			@app.check_status = 0
 			@app.save!
 			flash[:notice] = "Application successfully created."
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
@@ -102,26 +102,6 @@ class AppsController < ApplicationController
                 delist.save!
                 
                 flash[:notice] = "#{times} has been accepted."
-                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-        end
-
-        def uncheck
-                times = params[:details]
-                delist = {}
-                App.all.each do |a|
-                    if a.created_at.to_i.to_s == times
-                        delist = a
-                    end
-                end
-                #delist = App.find_by_created_at(times.to_i)
-                if(delist == nil || delist == {} || ( session[:current_user][:is_admin] == false) )
-                    flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-                end
-                delist.checked_by = nil
-                delist.save!
-                
-                flash[:notice] = "#{times} has not been accepted."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 
