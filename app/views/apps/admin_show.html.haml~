@@ -3,110 +3,40 @@
 
 %div.container
   = image_tag("iiis.gif")
-%h1 财务报销申请系统
-%p2= ('您好，' + @current_user.user_name)
-
-%p2= link_to '申请', "/ch/#{@current_user.user_name}/apps"
-%p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
-%p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
-%h1 所有申请
-%h2 报销申请
-%table#movies
-  %thead
-    %tr
-      %th 内容
-      %th 金额
-      %th 报销方式
-      %th 申请日期
-      %th 申请人
-      %th 处理
-      %th 删除
-  
-  %tbody
-    - @apps_reim.each do |a|
-      %tr
-        %td= a.details
-        %td= a.amount
-        %td= a.pay_method
-        %td= a.created_at
-        %td= a.applicant
-
-%h2 借款申请      
-%table#movies
-  %thead
-    %tr
-      %th 内容
-      %th 金额
-      %th 支付方式
-      %th 申请日期
-      %th 申请人
-      %th 删除
-  %tbody
-    - @apps_loan.each do |a|
-      %tr
-        %td= a.details
-        %td= a.amount
-        %td= a.pay_method
-        %td= a.created_at   
-        %td= a.applicant  
-        %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete'   
             
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value  
-%nav{:class => "navbar navbar-default", :role => "navigation"}
-  %div{:class => "navbar-header"}
-    %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
-      %span{:class => "sr-only"}Toggle navigation
-      %span{:class => "icon-bar"}
-      %span{:class => "icon-bar"}
-      %span{:class => "icon-bar"}
-    %a{:class => "navbar-brand"} 您好，admin
-  %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
-    %ul{:class => "nav navbar-nav"}
-      - App.get_admin_tags.each do |a|
-        %li{:class => ""}
-          %a
-            = a
-            %span{:class => "badge pull-right"} 42
-      %li.dropdown
-        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-          Dropdown
-          %b.caret 
-        %ul{:class => "dropdown-menu"}
-          %li
-            %a Action
-          %li
-            %a Another action
-          %li
-            %a Something else here
-          %li.divider
-          %li
-            %a Separated link
-          %li.divider
-          %li
-            %a One more separated link
-    %ul{:class => "nav navbar-nav navbar-right"}
-      %li
-        %a Link
-      %li.dropdown
-        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-          Dropdown
-          %b.caret 
-        %ul{:class => "dropdown-menu"}
-          %li
-            %a Action
-          %li
-            %a Another action
-          %li
-            %a Something else here
-          %li.divider
-          %li
-            %a Separated link
-    
-%div.container
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 审核申请
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - App.get_admin_tags.each do |x|
+          %li{:class => ((x[1] == "apps")? "active":"")}
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
+              =x[0]
+              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a Action
+            %li
+              %a Another action
+            %li
+              %a Something else here
+            %li.divider
+            %li
+              %a Separated link
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+      
   %table.table
     %thead
       %tr
@@ -116,7 +46,8 @@
         %th 金额
         %th 申请类型
         %th 支付方式
-        %th 审核
+        %th 账号
+        %th 删除
     %tbody
       %tr
         %td 1
@@ -145,7 +76,7 @@
         %td 04/04/2012
         %td Call in to confirm
       - @get_apps.each do |a|
-        %tr{:class => "success"}
+        %tr{:class => "warning"}
           %td= a.applicant  
           %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
           %td= a.details  
@@ -155,3 +86,10 @@
           %td
             =link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/delete'
             =link_to '拒绝', '/ch/'+a.created_at.to_i.to_s+'/delete'
+            
+
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value              

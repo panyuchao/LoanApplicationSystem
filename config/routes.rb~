@@ -11,6 +11,8 @@ LoanApplicationSystem::Application.routes.draw do
       match 'apply' => 'ch#apply'
   end
   match 'ch/index' => 'ch#index'
+  
+  
   match '/:ver/:current_user/apps' => 'apps#index'
   
   # User 
