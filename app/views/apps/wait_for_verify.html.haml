@@ -61,9 +61,7 @@
           %td
             %div{:class => "input-group input-group-sm"}
               %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false), :disabled => (a.check_status == 1? false:true)}
-          %td
-            %button{:type => "button", :class => "btn btn-default btn-xs"}
-              %span{:class => "glyphicon glyphicon-remove"}
+          %td= link_to 'x', "/#{params[:ver]}/change_to_status_0_from_#{a.check_status}/#{a.id}"
 
 = flash.each do |key, value|
   .alert{ :class => "alert-#{key}" }

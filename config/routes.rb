@@ -29,10 +29,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:user_name/removeuser" => 'user#remove'
   match "/:ver/:current_user/new_user" => 'apps#new_user'
   match "/:ver/:current_user/new_userc" => 'user#new_userc'
-  match "/:ver/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'
-  
-  match "/:ver/change_to_status_(:status1)_from_(:status0)/:id" => 'apps#change_status'
-  
+  match "/:ver/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'  
 
   resources :en do
       match 'apply' => 'en#apply'

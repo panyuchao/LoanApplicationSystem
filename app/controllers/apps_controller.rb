@@ -21,6 +21,7 @@ class AppsController < ApplicationController
 			@get_apps = App.find(:all, :conditions => {:check_status => 0})
 			@check_status_num = App.get_check_status_num
 			render "admin_show"
+			flash.keep
 		else  # user default - show all my unchecked apps
 			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name})
 			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name})
@@ -109,6 +110,7 @@ class AppsController < ApplicationController
 			flash[:notice] = "Login timed out!"
 			redirect_to "/#{params[:ver]}/index" and return
 		end
+		flash.keep
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if @current_user.is_admin then
 			@get_apps = App.find(:all, :conditions => {:check_status => [1, 2]})
@@ -117,7 +119,7 @@ class AppsController < ApplicationController
 			# current user is not admin
 			# this situation shouldn't happen
 			# just redirect top default apps page
-                        flash[:notice] = "No permission"
+			flash[:notice] = "No permission"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
 	end
@@ -128,11 +130,23 @@ class AppsController < ApplicationController
 		#	redirect_to "/#{params[:ver]}/index" and return
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
+		statusx = params[:s0].to_i
+		statusy = params[:s1].to_i
 		if @current_user.is_admin then
-			@get_apps = App.find_by_id(params[:id])
-                        @get_apps[:check_status] = params[:s1].to_i
-                        @get_apps.save!
-                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
+			if bad_change_status(statusx, statusy) then
+				flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
+				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
+			end
+			@app_now = App.find(params[:id])
+			if @app_now == nil then
+				flash[:notice] = "App with id{#{params[:id]} doesn't exist!"
+				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
+			end
+			@app_now[:check_status] = statusy
+			@app_now.save!
+			flash[:notice] = "操作成功"
+			flash.keep
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}"
 		else
 			# current user is not admin
 			# this situation shouldn't happen
@@ -141,31 +155,8 @@ class AppsController < ApplicationController
 		end
 	end
 
-	def bad_change_status(x, y)
-		flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
-		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
+	def bad_change_status(statusx, statusy)
+		return (statusx == statusy) || (statusx == 0 && statusy > 2 ) || (statusx > 2 && statusy == 0)
 	end
-
-	def change_status
-		statusx = Integer(params[:status1])
-		statusy = Integer(params[:status2])
-		if statusx == statusy then
-			return bad_change_status(statusx, statusy)
-		end
-		@app_now = App.find(params[:id])
-		if @app_now == nil then
-			flash[:notice] = "App id #{@app_now} doesn't exist!"
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
-		end
-		if statusx == 0 then
-			if statusy > 2 then
-				return bad_change_status(statusx, statusy)
-			end
-			@app_now.check_status = statusy
-			@app_now.save!
-			flash[:notice] = "操作成功"
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
-		end
-	end
-
+	
 end
