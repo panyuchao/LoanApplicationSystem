@@ -120,7 +120,6 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then
 			@get_apps = App.find(:all, :conditions => {:check_status => [1, 2]})
 			@check_status_num = App.get_check_status_num
-			flash[:notice] = "aaaaaaaaaaa"
 		else
 			# current user is not admin
 			# this situation shouldn't happen
@@ -146,9 +145,8 @@ class AppsController < ApplicationController
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
 			if statusx == 1 && statusy == 3 then
-			  #flash[:notice] = "#aaaaaaa"
 				if params[:user] == nil || params[:user][:password] == "" then
-					#flash[:notice] = "Account number should not be empty"
+					flash[:notice] = "Account number should not be empty"
 					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
 				end
 			end

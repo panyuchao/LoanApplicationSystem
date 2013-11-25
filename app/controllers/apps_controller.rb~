@@ -138,7 +138,7 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then
 			if bad_change_status(statusx, statusy) then
 				flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
-				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps}" and return
+				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
 			end
 			@app_now = App.find(params[:id])
 			if @app_now == nil then
