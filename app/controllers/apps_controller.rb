@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class AppsController < ApplicationController
 
 	def show
@@ -120,7 +122,7 @@ class AppsController < ApplicationController
 		end
 	end
         
-        def changes
+	def changes
 		if session[:current_user] == nil then
 		#	flash[:notice] = "Login timed out!"
 		#	redirect_to "/#{params[:ver]}/index" and return
@@ -137,7 +139,33 @@ class AppsController < ApplicationController
 			# just redirect to default apps page
 		#	redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
-        end
+	end
 
+	def bad_change_status(x, y)
+		flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
+		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
+	end
+
+	def change_status
+		statusx = Integer(params[:status1])
+		statusy = Integer(params[:status2])
+		if statusx == statusy then
+			return bad_change_status(statusx, statusy)
+		end
+		@app_now = App.find(params[:id])
+		if @app_now == nil then
+			flash[:notice] = "App id #{@app_now} doesn't exist!"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
+		end
+		if statusx == 0 then
+			if statusy > 2 then
+				return bad_change_status(statusx, statusy)
+			end
+			@app_now.check_status = statusy
+			@app_now.save!
+			flash[:notice] = "操作成功"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[statusx][1]}"
+		end
+	end
 
 end

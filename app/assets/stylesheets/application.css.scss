@@ -11,10 +11,17 @@
  *= require_self
  *= require_tree .
  */
+ 
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #a89;
+}
+
 @import "bootstrap";
 html {
-  margin: 10px 5px 20px 20px;
-  padding: 10px 5px 20px 20px;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   background: #7FBFFF;
   color: #1F1F1F;
   font-family: "Times New Roman",Georgia,Serif;
@@ -39,12 +46,12 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
-p {
+p0 {
   margin: 10px 5px 15px 20px;
   padding: 0;
   color: #000000;
   font-family: "Times New Roman",Georgia,Serif;
-  font-size: 15pt;
+  font-size: 12pt;
 }
 p1 {
   margin: 100px 50px 150px 200px;
@@ -92,12 +99,6 @@ form{
   font-weight: bold;
   color: Blue;
   font-size: 13pt;
-}
-
-body {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #a89;
 }
 
 .form-signin {

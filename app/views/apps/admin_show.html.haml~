@@ -46,35 +46,8 @@
         %th 金额
         %th 申请类型
         %th 支付方式
-        %th 账号
-        %th 删除
+        %th 审核
     %tbody
-      %tr
-        %td 1
-        %td TB - Monthly
-        %td 01/04/2012
-        %td Default
-      %tr.success
-        %td 1
-        %td TB - Monthly
-        %td 01/04/2012
-        %td Approved
-      %tr.error
-        %td 2
-        %td TB - Monthly
-        %td 02/04/2012
-        %td Declined
-      %tr
-      %tr.warning
-        %td 3
-        %td TB - Monthly
-        %td 03/04/2012
-        %td  Pending
-      %tr.info
-        %td 4
-        %td TB - Monthly
-        %td 04/04/2012
-        %td Call in to confirm
       - @get_apps.each do |a|
         %tr{:class => "warning"}
           %td= a.applicant  
@@ -84,7 +57,7 @@
           %td= App.take_pay_methods[a.app_type]
           %td= a.pay_method
           %td
-            =link_to '接受', "/#{params[:ver]}/#{@current_user.user_name}/change_to_status_1_from_0/#{a.id}"
+            =link_to '接受', "/#{params[:ver]}/change_to_status_1_from_0/#{a.id}"
             =link_to '拒绝', '/ch/'+a.created_at.to_i.to_s+'/delete'
             
 

@@ -11,7 +11,7 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 审核确认
+      %a{:class => "navbar-brand"}= '审核确认'
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
         - App.get_admin_tags.each do |x|
@@ -60,7 +60,7 @@
           %td= a.check_status == 1? '通过':'不通过'
           %td
             %div{:class => "input-group input-group-sm"}
-              %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false)}
+              %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false), :disabled => (a.check_status == 1? false:true)}
           %td
             %button{:type => "button", :class => "btn btn-default btn-xs"}
               %span{:class => "glyphicon glyphicon-remove"}

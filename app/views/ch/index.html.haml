@@ -1,28 +1,25 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
 %div.container
-  %form.form-signin{:action => '/ch/login', :method => 'post'}
-    %h2.form-signin-heading= 'Please sign in'
-    %input.form-control{:type => "text", :placeholder => "用户名", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
-    %input.form-control{:type => "password", :placeholder => "密码", :required => true, :id => :user_password, :name => "user[password]"}
+  %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-left"}
+    %h3.form-signin-heading= '欢迎来到本系统，请登录'
+    %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
+    %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
     %label.checkbox
       %input{:type => "checkbox", :value => "remember-me"} 记住我
-    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :name => :commit} 登录
-
-
-
+    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :name => :commit} 登陆
+%div.container
+  %p2= link_to 'English Version', '/en/index.html'
+  %br/
+  %p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
+  %br/
+  %p0= 'More is supposed to be added!'
+  %br/
+  %p2b Designed by IIIS, Tsinghua University.
 
 = flash.each do |key, value|
   .alert{ :class => "alert-#{key}" }
     /%button.close{ :data => { :dismiss => "alert" } } 
     %strong
       = value
-%p2= link_to '忘记密码？'
-%br/
-
-%p2= link_to 'English Version', '/en/index.html'
-%br/
-%p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
-%br/
-%p1 More is supposed to be added!
-%br/
-%p1 Designed by IIIS, Tsinghua University.
