@@ -1,0 +1,70 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+
+%div.container
+  = image_tag("iiis.gif")
+            
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 已审核申请
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - App.get_admin_tags.each do |x|
+          %li{:class => ((x[1] == "reviewed")? "active":"")}
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
+              =x[0]
+              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a Action
+            %li
+              %a Another action
+            %li
+              %a Something else here
+            %li.divider
+            %li
+              %a Separated link
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+      
+  %table.table
+    %thead
+      %tr
+        %th 申请人
+        %th 申请时间
+        %th 内容
+        %th 金额
+        %th 申请类型
+        %th 支付方式
+        %th 审核
+    %tbody
+      - @get_apps.each do |a|
+        %tr{:class => "warning"}
+          %td= a.applicant  
+          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
+          %td= a.details  
+          %td= a.amount
+          %td= App.take_pay_methods[a.app_type]
+          %td= a.pay_method
+          %td
+            =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
+            =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"
+            
+
+  
+  
+= flash.each do |key, value|
+  .alert{ :class => "alert-#{key}" }
+    /%button.close{ :data => { :dismiss => "alert" } } 
+    %strong
+      = value              
