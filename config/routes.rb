@@ -15,6 +15,7 @@ LoanApplicationSystem::Application.routes.draw do
   
   match '/:ver/:current_user/apps' => 'apps#index'
   match '/:ver/:current_user/wait_for_verify' => 'apps#wait_for_verify'
+  match "/:ver/:current_user/reviewed" => 'apps#reviewed'
   
   # User 
   match "/:ver/login" => 'user#login'
@@ -29,7 +30,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:user_name/removeuser" => 'user#remove'
   match "/:ver/:current_user/new_user" => 'apps#new_user'
   match "/:ver/:current_user/new_userc" => 'user#new_userc'
-  match "/:ver/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'  
+  match "/:ver/:current_user/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'  
 
   resources :en do
       match 'apply' => 'en#apply'

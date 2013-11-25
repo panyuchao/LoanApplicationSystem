@@ -47,6 +47,7 @@
         %th 支付方式
         %th 审核
         %th 账号
+        %th 确认
         %th 删除
     %tbody
       - @get_apps.each do |a|
@@ -61,8 +62,11 @@
           %td
             %div{:class => "input-group input-group-sm"}
               %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false), :disabled => (a.check_status == 1? false:true)}
-          %td= link_to 'x', "/#{params[:ver]}/change_to_status_0_from_#{a.check_status}/#{a.id}"
-
+          %td= link_to 'y', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"
+          %td= link_to 'x', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_0_from_#{a.check_status}/#{a.id}"
+  %p{:class => "pull-right"} 提交
+  
+  
 = flash.each do |key, value|
   .alert{ :class => "alert-#{key}" }
     /%button.close{ :data => { :dismiss => "alert" } } 

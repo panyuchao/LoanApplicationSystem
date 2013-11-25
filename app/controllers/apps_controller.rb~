@@ -7,12 +7,19 @@ class AppsController < ApplicationController
 		# will render app/views/movies/show.<extension> by default
 	end
 
-	def index
+	def check_username
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index" and return
+			redirect_to "/#{params[:ver]}/index" and return true
 		end
+		if params[:current_user] != session[:current_user][:username] then
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
+		end
+		return false
+	end
 
+	def index
+		if check_username then return end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
                 
 		#flash[:notice] = "#{@current_user.user_name}aaaaaaa"
@@ -34,7 +41,7 @@ class AppsController < ApplicationController
 	end
 
 	def new_app
-		@app_type = params[:app_type]
+		if check_username then return end
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
 			redirect_to "/#{params[:ver]}/index" and return
@@ -106,10 +113,7 @@ class AppsController < ApplicationController
         #end
 
 	def wait_for_verify
-		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index" and return
-		end
+		if check_username then return end
 		flash.keep
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if @current_user.is_admin then
@@ -125,10 +129,7 @@ class AppsController < ApplicationController
 	end
         
 	def changes
-		if session[:current_user] == nil then
-		#	flash[:notice] = "Login timed out!"
-		#	redirect_to "/#{params[:ver]}/index" and return
-		end
+		if check_username then return end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		statusx = params[:s0].to_i
 		statusy = params[:s1].to_i
@@ -137,7 +138,7 @@ class AppsController < ApplicationController
 				flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
-			@app_now = App.find(params[:id})
+			@app_now = App.find(params[:id])
 			if @app_now == nil then
 				flash[:notice] = "App with id{#{params[:id]} doesn't exist!"
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
@@ -157,6 +158,18 @@ class AppsController < ApplicationController
 
 	def bad_change_status(statusx, statusy)
 		return (statusx == statusy) || (statusx == 0 && statusy > 2 ) || (statusx > 2 && statusy == 0)
+	end
+	
+	def reviewed
+		if check_username then return end 
+		@current_user = User.find_by_user_name(session[:current_user][:username])
+		if @current_user.is_admin then
+			@get_apps = App.find(:all, :conditions => {:check_status => [3,4]})
+			@check_status_num = App.get_check_status_num
+			render "admin_reviewed"
+		else
+		end
+		
 	end
 	
 end
