@@ -24,6 +24,6 @@ Scenario: check and uncheck the apps
   When I follow the first "拒绝"
   Then I should not see "test006" 
   When I follow the first "待确认"
-  Then I should not see "test006"
+  Then I should see "test006"
 
 

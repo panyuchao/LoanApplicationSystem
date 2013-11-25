@@ -64,12 +64,13 @@ class AppsController < ApplicationController
                         end
                         params[:app][:amount] = sa.to_f.to_s
                         @app = App.create!(params[:app])
+      @app.details = params[:app][:details]
 			@app.app_date = Time.new
 			@app.applicant = session[:current_user][:username]
-			@app.app_type = App.get_pay_methods[@app_type]
+			@app.app_type = App.get_pay_methods[params[:app_type]]
 			@app.check_status = 0
 			@app.save!
-			flash[:notice] = "Application successfully created."
+			flash[:notice] = "#{@app.details}Application successfully created."
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
 		else
 			if params[:commit] != nil then
@@ -119,6 +120,7 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then
 			@get_apps = App.find(:all, :conditions => {:check_status => [1, 2]})
 			@check_status_num = App.get_check_status_num
+			flash[:notice] = "aaaaaaaaaaa"
 		else
 			# current user is not admin
 			# this situation shouldn't happen
@@ -136,14 +138,21 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then
 			if bad_change_status(statusx, statusy) then
 				flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
-				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
+				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps}" and return
 			end
 			@app_now = App.find(params[:id])
 			if @app_now == nil then
 				flash[:notice] = "App with id{#{params[:id]} doesn't exist!"
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
-			@app_now[:check_status] = statusy
+			if statusx == 1 && statusy == 3 then
+			  #flash[:notice] = "#aaaaaaa"
+				if params[:user] == nil || params[:user][:password] == "" then
+					#flash[:notice] = "Account number should not be empty"
+					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
+				end
+			end
+			@app_now.check_status = statusy
 			@app_now.save!
 			flash[:notice] = "操作成功"
 			flash.keep

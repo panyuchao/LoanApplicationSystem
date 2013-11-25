@@ -36,6 +36,7 @@ describe AppsController do
 			app = mock('app', :details => 'details', :amount => '123', :pay_method => 0)
 			App.should_receive(:create!).with({'details' => 'details', 'amount' => '123.0', 'pay_method' => '0'}).and_return(app)
 			app.stub(:app_date=)
+			app.stub(:details=)
 			app.stub(:applicant=)
 			app.stub(:app_type=)
 			app.stub(:check_status=)
@@ -54,7 +55,8 @@ describe AppsController do
 	describe 'delete' do
 		it 'delete test' do
 			delist = mock('app')
-			App.should_receive(:find_by_create_at).with(:details).and_return(delist)
+#			App.should_receive(:find_by_create_at).with(:details).and_return(delist)
+			session[:current_user] = {:username=>'user'}
 			post :delete, :ver => 'ch', :details => '1'
 			response.should redirect_to "/ch/user/apps"
 		end
@@ -128,7 +130,7 @@ describe AppsController do
 			App.should_receive(:find).with(:all, :conditions => {:check_status => [3,4]}).and_return(get_apps)
 			stub(:check_status_num=)
 			post :reviewed, :ver => 'ch', :current_user => 'admin'
-			response.should render "reviewed"
+			response.should render_template "admin_reviewed"
 		end
 	end
 end

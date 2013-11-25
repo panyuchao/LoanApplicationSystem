@@ -4,10 +4,6 @@ require 'spec_helper'
 
 describe UserController do
 	describe 'login' do
-		it 'should redirect to homepage if no username&password is typed in' do
-			post :login, :ver => 'ch'
-			response.should redirect_to "/ch/index"
-		end
 		it 'should refresh the session hash and redirect to list apps view if username/password pair is valid' do
 			current_user = mock('user')
 			User.should_receive(:find_by_user_name).with('user').and_return(current_user)

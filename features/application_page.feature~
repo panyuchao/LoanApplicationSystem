@@ -43,7 +43,7 @@ Scenario: can not visit invalid page
   When I fill in "user_username" with "test_user1"
   And I fill in "user_password" with "pass"
   And I press "登录"
-  When I go to the wait for varify page for test_user1
+  When I go to the wait for verify page for test_user1
   Then I should be on the application page for "test_user1"
   And I should see "No permission"
 
