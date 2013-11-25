@@ -52,7 +52,7 @@ describe AppsController do
 	end
 	
 	describe 'delete' do
-		it 'delete test 1' do
+		it 'delete test' do
 			delist = mock('app')
 			App.should_receive(:find_by_create_at).with(:details).and_return(delist)
 			post :delete, :ver => 'ch', :details => '1'
