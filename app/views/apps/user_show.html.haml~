@@ -22,16 +22,11 @@
         %td= a.details
         %td= a.amount
         %td= a.pay_method
-        %td= a.app_date
+        %td= a.app_date 
         %td= a.app_type==0? '报销' : '借款'
-<<<<<<< HEAD
-        %td= 'aa'
-        %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
-=======
         %td= ''
         %td= link_to '删除', '/ch/'+a.created_at.to_i.to_s+'/delete' 
-= link_to '填写报销申请', "/ch/#{@current_user.user_name}/new_reim_app"  
->>>>>>> parent of 28ca834... order is rearranged
+= link_to '填写报销申请', "/ch/#{@current_user.user_name}/new_reim_app" 
 
 %h2 借款申请      
 %table#movies

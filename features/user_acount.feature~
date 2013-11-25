@@ -13,7 +13,7 @@ Scenario: I can login and logout
   And I fill in "user_password" with "pass"
   And I press "登录"
   Then I should be on the list my app page of "test_user1"
-  When I follow "注销"
+  When I press "注销"
   Then I should be on the Chinese home page
   And I should see "Logout succeeded!"
 

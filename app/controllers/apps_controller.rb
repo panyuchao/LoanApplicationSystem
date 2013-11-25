@@ -78,9 +78,9 @@ class AppsController < ApplicationController
                     end
                 end
                 #delist = App.find_by_created_at(times.to_i)
-                if(delist == nil || delist == {} || ( delist[:applicant] != session[:current_user][:username] && session[:current_user][:is_admin] == false) )
+                if(delist == nil || delist == {} || ( delist[:applicant] != session[:current_user][:username] && session[:is_admin] == false) )
                     flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
                 end
                 App.destroy(delist)
                 flash[:notice] = "#{times} has been removed."
@@ -96,9 +96,9 @@ class AppsController < ApplicationController
                     end
                 end
                 #delist = App.find_by_created_at(times.to_i)
-                if(delist == nil || delist == {} || ( session[:current_user][:is_admin] == false) )
+                if(delist == nil || delist == {} || ( session[:is_admin] == false) )
                     flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
                 end
                 delist.checked_by = session[:current_user][:username]
                 delist.save!
@@ -116,10 +116,10 @@ class AppsController < ApplicationController
 	def destroy
 	end
         
-        def user_management
-            @current_user = User.find_by_user_name(session[:current_user][:username])
-            @user = User.all
-        end
+        #def user_management
+        #    @current_user = User.find_by_user_name(session[:current_user][:username])
+        #    @user = User.all
+        #end
 
 	def wait_for_verify
 		if session[:current_user] == nil then
@@ -137,6 +137,25 @@ class AppsController < ApplicationController
 			redirect_to "/#{params[:ver]}/#{session[:current_user]}/apps"
 		end
 	end
+        
+        def changes
+		if session[:current_user] == nil then
+			flash[:notice] = "Login timed out!"
+			redirect_to "/#{params[:ver]}/index" and return
+		end
+		@current_user = User.find_by_user_name(session[:current_user][:username])
+		if @current_user.is_admin then
+			@get_apps = App.find_by_id(params[:id])
+                        @get_apps[:check_status] = params[:s1].to_i
+                        @get_apps.save!
+                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
+		else
+			# current user is not admin
+			# this situation shouldn't happen
+			# just redirect to default apps page
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+		end
+        end
 
 
 end

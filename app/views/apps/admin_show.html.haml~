@@ -84,7 +84,7 @@
           %td= App.take_pay_methods[a.app_type]
           %td= a.pay_method
           %td
-            =link_to '接受', '/ch/'+a.created_at.to_i.to_s+'/delete'
+            =link_to '接受', "/#{params[:ver]}/#{@current_user.user_name}/change_to_status_1_from_0/#{a.id}"
             =link_to '拒绝', '/ch/'+a.created_at.to_i.to_s+'/delete'
             
 

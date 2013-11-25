@@ -19,20 +19,10 @@
 %div.container
   %form.form-signin{:action => '/ch/login', :method => 'post'}
     %h2.form-signin-heading= 'Please sign in'
-    %input.form-control{:type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]" }
-    %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password}
+    %input.form-control{:type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
+    %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
     %label.checkbox
       %input{:type => "checkbox", :value => "remember-me"} Remember me
     %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :name => :commit} Sign in
 
-<form class="form-signin">
-<h2 class="form-signin-heading">Please sign in</h2>
-<input type="text" class="form-control" placeholder="Email address" required autofocus>
-<input type="password" class="form-control" placeholder="Password" required>
-<label class="checkbox">
-<input type="checkbox" value="remember-me"> Remember me
-</label>
-<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
-   
 

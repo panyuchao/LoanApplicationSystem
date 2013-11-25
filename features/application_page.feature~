@@ -60,6 +60,13 @@ Scenario: can not check
   And I go to the check page for 1344556800
   Then I should see "No permission"
 
+Scenario: can not uncheck
+  When I fill in "user_username" with "test_user2"
+  And I fill in "user_password" with "pass"
+  And I press "登录"
+  And I go to the uncheck page for 1344556800
+  Then I should see "No permission"
+
 Scenario: should not be added if login timed out
   When I go to the reimbursement application page of "test_user1"
   Then I should be on the Chinese home page
