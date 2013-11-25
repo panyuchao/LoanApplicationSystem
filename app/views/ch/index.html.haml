@@ -1,4 +1,14 @@
 
+%div.container
+  %form.form-signin{:action => '/ch/login', :method => 'post'}
+    %h2.form-signin-heading= 'Please sign in'
+    %input.form-control{:type => "text", :placeholder => "用户名", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
+    %input.form-control{:type => "password", :placeholder => "密码", :required => true, :id => :user_password, :name => "user[password]"}
+    %label.checkbox
+      %input{:type => "checkbox", :value => "remember-me"} 记住我
+    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :name => :commit} 登录
+
+
 
 
 = flash.each do |key, value|
@@ -16,13 +26,3 @@
 %p1 More is supposed to be added!
 %br/
 %p1 Designed by IIIS, Tsinghua University.
-%div.container
-  %form.form-signin{:action => '/ch/login', :method => 'post'}
-    %h2.form-signin-heading= 'Please sign in'
-    %input.form-control{:type => "text", :placeholder => "用户名", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
-    %input.form-control{:type => "password", :placeholder => "密码", :required => true, :id => :user_password, :name => "user[password]"}
-    %label.checkbox
-      %input{:type => "checkbox", :value => "remember-me"} 记住我
-    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :name => :commit} 登录
-
-

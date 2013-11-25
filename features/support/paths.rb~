@@ -32,6 +32,8 @@ module NavigationHelpers
                 "/ch/#{$1}/apps"
         when /the delete page for (.*)/
                 "/ch/#{$1}/delete"
+        when /the wait for varify page for (.*)/
+                "/ch/#{$1}/wait_for_verify"
 	
     else
       begin

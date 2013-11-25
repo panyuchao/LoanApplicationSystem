@@ -80,32 +80,13 @@ class AppsController < ApplicationController
                 #delist = App.find_by_created_at(times.to_i)
                 if(delist == nil || delist == {} || ( delist[:applicant] != session[:current_user][:username] && session[:is_admin] == false) )
                     flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
                 end
                 App.destroy(delist)
                 flash[:notice] = "#{times} has been removed."
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 
-        def check
-                times = params[:details]
-                delist = {}
-                App.all.each do |a|
-                    if a.created_at.to_i.to_s == times
-                        delist = a
-                    end
-                end
-                #delist = App.find_by_created_at(times.to_i)
-                if(delist == nil || delist == {} || ( session[:is_admin] == false) )
-                    flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-                end
-                delist.checked_by = session[:current_user][:username]
-                delist.save!
-                
-                flash[:notice] = "#{times} has been accepted."
-                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-        end
 
 	def edit
 	end
@@ -133,8 +114,9 @@ class AppsController < ApplicationController
 		else
 			# current user is not admin
 			# this situation shouldn't happen
-			# just redirect to default apps page
-			redirect_to "/#{params[:ver]}/#{session[:current_user]}/apps"
+			# just redirect top default apps page
+                        flash[:notice] = "No permission"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
 	end
         
@@ -148,7 +130,7 @@ class AppsController < ApplicationController
 			@get_apps = App.find_by_id(params[:id])
                         @get_apps[:check_status] = params[:s1].to_i
                         @get_apps.save!
-                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
 		else
 			# current user is not admin
 			# this situation shouldn't happen

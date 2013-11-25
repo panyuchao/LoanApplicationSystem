@@ -34,10 +34,18 @@ Scenario: details should not be empty
   When I fill in "user_username" with "test_user1"
   And I fill in "user_password" with "pass"
   And I press "登录"
-  And I follow "填写报销申请"
+  When I follow "填写报销申请"
   Then I should be on the reimbursement application page of "test_user1"
   And I press "提交"
   Then I should see "Details should not be empty!"
+
+Scenario: can not visit invalid page
+  When I fill in "user_username" with "test_user1"
+  And I fill in "user_password" with "pass"
+  And I press "登录"
+  When I go to the wait for verify page for test_user1
+  Then I should be on the application page for "test_user1"
+  And I should see "No permission"
 
 Scenario: details can be removed
   When I fill in "user_username" with "test_user1"
@@ -51,13 +59,6 @@ Scenario: details removed by invalid user
   And I fill in "user_password" with "pass"
   And I press "登录"
   And I go to the delete page for 1344556800
-  Then I should see "No permission"
-
-Scenario: can not check
-  When I fill in "user_username" with "test_user2"
-  And I fill in "user_password" with "pass"
-  And I press "登录"
-  And I go to the check page for 1344556800
   Then I should see "No permission"
 
 Scenario: should not be added if login timed out

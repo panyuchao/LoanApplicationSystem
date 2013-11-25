@@ -26,27 +26,4 @@ Scenario: check and uncheck the apps
   When I follow the first "待确认"
   Then I should not see "test006"
 
-Scenario: see all the users
-  When I fill in "user_username" with "admin"
-  And I fill in "user_password" with "admin"
-  And I press "登录"
-  Then I should be on the application page for "admin"
-  When I follow "账户"
-  Then I should see "账户管理"
-  And I should see "admin"
-  And I should see "test_user1"
-  And I should see "test_user2"
-
-Scenario: remove a user
-  When I fill in "user_username" with "admin"
-  And I fill in "user_password" with "admin"
-  And I press "登录"
-  Then I should be on the application page for "admin"
-  When I follow "账户"
-  Then I should see "账户管理"
-  And I follow the first "删除"
-  And I should see "test_user1 has been removed"
-
-Scenario: add a user
-
 

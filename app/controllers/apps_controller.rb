@@ -87,25 +87,6 @@ class AppsController < ApplicationController
                 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
         end
 
-        def check
-                times = params[:details]
-                delist = {}
-                App.all.each do |a|
-                    if a.created_at.to_i.to_s == times
-                        delist = a
-                    end
-                end
-                #delist = App.find_by_created_at(times.to_i)
-                if(delist == nil || delist == {} || ( session[:is_admin] == false) )
-                    flash[:notice] = "No permission"
-                    redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
-                end
-                delist.checked_by = session[:current_user][:username]
-                delist.save!
-                
-                flash[:notice] = "#{times} has been accepted."
-                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-        end
 
 	def edit
 	end
@@ -133,15 +114,16 @@ class AppsController < ApplicationController
 		else
 			# current user is not admin
 			# this situation shouldn't happen
-			# just redirect to default apps page
-			redirect_to "/#{params[:ver]}/#{session[:current_user]}/apps"
+			# just redirect top default apps page
+                        flash[:notice] = "No permission"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
 	end
         
         def changes
 		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index" and return
+		#	flash[:notice] = "Login timed out!"
+		#	redirect_to "/#{params[:ver]}/index" and return
 		end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if @current_user.is_admin then
@@ -153,7 +135,7 @@ class AppsController < ApplicationController
 			# current user is not admin
 			# this situation shouldn't happen
 			# just redirect to default apps page
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+		#	redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
         end
 

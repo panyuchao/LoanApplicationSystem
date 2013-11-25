@@ -26,3 +26,4 @@ Scenario: check and uncheck the apps
   When I follow the first "待确认"
   Then I should not see "test006"
 
+

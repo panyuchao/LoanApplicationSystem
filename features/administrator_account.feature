@@ -23,4 +23,7 @@ Scenario: Can not be visited if login time is out
   When I go to the application page for "admin"
   Then I should be on the Chinese home page
   And I should see "Login timed out!"
+  When I go to the wait for verify page for admin
+  Then I should be on the Chinese home page
+  And I should see "Login timed out!"
 
