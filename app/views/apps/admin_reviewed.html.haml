@@ -43,7 +43,7 @@
         %th 审核状态
     %tbody
       - @get_apps.each do |a|
-        %tr{:class => "warning"}
+        %tr{:class => (a.check_status == 3 ? "success":"warning")}
           %td= a.applicant  
           %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
           %td= a.details  
