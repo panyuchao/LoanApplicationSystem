@@ -16,6 +16,7 @@ test_apps = [  {:details => 'test003', :amount => 13942, :app_date => '21-Jul-20
 
 test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false},
 			  {:user_name => 'test_user2', :user_pass => 'pass', :is_admin => false},
+			  {:user_name => 'test_user3', :user_pass => 'pass', :is_admin => false},
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true}
 			 ] 
 
