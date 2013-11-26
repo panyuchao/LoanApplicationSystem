@@ -1,32 +1,51 @@
-= image_tag("iiis.gif")
-%h1 财务报销申请系统
-%p2= ('您好，' + @current_user.user_name)
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
-%p2= link_to '申请', "/ch/#{@current_user.user_name}/apps"
-%p2= link_to '账户', "/ch/#{@current_user.user_name}/user_management"
-%p2= link_to '注销', "/ch/#{@current_user.user_name}/logout"
-
-%h2 账户管理
-%table#movies
-  %thead
-    %tr
-      %th 用户名
-      %th 密码
-      %th 是否管理员
-      %th 删除
-  %tbody
-    - @user.each do |a|
+%div.container
+  = image_tag("iiis.gif")
+            
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 账户管理
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - App.get_admin_tags.each do |x|
+          %li
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
+              =x[0]
+              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+      
+  %table.table
+    %thead
       %tr
-        %td= a[:user_name]
-        %td= '********'
-        %td= a[:is_admin]
-        %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
-= link_to '添加新用户', "/ch/#{@current_user.user_name}/new_user" 
-%br/
-   
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value  
+        %th 用户名
+        %th 密码
+        %th 是否管理员
+        %th 删除
+    %tbody
+      - @user.each do |a|
+        %tr{:class => "warning"}
+          %td= a.user_name
+          %td= '********'
+          %td= a.is_admin
+          %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
+            
 
+  
+  
+  %p2b= "#{flash[:notice]}" 

@@ -16,7 +16,7 @@
       %ul{:class => "nav navbar-nav"}
         - App.get_admin_tags.each do |x|
           %li{:class => ((x[1] == "apps")? "active":"")}
-            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
               =x[0]
               %span{:class => "badge pull-right"}= @check_status_num[x[0]]
       %ul{:class => "nav navbar-nav navbar-right"}
@@ -26,7 +26,7 @@
             %b.caret 
           %ul{:class => "dropdown-menu"}
             %li
-              %a Action
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
             %li
               %a Another action
             %li
@@ -63,8 +63,4 @@
 
   
   
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value              
+  %p2b= "#{flash[:notice]}" 

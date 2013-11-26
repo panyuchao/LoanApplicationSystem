@@ -18,8 +18,4 @@
   %br/
   %p2b Designed by IIIS, Tsinghua University.
 
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value
+%p2b= "#{flash[:notice]}"

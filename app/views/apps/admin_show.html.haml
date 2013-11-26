@@ -26,14 +26,7 @@
             %b.caret 
           %ul{:class => "dropdown-menu"}
             %li
-              %a Action
-            %li
-              %a Another action
-            %li
-              %a Something else here
-            %li.divider
-            %li
-              %a Separated link
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
       
@@ -63,8 +56,4 @@
 
   
   
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value              
+  %p2b= "#{flash[:notice]}" 

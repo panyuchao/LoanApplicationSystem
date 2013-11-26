@@ -11,9 +11,6 @@ class UserController < ApplicationController
 				flash[:notice] = "Invalid username/password!"
 				redirect_to "/#{params[:ver]}/index"
 			end
-		else
-			flash[:notice] = "username/password should not be empty!"
-			redirect_to "/#{params[:ver]}/index"
 		end
 	end
 	
@@ -21,6 +18,19 @@ class UserController < ApplicationController
 		session[:current_user] = session[:is_admin] = nil
 		flash[:notice] = "Logout succeeded!"
 		redirect_to "/#{params[:ver]}/index"
+	end
+	
+	def remove
+		username = params[:user_name]
+		delist = User.find_by_user_name(username)
+		user_apps = App.find(:all, :conditions => {:applicant => username})
+		if(session[:is_admin] == true && delist != nil && delist[:is_admin] == false)
+			User.destroy(delist)
+			flash[:notice] = "#{username} has been removed."
+		else
+			flash[:notice] = "No permission"
+		end
+		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/user_management"
 	end
 
 end

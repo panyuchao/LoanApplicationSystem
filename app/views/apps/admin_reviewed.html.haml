@@ -26,14 +26,7 @@
             %b.caret 
           %ul{:class => "dropdown-menu"}
             %li
-              %a Action
-            %li
-              %a Another action
-            %li
-              %a Something else here
-            %li.divider
-            %li
-              %a Separated link
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
       
@@ -46,7 +39,7 @@
         %th 金额
         %th 申请类型
         %th 支付方式
-        %th 审核
+        %th 账号
     %tbody
       - @get_apps.each do |a|
         %tr{:class => "warning"}
@@ -56,15 +49,9 @@
           %td= a.amount
           %td= App.take_pay_methods[a.app_type]
           %td= a.pay_method
-          %td
-            =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
-            =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"
+          %td= a.account_num
             
 
   
   
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value              
+  %p2b= "#{flash[:notice]}aaaaaaaaa"
