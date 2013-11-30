@@ -10,7 +10,12 @@ class AppsController < ApplicationController
 	def check_username
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
-			redirect_to "/#{params[:ver]}/index" and return true
+			if params[:ver] != nil
+				redirect_to "/#{params[:ver]}/index" 
+			else
+				redirect_to "/ch/index"
+			end
+			return true
 		end
 		if params[:current_user] != session[:current_user][:username] then
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
@@ -144,9 +149,11 @@ class AppsController < ApplicationController
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
 			if statusx == 1 && statusy == 3 then
-				if params[:user] == nil || params[:user][:password] == "" then
-					flash[:notice] = "Account number should not be empty"
+				if params[:account] == nil || params[:account][params[:id]] == "" then
+					flash[:notice] = "#{params[:account]}    Account number should not be empty"
 					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{App.get_admin_tags[(statusx+1)>>1][1]}" and return
+				else
+					@app_now.account_num = params[:account][params[:id]]
 				end
 			end
 			@app_now.check_status = statusy
@@ -157,7 +164,7 @@ class AppsController < ApplicationController
 			# current user is not admin
 			# this situation shouldn't happen
 			# just redirect to default apps page
-		#	redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
 	end
 

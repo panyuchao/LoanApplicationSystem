@@ -29,6 +29,7 @@
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+        
   %table.table
     %thead
       %tr
@@ -52,12 +53,17 @@
           %td= App.take_pay_methods[a.app_type]
           %td= a.pay_method
           %td= a.check_status == 1? '通过':'不通过'
-          %td
-            %form
+          
+          %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}     
+            %td
               %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false), :disabled => (a.check_status == 1? false:true), :name => "account[#{a.id}]"}
-              
-          %td= link_to 'y', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"
-          %td= link_to 'x', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_0_from_#{a.check_status}/#{a.id}"
+            %td
+              %button{:type => "submit", :class => "btn btn-default btn-sm"} 
+                %span{:class => "glyphicon glyphicon-ok-circle"} 
+          %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_0_from_#{a.check_status}/#{a.id}"}     
+            %td
+              %button{:type => "submit", :class => "btn btn-default btn-sm"} 
+                %span{:class => "glyphicon glyphicon-remove"} 
   
   %p2b= "#{flash[:notice]}"
   
