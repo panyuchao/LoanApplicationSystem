@@ -1,22 +1,61 @@
-= image_tag("iiis.gif")
-%h1 财务报销申请系统
-%h2 填写新申请
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
-= form_tag "/ch/#{params[:current_user]}/new_#{params[:app_type]}_app" do
+%div.container
+  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+  %h1
 
-  = label :app, :detail, '内容'
-  = text_field :app, 'details'
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 审核申请
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - App.get_user_tags.each do |x|
+          %li
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
+              =x[0]
+              %span{:class => "badge pull-right"}
+          %li.dropdown{:class => "active"}
+            %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
+              填写新申请
+              %b.caret
+            %ul{:class => "dropdown-menu"}
+              - App.get_user_new_tags.each do |x|
+                %li
+                  %a{:href => "/ch/#{@current_user.user_name}/#{x[1]}"}<
+                    =x[0]
+           
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
 
-  = label :app, :amount, '金额'
-  = text_field :app, 'amount'
+  = form_tag "/ch/#{params[:current_user]}/new_#{params[:app_type]}_app" do
 
-  = label :app, :pay_method, '报销方式'
-  = select :app, :pay_method, ['现金','支票','汇款','银行卡']
+    = label :app, :detail, '内容'
+    = text_field :app, 'details'
 
-  = submit_tag '提交'
-  
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value  
+    = label :app, :amount, '金额'
+    = text_field :app, 'amount'
+
+    = label :app, :pay_method, '报销方式'
+    = select :app, :pay_method, ['现金','支票','汇款','银行卡']
+
+    = submit_tag '提交'
+    
+  = flash.each do |key, value|
+    .alert{ :class => "alert-#{key}" }
+      /%button.close{ :data => { :dismiss => "alert" } } 
+      %strong
+        = value  

@@ -13,6 +13,14 @@ class App < ActiveRecord::Base
 		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["已审核", "reviewed"] ]
 	end
 	
+	def self.get_user_tags
+	  [ ["总览", "apps"] ]
+	end
+	
+	def self.get_user_new_tags
+	  [ ["报销申请", "new_reim_app"], ["借款申请", "new_loan_app"] ]
+	end
+	
 	def self.get_check_status_num
 		@admin_tags = []
 		get_admin_tags.each do |x|
