@@ -34,13 +34,13 @@
   %table.table
     %thead
       %tr
-        %th 申请人
-        %th 申请时间
-        %th 内容
-        %th 金额
-        %th 申请类型
-        %th 支付方式
-        %th 审核
+        %th{:width => "10%"} 申请人
+        %th{:width => "15%"} 申请时间
+        %th{:width => "24%"} 内容
+        %th{:width => "15%"} 金额
+        %th{:width => "12%"} 申请类型
+        %th{:width => "12%"} 支付方式
+        %th{:width => "12%"} 审核
     %tbody
       - @get_apps.each do |a|
         %tr{:class => "warning"}

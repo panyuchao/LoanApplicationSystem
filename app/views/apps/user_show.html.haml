@@ -46,13 +46,13 @@
   %table.table
     %thead
       %tr
-        %th 内容
-        %th 金额
-        %th 报销方式
-        %th 申请日期
-        %th 申请类型
-        %th 处理结果
-        %th 删除
+        %th{:width => "20%"} 内容
+        %th{:width => "15%"} 金额
+        %th{:width => "10%"} 报销方式
+        %th{:width => "20%"} 申请日期
+        %th{:width => "10%"} 申请类型
+        %th{:width => "10%"} 处理结果
+        %th{:width => "10%"} 删除
     %tbody
       - @apps_reim.each do |a|
         %tr{:class => "warning"}
@@ -68,13 +68,13 @@
   %table.table
     %thead
       %tr
-        %th 内容
-        %th 金额
-        %th 支付方式
-        %th 申请日期
-        %th 申请类型
-        %th 处理结果
-        %th 删除
+        %th{:width => "20%"} 内容
+        %th{:width => "15%"} 金额
+        %th{:width => "10%"} 报销方式
+        %th{:width => "20%"} 申请日期
+        %th{:width => "10%"} 申请类型
+        %th{:width => "10%"} 处理结果
+        %th{:width => "10%"} 删除
     %tbody
       - @apps_loan.each do |a|
         %tr{:class => "warning"}
