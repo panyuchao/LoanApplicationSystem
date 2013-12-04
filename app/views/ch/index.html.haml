@@ -1,7 +1,10 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+
 %div.container
-  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '70px'}
+  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+  %h1
+  
   %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-middle"}
     %h3.form-signin-heading= '欢迎来到本系统，请登录'
     %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}

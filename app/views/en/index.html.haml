@@ -1,36 +1,26 @@
-= image_tag("iiis.gif")
-%h1 Loan&Reimbursement Application System
-%br/
-%p Welcome! Please login:
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
-= form_tag '/ch/login' do
-
-  = label :user, :name, 'Username'
-  %br/
-  = text_field :user, 'username'
+%div.container
+  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+  %h1
   
-  %br/ 
-  = label :uer, :pass, 'Password'
-  %br/
-  = text_field :user, 'password'
-  %br/
-  = submit_tag 'Login'
+  %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-middle"}
+    %h3.form-signin-heading= 'Welcome! Please login:'
+    %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
+    %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
+    %label.checkbox
+      %input{:type => "checkbox", :value => "remember-me"} Remember me
+    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :value => '登录'} Login
+%div{:align => "middle", :class => "container"}
+  %body
+    %p2= link_to '中文版', '/ch/index.html'
+    %br/
+    %p2= link_to "Home page of IIIS, Tsinghua", "http://iiis.tsinghua.edu.cn"
+    %br/
+    %p0= 'More is supposed to be added!'
+    %br/
+    %p2b Designed by IIIS, Tsinghua University.
 
-= check_box_tag 'cookies'
-= 'keep the cookies'
-%br
+%p2b= "#{flash[:notice]}"
 
-= flash.each do |key, value|
-  .alert{ :class => "alert-#{key}" }
-    /%button.close{ :data => { :dismiss => "alert" } } 
-    %strong
-      = value
-%p2= link_to 'Forget password？'
-%br/
-%p2= link_to '中文版', '/ch/index.html'
-%br/
-%p2= link_to "Home page of IIIS, Tsinghua", "http://iiis.tsinghua.edu.cn"
-%br/
-%p1 More is supposed to be added!
-%br/
-%p1 Designed by IIIS, Tsinghua University.
