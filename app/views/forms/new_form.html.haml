@@ -12,10 +12,24 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 审核申请
+      %a{:class => "navbar-brand"} 填写申请
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-           
+        - App.get_user_tags.each do |x|
+          %li
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
+              =x[0]
+              %span{:class => "badge pull-right"}
+          %li.dropdown{:class => "active"}
+            %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
+              填写新申请
+              %b.caret
+            %ul{:class => "dropdown-menu"}
+              - App.get_user_new_tags.each do |x|
+                %li
+                  %a{:href => "/ch/#{@current_user.user_name}/#{x[1]}"}<
+                    =x[0]
+                   
       %ul{:class => "nav navbar-nav navbar-right"}
         %li.dropdown
           %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
@@ -32,14 +46,14 @@
     %table{:class => "table table-bordered", :align => "center"}
       %thead
         %tr
-          %th{:width => "4%"} 序号
-          %th 内容
-          %th{:width => "12%"} 金额
-          %th{:width => "8%"} 报销方式
+          %td{:width => "5%", :align => "center"} 序号
+          %td{:width => "70%", :align => "center"} 内容
+          %td{:width => "15%", :align => "center"} 金额
+          %td{:width => "10%", :align => "center"} 报销方式
       %tbody
         - for i in 1..@TOT_APPS do 
           %tr
-            %td= i
+            %td{:align => "center"}= i
             %td
               %input{:class => "noneinput", :name => "form_entry[i][:details]"}
             %td
