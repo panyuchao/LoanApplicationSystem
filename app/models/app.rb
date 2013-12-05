@@ -2,7 +2,6 @@
 
 class App < ActiveRecord::Base
 	belongs_to :form
-
 	
 	def self.take_pay_methods
 		["报销", "借款", "reim", "loan"]
