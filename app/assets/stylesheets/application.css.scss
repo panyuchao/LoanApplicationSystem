@@ -92,13 +92,6 @@ table#movies th, table#movies td {
 table#movies th.hilite {
   background-color: #FFBBFF;
 }
-form{
-  display: block;
-  line-height: 35px;
-  font-weight: bold;
-  color: Blue;
-  font-size: 13pt;
-}
 
 .form-signin {
   max-width: 330px;
@@ -114,7 +107,7 @@ form{
 }
 .form-signin .form-control {
   position: relative;
-  font-size: 16px;
+  font-size: 15px;
   height: auto;
   padding: 10px;
   -webkit-box-sizing: border-box;
@@ -134,3 +127,15 @@ form{
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.noneinput{ 
+  width:99%; 
+  height:99%; 
+  text-align:left; 
+  border-top-style: none; 
+  border-right-style: none; 
+  border-left-style: none; 
+  background-color: transparent; 
+  border-bottom-style: none; 
+}
+

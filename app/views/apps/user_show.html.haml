@@ -59,8 +59,7 @@
           %td= a.details
           %td= a.amount
           %td= a.pay_method
-          %td= a.app_date 
-          %td= a.app_type==0? '报销' : '借款'
+          %td= a.created_at
           %td= ''
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete' 
 
@@ -81,8 +80,7 @@
           %td= a.details
           %td= a.amount
           %td= a.pay_method
-          %td= a.app_date 
-          %td= a.app_type==0? '报销' : '借款'
+          %td= a.created_at
           %td= ''
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'     
 

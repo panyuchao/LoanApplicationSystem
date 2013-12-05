@@ -4,12 +4,12 @@ class CreateApplications < ActiveRecord::Migration
       t.string :details
       t.string :amount
       t.string :pay_method	
-      t.string :account_num
-      t.string :applicant
-      t.datetime :app_date
-      t.string :checked_by
-      t.string :handled_by
-      t.integer :app_type
+      t.string :account_num	
+      t.string :applicant	#deleted
+      t.datetime :app_date	#deleted
+      t.string :checked_by	#deleted
+      t.string :handled_by	#deleted
+      t.integer :app_type	#deleted
       # Add fields that let Rails automatically keep track
       # of when movies are added or modified:
       t.timestamps

@@ -22,7 +22,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/logout" => 'user#logout'
   
   # App
-  match "/:ver/:current_user/new_(:app_type)_app" => 'apps#new_app'
+  
 
   match "/:ver/:details/delete" => 'apps#delete'
   match "/:ver/:details/check" => 'apps#check'
@@ -31,7 +31,10 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/new_user" => 'apps#new_user'
   match "/:ver/:current_user/new_userc" => 'user#new_userc'
   match "/:ver/:current_user/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'  
-
+  
+  # Form
+  match "/:ver/:current_user/new_(:app_type)_form" => 'forms#new_form'
+  
   resources :en do
       match 'apply' => 'en#apply'
   end

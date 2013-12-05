@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class App < ActiveRecord::Base
+	belongs_to :form
 	def self.get_pay_methods
 		{"报销" => 0, "借款" => 1, "reim" => 0, "loan" => 1}
 	end
@@ -18,7 +19,7 @@ class App < ActiveRecord::Base
 	end
 	
 	def self.get_user_new_tags
-	  [ ["报销申请", "new_reim_app"], ["借款申请", "new_loan_app"] ]
+	  [ ["报销申请", "new_reim_form"], ["借款申请", "new_loan_form"] ]
 	end
 	
 	def self.get_check_status_num
