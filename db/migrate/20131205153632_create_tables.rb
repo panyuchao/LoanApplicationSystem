@@ -5,6 +5,7 @@ class CreateTables < ActiveRecord::Migration
       t.float :amount
       t.string :pay_method	
       t.string :account_num	
+      t.integer :form_id
       # Add fields that let Rails automatically keep track
       # of when movies are added or modified:
       t.timestamps
@@ -20,6 +21,7 @@ class CreateTables < ActiveRecord::Migration
     	t.string :app_type
     	t.float :tot_amount
     	t.integer :check_status
+    	t.integer :user_id
 			t.timestamps
 		end
   end

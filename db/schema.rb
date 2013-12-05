@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20131205153632) do
     t.float    "amount"
     t.string   "pay_method"
     t.string   "account_num"
+    t.integer  "form_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -27,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20131205153632) do
     t.string   "app_type"
     t.float    "tot_amount"
     t.integer  "check_status"
+    t.integer  "user_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end

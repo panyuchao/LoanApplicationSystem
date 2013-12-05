@@ -35,10 +35,14 @@ class AppsController < ApplicationController
 			flash[:notice] = nil
 			render "admin_show"
 		else  # user default - show all my unchecked apps
-#			@apps_reim = App.find(:all, :conditions => {:app_type => 0, :applicant => @current_user.user_name})
-#			@apps_loan = App.find(:all, :conditions => {:app_type => 1, :applicant => @current_user.user_name})
-      @apps_reim = App.all
-      @apps_loan = App.all
+      @apps_reim = @current_user.forms
+      @apps_reim.each do |x|
+      	x.apps.each do |y|
+      		flash[:notice] = y
+      		break
+      	end
+      	break
+      end
 			render "user_show"
 		end
 	end

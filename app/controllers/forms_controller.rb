@@ -59,18 +59,24 @@ class FormsController < ApplicationController
 				flash[:notice] = "申请表不能为空，请重新填写"
 				return
 			end
+			tot_amount = 0
+			@app_form = Form.new
 			for i in 1..@TOT_APPS do
 				if !empty_form_entry(i) then
+					entry_temp = params[:form_entry][i.to_s]
 					amount = params[:form_entry][i.to_s][:amount].to_f
-=begin					
-					x = amount[0].to_i
-					if (amount[1] != nil) then
-						x 
-=end						
+					tot_amount += amount
+					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => "现金")
+					@app_form.apps << @form_entry
 					flash[:notice] = amount
-					break
 				end
 			end
+			@app_form.applicant = @current_user.user_name
+			@app_form.app_type = "报销"
+			@app_form.tot_amount = tot_amount
+			@app_form.check_status = 0
+			@app_form.save!
+			@current_user.forms << @app_form
 		else
 			
 		end

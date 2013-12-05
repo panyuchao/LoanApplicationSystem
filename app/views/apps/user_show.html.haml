@@ -12,7 +12,7 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 审核申请
+      %a{:class => "navbar-brand"} 我的申请
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
         - App.get_user_tags.each do |x|
@@ -41,48 +41,22 @@
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
 
-  %h1 我的申请
-  %h2 报销申请
   %table.table
     %thead
       %tr
-        %th{:width => "20%"} 内容
-        %th{:width => "15%"} 金额
-        %th{:width => "10%"} 报销方式
-        %th{:width => "20%"} 申请日期
-        %th{:width => "10%"} 申请类型
-        %th{:width => "10%"} 处理结果
-        %th{:width => "10%"} 删除
-    %tbody
+        %th.thcenter{:width => "15%"} 申请时间
+        %th.thcenter{:width => "10%"} 申请类型
+        %th.thcenter{:width => "10%"} 总金额
+        %th.thcenter{:width => "10%"} 处理结果
+        %th.thcenter{:width => "10%"} 删除
+    %tbody{:align => 'center'}
       - @apps_reim.each do |a|
         %tr{:class => "warning"}
-          %td= a.details
-          %td= a.amount
-          %td= a.pay_method
           %td= a.created_at
-          %td= ''
+          %td= a.app_type
+          %td= a.tot_amount
+          %td= a.check_status
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete' 
-
-  %h2 借款申请      
-  %table.table
-    %thead
-      %tr
-        %th{:width => "20%"} 内容
-        %th{:width => "15%"} 金额
-        %th{:width => "10%"} 报销方式
-        %th{:width => "20%"} 申请日期
-        %th{:width => "10%"} 申请类型
-        %th{:width => "10%"} 处理结果
-        %th{:width => "10%"} 删除
-    %tbody
-      - @apps_loan.each do |a|
-        %tr{:class => "warning"}
-          %td= a.details
-          %td= a.amount
-          %td= a.pay_method
-          %td= a.created_at
-          %td= ''
-          %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'     
 
   = flash.each do |key, value|
     .alert{ :class => "alert-#{key}" }
