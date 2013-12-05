@@ -12,10 +12,24 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 审核申请
+      %a{:class => "navbar-brand"} 填写申请
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-           
+        - App.get_user_tags.each do |x|
+          %li
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
+              =x[0]
+              %span{:class => "badge pull-right"}
+          %li.dropdown{:class => "active"}
+            %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
+              填写新申请
+              %b.caret
+            %ul{:class => "dropdown-menu"}
+              - App.get_user_new_tags.each do |x|
+                %li
+                  %a{:href => "/ch/#{@current_user.user_name}/#{x[1]}"}<
+                    =x[0]
+                   
       %ul{:class => "nav navbar-nav navbar-right"}
         %li.dropdown
           %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
