@@ -2,9 +2,7 @@
 
 class App < ActiveRecord::Base
 	belongs_to :form
-	def self.get_pay_methods
-		{"报销" => 0, "借款" => 1, "reim" => 0, "loan" => 1}
-	end
+
 	
 	def self.take_pay_methods
 		["报销", "借款", "reim", "loan"]

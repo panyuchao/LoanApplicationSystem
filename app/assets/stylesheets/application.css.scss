@@ -130,12 +130,27 @@ table#movies th.hilite {
 
 .noneinput{ 
   width:99%; 
-  height:99%; 
-  text-align:left; 
+  height:99%;
   border-top-style: none; 
   border-right-style: none; 
   border-left-style: none; 
   background-color: transparent; 
   border-bottom-style: none; 
+}
+
+.noneinput-center{ 
+  width:99%; 
+  height:99%;
+  border-top-style: none; 
+  text-align: center;
+  border-right-style: none; 
+  border-left-style: none; 
+  background-color: transparent; 
+  border-bottom-style: none; 
+}
+
+.thcenter{
+	text-align:center;
+	font-family: "微软雅黑";
 }
 

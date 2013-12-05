@@ -20,9 +20,6 @@ test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => fa
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true}
 			 ] 
 
-test_apps.each do |a|
-	App.create!(a)
-end
 
 test_users.each do |x|
 	User.create!(x)
