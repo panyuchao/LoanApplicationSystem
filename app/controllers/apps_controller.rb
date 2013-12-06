@@ -43,6 +43,7 @@ class AppsController < ApplicationController
       	end
       	break
       end
+      flash[:debug] = @apps_reim
 			render "user_show"
 		end
 	end
