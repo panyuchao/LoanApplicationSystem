@@ -35,14 +35,6 @@ class AppsController < ApplicationController
 			render "admin_show"
 		else  # user default - show all my unchecked apps
       @apps_reim = @current_user.forms
-      @apps_reim.each do |x|
-      	x.apps.each do |y|
-      		flash[:notice] = y
-      		break
-      	end
-      	break
-      end
-      flash[:debug] = @apps_reim
 			render "user_show"
 		end
 	end
