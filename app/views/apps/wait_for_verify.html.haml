@@ -35,6 +35,7 @@
     %thead
       %tr
         %th.thcenter{:width => "5%"} 展开
+        %th.thcenter{:width => "5%"} 编号
         %th.thcenter{:width => "15%"} 申请人
         %th.thcenter{:width => "25%"} 申请时间
         %th.thcenter{:width => "20%"} 总金额
@@ -43,12 +44,12 @@
         %th.thcenter{:width => "5%"} 确认
         %th.thcenter{:width => "5%"} 删除
 
-    
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
         %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}
           %tr{:class => "warning"}
             %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+            %td= a.id
             %td= a.applicant
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= a.tot_amount
