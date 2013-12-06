@@ -30,41 +30,58 @@
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
-        
+
   %table.table
     %thead
       %tr
-        %th{:width => "10%"} 申请人
-        %th{:width => "15%"} 申请时间
-        %th{:width => "15%"} 内容
-        %th{:width => "10%"} 金额
-        %th{:width => "8%"} 申请类型
-        %th{:width => "8%"} 支付方式
-        %th{:width => "6%"} 审核
-        %th{:width => "20%"} 账号
-        %th{:width => "4%"} 确认
-        %th{:width => "4%"} 删除
-    %tbody
-      - @get_apps.each do |a|
-        %tr{:class => (a.check_status == 1? "success":"warning")}
-          %td= a.applicant  
-          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
-          %td= a.details  
-          %td= a.amount
-          %td= App.take_pay_methods[a.app_type]
-          %td= a.pay_method
-          %td= a.check_status == 1? '通过':'不通过'
-          
-          %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}     
+        %th.thcenter{:width => "5%"} 展开
+        %th.thcenter{:width => "15%"} 申请人
+        %th.thcenter{:width => "25%"} 申请时间
+        %th.thcenter{:width => "20%"} 总金额
+        %th.thcenter{:width => "10%"} 申请类型
+        %th.thcenter{:width => "10%"} 审核结果
+        %th.thcenter{:width => "5%"} 确认
+        %th.thcenter{:width => "5%"} 删除
+
+    
+    %tbody{:align => 'center'}
+      - @get_forms.each do |a|
+        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}
+          %tr{:class => "warning"}
+            %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+            %td= a.applicant
+            %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            %td= a.tot_amount
+            %td= Form.take_pay_methods[Form.get_app_type[a.app_type]]
+            %td= a.check_status == 1? '通过':'不通过'
             %td
-              %input{:type => "text", :class => "form-control", :required => (a.check_status == 1?true:false), :disabled => (a.check_status == 1? false:true), :name => "account[#{a.id}]"}
+              %button{:type => "submit", :class => "btn btn-default btn-sm"}
+                %span{:class => "glyphicon glyphicon-ok-circle"}
             %td
-              %button{:type => "submit", :class => "btn btn-default btn-sm"} 
-                %span{:class => "glyphicon glyphicon-ok-circle"} 
-          %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_0_from_#{a.check_status}/#{a.id}"}     
+              %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "delete"}
+                %span{:class => "glyphicon glyphicon-remove"}
+          %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
             %td
-              %button{:type => "submit", :class => "btn btn-default btn-sm"} 
-                %span{:class => "glyphicon glyphicon-remove"} 
+            %td{:colspan => '7'}
+              %div{:class => "panel-body"}
+                %table.table{:class => "table", :border => "solid 3px red"}
+                  %thead
+                    %tr{:class => "warning"}
+                      %th.thcenter{:width => "5%"} 序号
+                      %th.thcenter{:width => "30%"} 内容
+                      %th.thcenter{:width => "20%"} 金额
+                      %th.thcenter{:width => "15%"} 报销方式
+                      %th.thcenter{:width => "30%"} 帐号
+                  %tbody{:align => 'center'}
+                    - x = 0
+                    - a.apps.each do |b|
+                      %tr
+                        %td= x += 1
+                        %td= b.details
+                        %td= b.amount
+                        %td= b.pay_method
+                        %td
+                          %input{ :class => "noneinput", :name => "form_entry[#{b.id}][account_num]"}
   
   %p2b= "#{flash[:notice]}"
   
