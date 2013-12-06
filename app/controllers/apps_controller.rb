@@ -32,7 +32,6 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then  # admin default - show all the unchecked apps
 			@get_apps = App.find(:all, :conditions => {:check_status => 0})
 			@check_status_num = App.get_check_status_num
-			flash[:notice] = nil
 			render "admin_show"
 		else  # user default - show all my unchecked apps
       @apps_reim = @current_user.forms
@@ -43,6 +42,7 @@ class AppsController < ApplicationController
       	end
       	break
       end
+      flash[:debug] = @apps_reim
 			render "user_show"
 		end
 	end
