@@ -75,6 +75,7 @@ class FormsController < ApplicationController
 			@app_form.check_status = 0
 			@app_form.save!
 			@current_user.forms << @app_form
+			@current_user.save!
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
 		end
 		# didn't commit, just render new_form
