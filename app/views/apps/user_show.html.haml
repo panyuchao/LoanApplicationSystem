@@ -1,7 +1,7 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
-%div.container
+%div{ :class => "container", :style => "-moz-user-select:-moz-none;", :onselectstart => "return false;"}
   %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
   %h1
   
@@ -41,30 +41,12 @@
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
 
-  %table.table
-    %thead
-      %tr
-        %th.thcenter{:width => "2%"}
-        %th.thcenter{:width => "15%"} 申请时间
-        %th.thcenter{:width => "10%"} 申请类型
-        %th.thcenter{:width => "10%"} 总金额
-        %th.thcenter{:width => "10%"} 处理结果
-        %th.thcenter{:width => "10%"} 删除
-    %tbody{:align => 'center'}
-      - @apps_reim.each do |a|
-        %tr{:class => "warning"}
-          %td= " "
-          %td= a.created_at
-          %td= a.app_type
-          %td= a.tot_amount
-          %td= a.check_status
-          %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete' 
   %h1
   
   %table.table
     %thead
       %tr
-        %th.thcenter{:width => "2%"} vv
+        %th.thcenter{:width => "4%"} 展开
         %th.thcenter{:width => "28%"} 申请时间
         %th.thcenter{:width => "20%"} 申请类型
         %th.thcenter{:width => "20%"} 总金额
@@ -73,14 +55,15 @@
     %tbody{:align => 'center'}
       - @apps_reim.each do |a|
         %tr{:class => "warning"}
-          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} a
+          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
           %td= a.created_at
           %td= a.app_type
           %td= a.tot_amount
           %td= a.check_status
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
         %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
-          %td{:colspan => '6'}
+          %td
+          %td{:colspan => '5'}
             %div{:class => "panel-body"}
               %table.table{:class => "table table-bordered"}
                 %thead

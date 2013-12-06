@@ -2,10 +2,9 @@
 
 class App < ActiveRecord::Base
 	belongs_to :form
+
 	
-	def self.take_pay_methods
-		["报销", "借款", "reim", "loan"]
-	end
+
 	
 	def self.get_admin_tags
 		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["已审核", "reviewed"] ]

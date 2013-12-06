@@ -40,19 +40,18 @@ class FormsController < ApplicationController
 		if params[:commit] != nil then
 			valid_form = true
 			empty_form = true
-			flash[:notice] = "#{params[:form_entry]}"
 			for i in 1..@TOT_APPS do
 				if !empty_form_entry(i) then
 					empty_form = false
 					if !valid_form_entry(i) then
 						valid_form = false
-						flash[:notice] = params[:form_entry][i.to_s]
+						flash[:debug] = params[:form_entry][i.to_s]
 						break
 					end
 				end
 			end	
 			if !valid_form then
-				flash[:notice] = "申请表填写错误，请重新填写#{params[:form_entry]}"
+				flash[:notice] = "申请表填写错误，请重新填写"
 				return
 			end
 			if empty_form then
@@ -68,17 +67,16 @@ class FormsController < ApplicationController
 					tot_amount += amount
 					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => "现金")
 					@app_form.apps << @form_entry
-					flash[:notice] = amount
 				end
 			end
 			@app_form.applicant = @current_user.user_name
-			@app_form.app_type = "报销"
+			@app_form.app_type = params[:app_type]
 			@app_form.tot_amount = tot_amount
 			@app_form.check_status = 0
 			@app_form.save!
 			@current_user.forms << @app_form
-		else
-			
+			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
 		end
+		# didn't commit, just render new_form
 	end
 end
