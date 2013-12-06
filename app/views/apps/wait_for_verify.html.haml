@@ -15,7 +15,7 @@
       %a{:class => "navbar-brand"} 待确认的申请
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-        - App.get_admin_tags.each do |x|
+        - Form.get_admin_tags.each do |x|
           %li{:class => ((x[1] == "wait_for_verify")? "active":"")}
             %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
               =x[0]

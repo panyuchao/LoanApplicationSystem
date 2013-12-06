@@ -30,8 +30,8 @@ class AppsController < ApplicationController
 		#flash[:notice] = "#{@current_user.user_name}aaaaaaa"
 		
 		if @current_user.is_admin then  # admin default - show all the unchecked apps
-			@get_apps = App.find(:all, :conditions => {:check_status => 0})
-			@check_status_num = App.get_check_status_num
+			@get_forms = Form.find(:all, :conditions => {:check_status => 0})
+			@check_status_num = Form.get_check_status_num
 			flash[:notice] = nil
 			render "admin_show"
 		else  # user default - show all my unchecked apps

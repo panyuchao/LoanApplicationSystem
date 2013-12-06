@@ -15,7 +15,7 @@
       %a{:class => "navbar-brand"} 未审核的申请
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-        - App.get_admin_tags.each do |x|
+        - Form.get_admin_tags.each do |x|
           %li{:class => ((x[1] == "apps")? "active":"")}
             %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
               =x[0]
@@ -30,29 +30,48 @@
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
-      
+
   %table.table
     %thead
       %tr
-        %th{:width => "10%"} 申请人
-        %th{:width => "15%"} 申请时间
-        %th{:width => "24%"} 内容
-        %th{:width => "15%"} 金额
-        %th{:width => "12%"} 申请类型
-        %th{:width => "12%"} 支付方式
-        %th{:width => "12%"} 审核
-    %tbody
-      - @get_apps.each do |a|
+        %th.thcenter{:width => "5%"} 展开
+        %th.thcenter{:width => "15%"} 申请人
+        %th.thcenter{:width => "30%"} 申请时间
+        %th.thcenter{:width => "20%"} 总金额
+        %th.thcenter{:width => "15%"} 申请类型
+        %th.thcenter{:width => "15%"} 审核结果
+    %tbody{:align => 'center'}
+      - @get_forms.each do |a|
         %tr{:class => "warning"}
-          %td= a.applicant  
-          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S") 
-          %td= a.details  
-          %td= a.amount
-          %td= App.take_pay_methods[a.app_type]
-          %td= a.pay_method
+          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+          %td= a.applicant
+          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
+          %td= a.tot_amount
+          %td= Form.take_pay_methods[Form.get_app_type[a.app_type]]
           %td
             =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
             =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"
+        %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
+          %td
+          %td{:colspan => '5'}
+            %div{:class => "panel-body"}
+              %table.table{:class => "table", :border => "solid 3px red"}
+                %thead
+                  %tr{:class => "warning"}
+                    %th.thcenter{:width => "5%"} 序号
+                    %th.thcenter{:width => "30%"} 内容
+                    %th.thcenter{:width => "20%"} 金额
+                    %th.thcenter{:width => "15%"} 报销方式
+                    %th.thcenter{:width => "30%"} 帐号
+                %tbody{:align => 'center'}
+                  - x = 0
+                  - a.apps.each do |b|
+                    %tr
+                      %td= x += 1
+                      %td= b.details
+                      %td= b.amount
+                      %td= b.pay_method
+                      %td= b.account_num
             
 
   
