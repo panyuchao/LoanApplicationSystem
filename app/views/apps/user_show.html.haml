@@ -46,20 +46,22 @@
   %table.table
     %thead
       %tr
-        %th.thcenter{:width => "4%"} 展开
-        %th.thcenter{:width => "28%"} 申请时间
+        %th.thcenter{:width => "5%"} 展开
+        %th.thcenter{:width => "5%"} 编号
+        %th.thcenter{:width => "25%"} 申请时间
         %th.thcenter{:width => "20%"} 申请类型
         %th.thcenter{:width => "20%"} 总金额
         %th.thcenter{:width => "15%"} 处理结果
-        %th.thcenter{:width => "15%"} 删除
+        %th.thcenter{:width => "10%"} 删除
     %tbody{:align => 'center'}
       - @apps_reim.each do |a|
         %tr{:class => "warning"}
           %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+          %td= a.id
           %td= a.created_at
           %td= Form.take_pay_methods[Form.get_app_type[a.app_type]]
           %td= a.tot_amount
-          %td= a.check_status
+          %td= Form.get_check_tags[a.check_status][0]
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
         %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
           %td

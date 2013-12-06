@@ -19,6 +19,10 @@ class Form < ActiveRecord::Base
 	def self.get_admin_tags
 		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["已审核", "reviewed"] ]
 	end
+	
+	def self.get_check_tags
+	  [ ["未审核", "0"], ["正在审核中", "1"], ["正在审核中", "2"], ["已通过审核", "3"], ["未通过审核", "4"] ]
+	end
 
 	def self.get_check_status_num
 		@admin_tags = []
