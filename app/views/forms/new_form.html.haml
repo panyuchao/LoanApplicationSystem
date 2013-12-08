@@ -1,7 +1,7 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
-
-%div.container
+- language = (params[:ver] == 'ch' ? 0:1)
+%div{ :class => "container"}
   %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
   %h1
   
@@ -12,44 +12,48 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 填写申请
+      %a{:class => "navbar-brand"}= language == 1 ? "New Application":"新的申请"
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-        - App.get_user_tags.each do |x|
+        - User.get_user_tags.each do |x|
           %li
-            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}"}<
-              =x[0]
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[2]}"}<
+              =x[language]
               %span{:class => "badge pull-right"}
-          %li.dropdown{:class => "active"}
-            %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
-              填写新申请
-              %b.caret
-            %ul{:class => "dropdown-menu"}
-              - App.get_user_new_tags.each do |x|
-                %li
-                  %a{:href => "/ch/#{@current_user.user_name}/#{x[1]}"}<
-                    =x[0]
-                   
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
+            =language == 1 ? "New Application":"填写新申请"
+            %b.caret
+          %ul{:class => "dropdown-menu"}
+            - User.get_user_new_tags.each do |x|
+              %li
+                %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/#{x[2]}"}<
+                  =x[language]
+           
       %ul{:class => "nav navbar-nav navbar-right"}
         %li.dropdown
           %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-            设置
+            =language == 1 ? "Settings":"设置"
             %b.caret 
           %ul{:class => "dropdown-menu"}
             %li
-              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+              %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/user_management"} 
+                =language == 1 ? "Preferences":"偏好"
         %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+          - redirect = language == 1 ? "ch":"en"
+          %a{:href =>"/#{redirect}/#{@current_user.user_name}/new_#{params[:app_type]}_form"} 
+            =language == 1 ? "中文版":"English"
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 
+            =language == 1 ? "logout":"注销"
 
-  %h1 报销单
+  %h1= params[:app_type] == "reim" ? (language == 1 ? "Reimbursement Application":"报销单"):(language == 1 ? "Loan Application":"借款单")
   %form{:action => "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form"}
     %table{:class => "table table-bordered", :align => "center"}
       %thead
         %tr
-          %th.thcenter{:width => "4%"} 序号
-          %th.thcenter 内容
-          %th.thcenter{:width => "12%"} 金额
-          %th.thcenter{:width => "8%"} 报销方式
+        - Form.get_reim_th.each do |x|
+          %th.thcenter{:width => "#{x[2]}%"}= x[language]
       %tbody
         - for i in 1..@TOT_APPS do 
           %tr
@@ -60,7 +64,7 @@
               %input{:class => "noneinput-center", :name => "form_entry[#{i}][amount]", :value => (params[:form_entry] != nil && params[:form_entry][i.to_s] != nil ? params[:form_entry][i.to_s][:amount] : nil)}
             %td
               %input{:class => "noneinput", :name => "form_entry[#{i}][pay_method]"}
-    %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"} 提交
+    %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"
     
   %strong= flash[:notice]
 

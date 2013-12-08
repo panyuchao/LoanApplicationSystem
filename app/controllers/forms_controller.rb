@@ -51,12 +51,12 @@ class FormsController < ApplicationController
 				end
 			end	
 			if !valid_form then
-				flash[:notice] = "申请表填写错误，请重新填写"
-				return
+				flash[:notice] = params[:ver] == 'ch' ? "申请表填写错误，请重新填写":"Invalid Form, please fill again"
+				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
 			if empty_form then
-				flash[:notice] = "申请表不能为空，请重新填写"
-				return
+				flash[:notice] = params[:ver] == 'ch' ? "申请表不能为空，请重新填写":"Form should not be empty, please fill again"
+				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
 			tot_amount = 0
 			@app_form = Form.new

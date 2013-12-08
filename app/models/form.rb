@@ -44,4 +44,8 @@ class Form < ActiveRecord::Base
 		end
 		return @check_status_num
 	end
+	
+	def self.get_reim_th
+	  [["序号", "ID", 4], ["内容", "Details", 69], ["金额", "Amount", 12], ["报销方式", "Pay method", 15]]
+	end
 end
