@@ -29,7 +29,7 @@ class AppsController < ApplicationController
 	    respond_to do |format|
 	      format.html
 	      format.csv { send_data @apps.to_csv }
-	      format.xls { send_data @apps.to_csv(col_sep: "\t") }
+	      format.xls { send_data @apps.to_csv(col_sep: ",") }
             end
         end
 
