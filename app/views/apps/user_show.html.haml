@@ -53,7 +53,7 @@
     %thead
       %tr
         - User.get_user_show_th.each do |x|
-          %th{:width => "#{x[2]}%"}= x[language]
+          %th.thcenter{:width => "#{x[2]}%"}= x[language]
     %tbody{:align => 'center'}
       - @apps_reim.each do |a|
         %tr{:class => "warning"}
