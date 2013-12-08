@@ -13,7 +13,7 @@ LoanApplicationSystem::Application.routes.draw do
   match 'ch/index' => 'ch#index'
   
   
-  match '/:ver/:current_user/apps' => 'apps#index'
+  match '/:ver/:current_user/apps' => 'apps#index1'
   match '/:ver/:current_user/wait_for_verify' => 'apps#wait_for_verify'
   match "/:ver/:current_user/reviewed" => 'apps#reviewed'
   
@@ -34,6 +34,7 @@ LoanApplicationSystem::Application.routes.draw do
   
   # Form
   match "/:ver/:current_user/new_(:app_type)_form" => 'forms#new_form'
+  match "/:ver/:current_user/export" => 'apps#export'
   
   resources :en do
       match 'apply' => 'en#apply'
