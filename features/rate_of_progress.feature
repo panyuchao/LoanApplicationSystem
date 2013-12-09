@@ -1,7 +1,7 @@
-Feature: User Account
+Feature: Application Form
 
-  As a applier using system,
-  I want an rate of progress for forms
+  As an user using system,
+  I want an rate of progress for the forms
   So that I can know the progress more clearly.
 
 Background:
