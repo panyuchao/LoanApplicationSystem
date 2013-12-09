@@ -8,10 +8,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-test_apps = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul-2011', :pay_method => "现金", :check_status => 2},
-			  	  {:details => 'test004', :amount => 3233, :created_at => '10-Aug-2012', :app_type => 0, :applicant => 'test_user1', :pay_method => "汇款", :check_status => 1},
-				  {:details => 'test005', :amount => 534442, :created_at => '27-Jul-2011', :app_type => 1, :applicant => 'test_user2', :pay_method => "支票", :check_status => 0},
-			  	  {:details => 'test006', :amount => 78293, :created_at => '23-Aug-2012',:app_type => 0, :applicant => 'test_user2', :pay_method => "银行卡", :check_status => 3},
+test_apps = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul-2011', :pay_method => "现金"},
+			  	  {:details => 'test004', :amount => 3233, :created_at => '10-Aug-2012', :pay_method => "汇款"},
+				  {:details => 'test005', :amount => 534442, :created_at => '27-Jul-2011', :pay_method => "支票"},
+			  	  {:details => 'test006', :amount => 78293, :created_at => '23-Aug-2012', :pay_method => "银行卡"},
 		  	]
 
 test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false},
@@ -20,7 +20,19 @@ test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => fa
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true}
 			 ] 
 
+test_form = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form.save!
+
+test_apps.each do |x|
+  app = App.create!(x)
+  test_form.apps << app
+end
 
 test_users.each do |x|
 	User.create!(x)
 end
+
+test_user_1 = User.find_by_user_name('test_user1')
+test_user_1.forms << test_form
+
+

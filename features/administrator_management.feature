@@ -1,4 +1,4 @@
-Feature: Administrator Account
+Feature: Administrator Management
 
   As a reviewer of applications,
   I want to manage the applications,
@@ -19,11 +19,5 @@ Scenario: check and uncheck the apps
   Then I should see "test005" 
   And I should see "test003"
   And I should see "test004"
-  When I follow the first "未审核"
-  Then I should see "test006"
-  When I follow the first "拒绝"
-  Then I should not see "test006" 
-  When I follow the first "待确认"
-  Then I should see "test006"
 
 

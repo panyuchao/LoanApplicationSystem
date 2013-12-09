@@ -28,7 +28,7 @@ Scenario: list all my applications
   And I fill in "user_password" with "pass"
   And I press "登录"
   Then I should see "test003"
-  And I should not see "test005"
+  And I should not see "aaaaaa"
 
 Scenario: Can not be visited if login time is out
   When I go to the application page for "test_user1"

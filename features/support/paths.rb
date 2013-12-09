@@ -21,19 +21,19 @@ module NavigationHelpers
     #
     #   when /^(.*)'s profile page$/i
     #     user_profile_path(User.find_by_login($1))
-        when /^the Chinese home page$/
-                "/ch/index"
-	when /^the list my app page of "(.*)"$/ 
-		"/ch/#{$1}/apps"
+    when /^the Chinese home page$/
+            "/ch/index"
+	  when /^the list my app page of "(.*)"$/ 
+		  "/ch/#{$1}/apps"
 		
-	when /^the reimbursement application page of "(.*)"$/
-		"/ch/#{$1}/new_reim_app"
-        when /the application page for "(.*)"/
-                "/ch/#{$1}/apps"
-        when /the delete page for (.*)/
-                "/ch/#{$1}/delete"
-        when /the wait for verify page for (.*)/
-                "/ch/#{$1}/wait_for_verify"
+	  when /^the reimbursement application page of "(.*)"$/
+		  "/ch/#{$1}/new_reim_form"
+    when /the application page for "(.*)"/
+            "/ch/#{$1}/apps"
+    when /the delete page for (.*)/
+            "/ch/#{$1}/delete"
+    when /the wait for verify page for (.*)/
+          "/ch/#{$1}/wait_for_verify"
 	
     else
       begin

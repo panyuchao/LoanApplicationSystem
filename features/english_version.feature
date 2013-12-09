@@ -10,7 +10,7 @@ Background:
 
 Scenario: an English Version page
   When I follow "English Version"
-  Then I should see "Loan&Reimbursement Application System"
+  Then I should see "Home page of IIIS, Tsinghua"
   And I should not see "用户名"
-  And I should see "Username"
+  And I should see "中文版"
 

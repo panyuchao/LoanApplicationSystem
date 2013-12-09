@@ -15,9 +15,6 @@ Scenario: show all the applications to adminstrator
   Then I should be on the application page for "admin"
   And I should see "test005"
   And I should see "test006"
-  When I follow "待确认"
-  Then I should see "test003"
-  And I should see "test004"
 
 Scenario: Can not be visited if login time is out
   When I go to the application page for "admin"
