@@ -23,12 +23,8 @@ class UserController < ApplicationController
 	def remove
 		username = params[:user_name]
 		delist = User.find_by_user_name(username)
-		user_apps = App.find(:all, :conditions => {:applicant => username})
 		if(session[:is_admin] == true && delist != nil && delist[:is_admin] == false)
 			User.destroy(delist)
-			user_apps.each do |x|
-				App.destroy(x)
-			end
 			flash[:notice] = "#{username} has been removed."
 		else
 			flash[:notice] = "No permission"

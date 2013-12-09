@@ -4,7 +4,7 @@ class FormsController < ApplicationController
 	def check_username
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
-			if params[:ver] != nil
+			if params[:ver] == 'ch' || params[:ver] == 'en'
 				redirect_to "/#{params[:ver]}/index" 
 			else
 				redirect_to "/ch/index"

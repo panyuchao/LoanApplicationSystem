@@ -2,7 +2,7 @@
 
 class User < ActiveRecord::Base
   # attr_accessible :title, :body
-	has_many :forms
+	has_many :forms, :dependent => :destroy
 
 	def self.get_user_tags
 	  [ ["总览", "Overview", "apps"] ]

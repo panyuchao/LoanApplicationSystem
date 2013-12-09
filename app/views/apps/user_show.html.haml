@@ -60,7 +60,7 @@
           %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
           %td= a.id
           %td= a.created_at
-          %td= Form.take_pay_methods[Form.get_app_type[a.app_type]]
+          %td= Form.get_app_type.keys[Form.get_app_type[a.app_type]]
           %td= a.tot_amount
           %td= Form.get_check_tags[a.check_status][0]
           %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'

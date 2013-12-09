@@ -28,4 +28,27 @@ describe UserController do
 			response.should redirect_to "/ch/index"
 		end
 	end
+	
+	describe 'user management' do
+		it 'should delete the specified user and his applications if current user has privilege' do
+			delist = mock('user', :user_name => 'test')
+			User.should_receive(:find_by_user_name).with('test').and_return(delist)
+			session[:is_admin] = true
+			delist.stub(:[]).with(:is_admin).and_return(false)
+			session[:current_user] = {:username => 'test'}
+			User.should_receive(:destroy).with(delist)
+			post :remove, :ver => 'ch', :user_name => 'test'
+			response.should redirect_to "/ch/test/user_management"
+		end
+
+		it 'should not delete user if current user has no privilege' do
+			delist = mock('user', :user_name => 'test')
+			User.should_receive(:find_by_user_name).with('test').and_return(delist)
+			session[:is_admin] = false
+			delist.stub(:[]).with(:is_admin).and_return(false)
+			session[:current_user] = {:username => 'test'}
+			post :remove, :ver => 'ch', :user_name => 'test'
+			response.should redirect_to "/ch/test/user_management"
+		end		
+	end
 end
