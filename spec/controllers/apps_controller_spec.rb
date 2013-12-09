@@ -5,14 +5,14 @@ require 'spec_helper'
 describe AppsController do
 	describe 'list the applications' do
 		it 'should redirect to home page if current_user is nil' do
-			post :index, :ver => 'ch', :current_user => 'nil'
+			post :show_forms, :ver => 'ch', :current_user => 'nil'
 			response.should redirect_to "/ch/index"
 		end
 		it 'should render the admin view if current_user is an administrator' do
 			current_user = mock('user', :user_name => 'admin', :is_admin => true)
 			User.should_receive(:find_by_user_name).with('admin').and_return(current_user)
 			session[:current_user] = {:username=>'admin'}
-			post :index, :ver => 'ch', :current_user => 'admin'
+			post :show_forms, :ver => 'ch', :current_user => 'admin'
 			response.should render_template "admin_show"
 		end
 		it 'should render the user view if current_user is not an administrator' do
@@ -21,7 +21,7 @@ describe AppsController do
 			session[:current_user] = {:username=>'user'}
 			apps = [mock('form'), mock('form')]
 			current_user.should_receive(:forms).and_return(apps)
-			post :index, :ver => 'ch', :current_user => 'user'
+			post :show_forms, :ver => 'ch', :current_user => 'user'
 			response.should render_template "user_show"
 		end
 	end
@@ -118,6 +118,12 @@ describe AppsController do
 			Form.should_receive(:find).with(:all, :conditions => {:check_status => [3,4]}).and_return(get_forms)
 			post :reviewed, :ver => 'ch', :current_user => 'admin'
 			response.should render_template "admin_reviewed"
+		end
+	end
+	
+	describe 'list forms in .xls' do
+		it 'should output the apps in csv format' do
+			post :index
 		end
 	end
 end

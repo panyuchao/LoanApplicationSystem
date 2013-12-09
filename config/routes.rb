@@ -13,7 +13,7 @@ LoanApplicationSystem::Application.routes.draw do
   match 'ch/index' => 'ch#index'
   
   
-  match '/:ver/:current_user/apps' => 'apps#index1'
+  match '/:ver/:current_user/apps' => 'apps#show_forms'
   match '/:ver/:current_user/wait_for_verify' => 'apps#wait_for_verify'
   match "/:ver/:current_user/reviewed" => 'apps#reviewed'
   
