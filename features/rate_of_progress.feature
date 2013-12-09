@@ -1,6 +1,6 @@
 Feature: Application Form
 
-  As an user using system,
+  As a reviewer of applications,
   I want an rate of progress for the forms
   So that I can know the progress more clearly.
 

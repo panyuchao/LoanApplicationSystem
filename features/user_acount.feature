@@ -1,6 +1,6 @@
 Feature: User Account
 
-  As an user using system,
+  As a reviewer of applications,
   I want a user center for the appliers,
   so that I can manage their acounts and check their submissions or applications.
 
