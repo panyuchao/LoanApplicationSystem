@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/dblock/to_xls.git
+  revision: c7ef31174947b7b1459b0bb7bda3dd43f83aaa64
+  branch: to-xls-on-models
+  specs:
+    to_xls (1.0.0)
+      spreadsheet (> 0)
+      spreadsheet
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -139,6 +148,7 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
+    ruby-ole (1.2.11.7)
     sass (3.2.12)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -148,6 +158,8 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    spreadsheet (0.9.6)
+      ruby-ole (>= 1.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -193,7 +205,9 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 3.2.3)
   simplecov
+  spreadsheet
   sqlite3
   therubyracer
   thin
+  to_xls!
   uglifier (>= 1.0.3)

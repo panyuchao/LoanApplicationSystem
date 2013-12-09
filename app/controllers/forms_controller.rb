@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 class FormsController < ApplicationController
+
 	def check_username
 		if session[:current_user] == nil then
 			flash[:notice] = "Login timed out!"
@@ -79,4 +80,5 @@ class FormsController < ApplicationController
 		end
 		# didn't commit, just render new_form
 	end
+
 end

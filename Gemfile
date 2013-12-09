@@ -61,3 +61,7 @@ gem 'bootstrap-sass', '~> 3.0.2.0'
 # To use debugger
 # gem 'debugger'
 gem 'haml'
+
+gem "spreadsheet"
+gem "to_xls", :git => "https://github.com/dblock/to_xls.git", :branch => "to-xls-on-models" 
+

@@ -7,23 +7,33 @@ class AppsController < ApplicationController
 		# will render app/views/movies/show.<extension> by default
 	end
 
-	def check_username
-		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
-			if params[:ver] != nil
-				redirect_to "/#{params[:ver]}/index" 
-			else
-				redirect_to "/ch/index"
-			end
-			return true
-		end
-		if params[:current_user] != session[:current_user][:username] then
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
-		end
-		return false
-	end
+        def check_username
+                if session[:current_user] == nil then
+                        flash[:notice] = "Login timed out!"
+                        if params[:ver] != nil
+                                redirect_to "/#{params[:ver]}/index" 
+                        else
+                                redirect_to "/ch/index"
+                        end
+                        return true
+                end
+                if params[:current_user] != session[:current_user][:username] then
+                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
+                end
+                return false
+        end
 
 	def index
+
+	    @apps = App.order(:form_id)
+	    respond_to do |format|
+	      format.html
+	      format.csv { send_data @apps.to_csv }
+	      format.xls { send_data @apps.to_csv(col_sep: "\t") }
+            end
+        end
+
+        def index1
 		if check_username then return end
 		@current_user = User.find_by_user_name(session[:current_user][:username])
                 
