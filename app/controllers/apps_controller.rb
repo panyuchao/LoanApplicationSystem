@@ -29,6 +29,12 @@ class AppsController < ApplicationController
 			format.html
 			format.csv { send_data @apps.to_csv }
 			format.xls { send_data @apps.to_csv(col_sep: "\t") }
+			format.pdf {
+				@apps.to_pdf
+				File.open("output.pdf", 'rb') do |f| 
+					send_data f.read, :disposition => "inline",:stream => false,:filename => 'result.pdf'
+				end
+			}
 		end
 	end
 

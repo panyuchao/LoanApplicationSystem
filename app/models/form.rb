@@ -45,5 +45,7 @@ class Form < ActiveRecord::Base
 	  [["序号", "ID", 4], ["内容", "Details", 69], ["金额", "Amount", 12], ["报销方式", "Pay method", 15]]
 	end
 
-
+	def self.get_pdf_th
+		[["序号",7], ["内容",38], ["申请人",12], ["申请时间",15], ["金额",12], ["报销方式",16]]
+	end
 end
