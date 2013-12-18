@@ -14,7 +14,6 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'simplecov'
-  gem 'prawn', '~> 1.0.0.rc1'
 end
 
 group :test do
@@ -65,4 +64,4 @@ gem 'haml'
 
 gem "spreadsheet"
 gem "to_xls", :git => "https://github.com/dblock/to_xls.git", :branch => "to-xls-on-models" 
-
+gem 'prawn', '~> 1.0.0.rc1'
