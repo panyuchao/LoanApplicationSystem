@@ -14,6 +14,7 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'simplecov'
+  gem 'prawn', '~> 1.0.0.rc1'
 end
 
 group :test do
