@@ -85,6 +85,7 @@ class AppsController < ApplicationController
 	end
         
         def user_management
+ 	    UserMailer.send_mail(nil).deliver
             @current_user = User.find_by_user_name(session[:current_user][:username])
             @user = User.all
             @check_status_num = Form.get_check_status_num
