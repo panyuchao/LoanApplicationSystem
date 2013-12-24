@@ -14,14 +14,14 @@
       %a{:class => "navbar-brand"} 账户管理
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
-        - App.get_admin_tags.each do |x|
-          %li
+        - Form.get_admin_tags.each do |x|
+          %li{:class => ((x[1] == "reviewed")? "active":"")}
             %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
               =x[0]
               %span{:class => "badge pull-right"}= @check_status_num[x[0]]
       %ul{:class => "nav navbar-nav navbar-right"}
         %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
             设置
             %b.caret 
           %ul{:class => "dropdown-menu"}
@@ -36,6 +36,7 @@
         %th 用户名
         %th 密码
         %th 是否管理员
+        %th 电子邮箱
         %th 删除
     %tbody
       - @user.each do |a|
@@ -43,6 +44,7 @@
           %td= a.user_name
           %td= '********'
           %td= a.is_admin
+          %td= a.email
           %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
             
 

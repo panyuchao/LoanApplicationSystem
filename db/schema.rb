@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131206061817) do
+ActiveRecord::Schema.define(:version => 20131224162832) do
 
   create_table "apps", :force => true do |t|
     t.string   "details"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20131206061817) do
     t.boolean  "is_admin"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "email"
   end
 
 end

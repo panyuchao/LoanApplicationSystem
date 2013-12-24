@@ -87,7 +87,7 @@ class AppsController < ApplicationController
         def user_management
             @current_user = User.find_by_user_name(session[:current_user][:username])
             @user = User.all
-            @check_status_num = App.get_check_status_num
+            @check_status_num = Form.get_check_status_num
         end
 
 	def wait_for_verify
