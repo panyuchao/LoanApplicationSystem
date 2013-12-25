@@ -38,7 +38,7 @@ LoanApplicationSystem::Application.configure do
   ActionMailer::Base.delivery_method = :smtp  
   config.action_mailer.perform_deliveries = true  
   config.action_mailer.raise_delivery_errors = true  
-  config.action_mailer.default :charset => "utf-8"  
+  #config.action_mailer.default :charset => "utf-8"  
   #config.action_mailer.default_url_options = { :host => 'localhost:3000' }  
   ActionMailer::Base.smtp_settings = {    
     :address => "smtp.163.com",  
