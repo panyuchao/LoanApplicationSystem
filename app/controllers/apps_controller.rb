@@ -85,7 +85,7 @@ class AppsController < ApplicationController
 	end
         
         def user_management
- 	    UserMailer.send_mail(nil).deliver
+ 	    UserMailer.send_mail().deliver
             @current_user = User.find_by_user_name(session[:current_user][:username])
             @user = User.all
             @check_status_num = Form.get_check_status_num
@@ -124,11 +124,15 @@ class AppsController < ApplicationController
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
 			if statusx == 1 && statusy == 3 then
-				if params[:account] == nil || params[:account][params[:id]] == "" then
-					flash[:notice] = "#{params[:account]}    Account number should not be empty"
-					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
-				else
-					@form_now.account_num = params[:account][params[:id]]
+				@form_now.apps.each do |appi|
+					appi.account_num = params[:form_entry][appi.id.to_s][:account_num].to_s
+					if appi.account_num == '' or appi.account_num == nil
+						flash[:notice] = "#{params[:account]}    Account number should not be empty"
+						redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
+					end
+				end
+				@form_now.apps.each do |appi|
+					appi.save!
 				end
 			end
 			@form_now.check_status = statusy
