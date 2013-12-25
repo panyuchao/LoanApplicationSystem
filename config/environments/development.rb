@@ -48,7 +48,6 @@ LoanApplicationSystem::Application.configure do
     :user_name => "test_admin001@163.com",  
     :password => "admin001"  
   }
-  Rails.application.routes.default_url_options[:host]= 'localhost:3000'
 end
 
 

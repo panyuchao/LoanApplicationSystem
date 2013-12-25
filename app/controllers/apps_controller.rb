@@ -136,9 +136,10 @@ class AppsController < ApplicationController
 			end
 			@form_now.check_status = statusy
 			@form_now.save!
-			send_email(@form_now.id, statusx, statusy)
+			
 			flash[:notice] = "操作成功"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
+			send_email(@form_now.id, statusx, statusy)
 		else
 			# current user is not admin
 			# this situation shouldn't happen
