@@ -54,7 +54,6 @@ class AppsController < ApplicationController
 		if @current_user.is_admin then  # admin default - show all the unchecked apps
 			@get_forms = Form.find(:all, :conditions => {:check_status => 0})
 			@check_status_num = Form.get_check_status_num
-			flash[:notice] = nil
 			render "admin_show"
 		else  # user default - show all my unchecked apps
 			@apps_reim = @current_user.forms
@@ -113,18 +112,7 @@ class AppsController < ApplicationController
 			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
 		end
-=begin
-		if statusx == 1 && statusy == 3 then
-			if params[:account_num] == nil || params[:account_num][params[:id]] == "" then
-				flash[:notice] = "#{params[:account_num]}    Account number should not be empty"
-				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
-			else
-				@form_now.account_num = params[:account][params[:id]]
-			end	
-<<<<<<< HEAD
-=======
-=end
-			
+		if params[:delete] != nil then statusy = 0; end
 		if statusx == 1 && statusy == 3 then
 			@form_now.apps.each do |appi|
 				appi.account_num = params[:account_num][appi.id.to_s].to_s
@@ -142,19 +130,6 @@ class AppsController < ApplicationController
 		flash[:notice] = "操作成功"
 		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
 		send_email(@form_now.id, statusx, statusy)
-=begin
-		else
-			# current user is not admin
-			# this situation shouldn't happen
-			# just redirect to default apps page
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
->>>>>>> 483400ce41465908f948261858987f66182cf22a
-		end
-		@form_now.check_status = statusy
-		@form_now.save!
-		flash[:notice] = "操作成功"
-		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
-=end
 	end
 
 	def bad_change_status(statusx, statusy)
