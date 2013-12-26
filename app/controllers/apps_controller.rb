@@ -95,8 +95,7 @@ class AppsController < ApplicationController
 	end
         
         def user_management
- 	    UserMailer.send_mail(nil).deliver
-            @current_user = User.find_by_user_name(session[:current_user][:username])
+ 	    @current_user = User.find_by_user_name(session[:current_user][:username])
             @user = User.all
             @check_status_num = Form.get_check_status_num
         end
@@ -114,18 +113,48 @@ class AppsController < ApplicationController
 			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
 		end
+=begin
 		if statusx == 1 && statusy == 3 then
 			if params[:account_num] == nil || params[:account_num][params[:id]] == "" then
 				flash[:notice] = "#{params[:account_num]}    Account number should not be empty"
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
 			else
 				@form_now.account_num = params[:account][params[:id]]
+			end	
+<<<<<<< HEAD
+=======
+=end
+			
+		if statusx == 1 && statusy == 3 then
+			@form_now.apps.each do |appi|
+				appi.account_num = params[:form_entry][appi.id.to_s][:account_num].to_s
+				if appi.account_num == '' or appi.account_num == nil
+					flash[:notice] = "#{params[:account]}    Account number should not be empty"
+					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
+				end
+			end
+			@form_now.apps.each do |appi|
+				appi.save!
 			end
 		end
 		@form_now.check_status = statusy
 		@form_now.save!
 		flash[:notice] = "操作成功"
 		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
+		send_email(@form_now.id, statusx, statusy)
+=begin
+		else
+			# current user is not admin
+			# this situation shouldn't happen
+			# just redirect to default apps page
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+>>>>>>> 483400ce41465908f948261858987f66182cf22a
+		end
+		@form_now.check_status = statusy
+		@form_now.save!
+		flash[:notice] = "操作成功"
+		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
+=end
 	end
 
 	def bad_change_status(statusx, statusy)
@@ -141,6 +170,30 @@ class AppsController < ApplicationController
 		@get_forms = Form.find(:all, :conditions => {:check_status => [3,4]})
 		@check_status_num = Form.get_check_status_num
 		render "admin_reviewed"
+	end
+
+	def send_email(form_id, statusx, statusy)
+		this_form = Form.find_by_id(form_id)
+		applicant_id = Form.find_by_id(form_id).user_id
+		applicant = User.find_by_id(applicant_id)
+		mailto = applicant.email
+		if mailto == nil || (mailto =~ /(.*)@(.*)\.(.*)$/i) == false then
+			return
+		end
+		mailfrom = ActionMailer::Base.smtp_settings[:user_name]	
+		subject = "IIIS财务报销申请系统通知邮件"	
+		date = Time.now
+		if statusx == 0 and statusy == 1 then
+			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}接受。\n    请继续关注后续消息。\n    谢谢！\n"
+		elsif statusx == 0 and statusy == 2 then
+			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}拒绝。\n    谢谢！\n"
+		elsif statusx == 1 and statusy == 3 then
+			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}确认。\n    请登录系统查询账号。\n    谢谢！\n"
+		else
+			return		
+		end
+		UserMailer.send_mail(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+		
 	end
 	
 end

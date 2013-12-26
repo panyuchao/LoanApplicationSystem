@@ -46,7 +46,8 @@ LoanApplicationSystem::Application.configure do
     :domain => "163.com",  
     :authentication => :login,  
     :user_name => "test_admin001@163.com",  
-    :password => "admin001"  
+    :password => "admin001",
+    :enable_starttls_auto => true
   }
 end
 
