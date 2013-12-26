@@ -122,7 +122,7 @@ class AppsController < ApplicationController
 				flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
 				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
 			end
-			send_email(@form_now.id, statusx, statusy)
+			
 			if statusx == 1 && statusy == 3 then
 				@form_now.apps.each do |appi|
 					appi.account_num = params[:form_entry][appi.id.to_s][:account_num].to_s
@@ -137,7 +137,7 @@ class AppsController < ApplicationController
 			end
 			@form_now.check_status = statusy
 			@form_now.save!
-			
+			send_email(@form_now.id, statusx, statusy)
 			flash[:notice] = "操作成功"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
 			send_email(@form_now.id, statusx, statusy)
