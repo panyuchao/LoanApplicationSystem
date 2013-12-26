@@ -40,13 +40,13 @@ LoanApplicationSystem::Application.configure do
   config.action_mailer.raise_delivery_errors = true  
   #config.action_mailer.default :charset => "utf-8"  
   #config.action_mailer.default_url_options = { :host => 'localhost:3000' }  
-  ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587, 
-    :domain               => "gmail.com",
-    :user_name            => "gaoweihaomarui@gmail.com",
-    :password             => "gwhmrgwhmr",
-    :authentication       => "plain",
+  ActionMailer::Base.smtp_settings = {    
+    :address => "smtp.gmail.com",  
+    :port => 587,  
+    :domain => "gmail.com",  
+    :authentication => :plain,  
+    :user_name => "gaoweihaomarui@gmail.com",  
+    :password => "gwhmrgwhmr"  
     :enable_starttls_auto => true
   }
 end

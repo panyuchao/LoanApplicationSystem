@@ -1,9 +1,9 @@
 class UserMailer < ActionMailer::Base  
-  default from: "test_admin001@163.com"  
+  default from: "gaoweihaomarui@gmail.com"  
   
   def send_mail(params={:subject => 'fdsfsdfdsf',   
           :to => "wind23real@126.com",   
-          :from => 'test_admin001@163.com',   
+          :from => 'gaoweihaomarui@gmail.com',   
           :date => Time.now , 
           :body => "dfdsf"})  
     @url  = 'http://example.com/login'  
