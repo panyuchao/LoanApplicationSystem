@@ -75,7 +75,7 @@ LoanApplicationSystem::Application.configure do
     :domain => "gmail.com",  
     :authentication => :plain,  
     :user_name => "gaoweihaomarui@gmail.com",  
-    :password => "gwhmrgwhmr"  
+    :password => "gwhmrgwhmr",
     :enable_starttls_auto => true
   }
   ActionMailer::Base.default_url_options[:host] = "localhost:3000"
