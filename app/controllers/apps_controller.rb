@@ -1,29 +1,41 @@
 # encoding: utf-8
 
 class AppsController < ApplicationController
-
+	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'reviewed', 'user_management']
+	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'reviewed', 'user_management']
 	def show
 #		id = params[:id] # retrieve movie ID from URI route
 		# will render app/views/movies/show.<extension> by default
 	end
 
-        def check_username
-                if session[:current_user] == nil then
-                        flash[:notice] = "Login timed out!"
-                        if params[:ver] != nil
-                                redirect_to "/#{params[:ver]}/index" 
-                        else
-                                redirect_to "/ch/index"
-                        end
-                        return true
-                end
-                if params[:current_user] != session[:current_user][:username] then
-                        redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
-                end
-                return false
-        end
+
+	def check_username
+		if session[:current_user] == nil then
+			flash[:notice] = "Login timed out!"
+			if params[:ver] != nil
+				redirect_to "/#{params[:ver]}/login" 
+			else
+				redirect_to "/ch/login"
+			end
+			return 
+		end
+		if params[:current_user] != session[:current_user][:username] then 
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+		end
+		@current_user = User.find_by_user_name(session[:current_user][:username])
+	end
+	
+	def check_admin
+		if !@current_user.is_admin then
+			flash[:notice] = params[:ver] == 'ch'? "你没有权限这样做" : "You don't have privilege!"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+		end
+	end
 
 	def index
+	end
+
+	def output
 		@apps = App.order(:form_id)
 		respond_to do |format|
 			format.html
@@ -39,8 +51,6 @@ class AppsController < ApplicationController
 	end
 
 	def show_forms
-		if check_username then return end
-		@current_user = User.find_by_user_name(session[:current_user][:username])		
 		if @current_user.is_admin then  # admin default - show all the unchecked apps
 			@get_forms = Form.find(:all, :conditions => {:check_status => 0})
 			@check_status_num = Form.get_check_status_num
@@ -91,72 +101,46 @@ class AppsController < ApplicationController
             @check_status_num = Form.get_check_status_num
         end
 
-	def wait_for_verify
-		if check_username then return end
-		@current_user = User.find_by_user_name(session[:current_user][:username])
-		if @current_user.is_admin then
-			@get_forms = Form.find(:all, :conditions => {:check_status => [1, 2]})
-			@check_status_num = Form.get_check_status_num
-		else
-			# current user is not admin
-			# this situation shouldn't happen
-			# just redirect top default apps page
-			flash[:notice] = "No permission"
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-		end
-	end
         
 	def changes
-		if check_username then return end
-		@current_user = User.find_by_user_name(session[:current_user][:username])
 		statusx = params[:s0].to_i
 		statusy = params[:s1].to_i
-		flash[:notice] = params[:form_entry]
-#		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/wait_for_verify" and return
-		if @current_user.is_admin then
-			if bad_change_status(statusx, statusy) then
-				flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
-				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
-			end
-			@form_now = Form.find(params[:id])
-			if @form_now == nil then
-				flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
-				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
-			end
-			if statusx == 1 && statusy == 3 then
-				if params[:account] == nil || params[:account][params[:id]] == "" then
-					flash[:notice] = "#{params[:account]}    Account number should not be empty"
-					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
-				else
-					@form_now.account_num = params[:account][params[:id]]
-				end
-			end
-			@form_now.check_status = statusy
-			@form_now.save!
-			flash[:notice] = "操作成功"
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
-		else
-			# current user is not admin
-			# this situation shouldn't happen
-			# just redirect to default apps page
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
+		if bad_change_status(statusx, statusy) then
+			flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
 		end
+		@form_now = Form.find(params[:id])
+		if @form_now == nil then
+			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
+			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
+		end
+		if statusx == 1 && statusy == 3 then
+			if params[:account_num] == nil || params[:account_num][params[:id]] == "" then
+				flash[:notice] = "#{params[:account_num]}    Account number should not be empty"
+				redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}" and return
+			else
+				@form_now.account_num = params[:account][params[:id]]
+			end
+		end
+		@form_now.check_status = statusy
+		@form_now.save!
+		flash[:notice] = "操作成功"
+		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[(statusx+1)>>1][1]}"
 	end
 
 	def bad_change_status(statusx, statusy)
 		return (statusx == statusy) || (statusx == 0 && statusy > 2 ) || (statusx > 2 && statusy == 0)
 	end
-	
-	def reviewed
-		if check_username then return end 
-		@current_user = User.find_by_user_name(session[:current_user][:username])
-		if @current_user.is_admin then
-			@get_forms = Form.find(:all, :conditions => {:check_status => [3,4]})
-			@check_status_num = Form.get_check_status_num
-			render "admin_reviewed"
-		else
-		end
+
+	def wait_for_verify
+		@get_forms = Form.find(:all, :conditions => {:check_status => [1, 2]})
+		@check_status_num = Form.get_check_status_num
+	end
 		
+	def reviewed
+		@get_forms = Form.find(:all, :conditions => {:check_status => [3,4]})
+		@check_status_num = Form.get_check_status_num
+		render "admin_reviewed"
 	end
 	
 end

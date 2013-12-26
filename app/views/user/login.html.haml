@@ -6,20 +6,21 @@
   %h1
   
   %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-middle"}
-    %h3.form-signin-heading= '欢迎来到本系统，请登录'
+    %h3.form-signin-heading= language == 0 ? '欢迎来到本系统，请登录':"Welcome! Please login"
     %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
     %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
     %label.checkbox
-      %input{:type => "checkbox", :value => "remember-me"} 记住我
-    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :value => '登录'} 登录
+      %input{:type => "checkbox", :value => "remember-me"}= language == 0 ? ("记住我"):("Remember me")
+    %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :value => '登录'}= language == 0 ? "登录":"login"
 %div{:align => "middle", :class => "container"}
   %body
-    %p2= link_to 'English Version', '/en/index.html'
+    %p2= language == 0 ? (link_to 'English Version', '/en/login'):(link_to '中文版', '/ch/login')
     %br/
-    %p2= link_to "清华大学 交叉信息研究院 官方主页", "http://iiis.tsinghua.edu.cn"
+    %p2= link_to (language == 0 ? "清华大学 交叉信息研究院 官方主页":"Home page of IIIS, Tsinghua"), "http://iiis.tsinghua.edu.cn"
     %br/
     %p0= 'More is supposed to be added!'
     %br/
     %p2b Designed by IIIS, Tsinghua University.
-
-%p2b= "#{flash[:notice]}"
+    %br/
+%div.container  
+  %p2b= "#{flash[:notice]}"

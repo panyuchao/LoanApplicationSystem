@@ -29,7 +29,7 @@
             %li
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
-          %a{:href =>"/apps.pdf"} 导出表单
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/output.pdf"} 导出表单
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
 
@@ -84,7 +84,7 @@
                         %td= b.amount
                         %td= b.pay_method
                         %td
-                          %input{ :class => "noneinput", :name => "form_entry[#{b.id}][account_num]"}
+                          %input{ :class => "noneinput", :name => "account_num[#{b.id}]"}
   
   %p2b= "#{flash[:notice]}"
   

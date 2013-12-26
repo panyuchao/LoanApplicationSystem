@@ -1,17 +1,8 @@
 
 LoanApplicationSystem::Application.routes.draw do
-  get "en/index"
-
-  get "ch/index"
-
-	root :to => 'ch#index'
+	root :to => 'user#login'
   
   resources :apps
-  resources :ch do
-      match 'apply' => 'ch#apply'
-  end
-  match 'ch/index' => 'ch#index'
-  
   
   match '/:ver/:current_user/apps' => 'apps#show_forms'
   match '/:ver/:current_user/wait_for_verify' => 'apps#wait_for_verify'
@@ -36,7 +27,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/new_(:app_type)_form" => 'forms#new_form'
   match "/:ver/:current_user/export" => 'apps#export'
   
-  resources :en do
-      match 'apply' => 'en#apply'
-  end
+  #Output PDF
+  match "/:ver/:current_user/output" => "apps#output"
+  
 end

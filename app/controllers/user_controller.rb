@@ -9,7 +9,7 @@ class UserController < ApplicationController
 				redirect_to "/#{params[:ver]}/#{@current_user.user_name}/apps"
 			else
 				flash[:notice] = "Invalid username/password!"
-				redirect_to "/#{params[:ver]}/index"
+				redirect_to "/#{params[:ver]}/login"
 			end
 		end
 	end
@@ -17,7 +17,7 @@ class UserController < ApplicationController
 	def logout
 		session[:current_user] = session[:is_admin] = nil
 		flash[:notice] = "Logout succeeded!"
-		redirect_to "/#{params[:ver]}/index"
+		redirect_to "/#{params[:ver]}/login"
 	end
 	
 	def remove
