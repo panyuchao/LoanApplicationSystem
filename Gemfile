@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem "bundler", "~> 1.3.5"
+ruby '1.9.2'
 gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
@@ -45,6 +47,7 @@ end
 gem 'jquery-rails'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.0.2.0'
+gem 'rails_12factor'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
