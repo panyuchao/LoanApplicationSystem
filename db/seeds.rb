@@ -14,10 +14,10 @@ test_apps = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul-
 			  	  {:details => 'test006', :amount => 78293, :created_at => '23-Aug-2012', :pay_method => "银行卡"},
 		  	]
 
-test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false, :email => 'wind23real@126.com'},
-			  {:user_name => 'test_user2', :user_pass => 'pass', :is_admin => false, :email => 'user2@126.com'},
+test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false, :email => 'test_user001@163.com'},
+			  {:user_name => 'test_user2', :user_pass => 'pass', :is_admin => false},
 			  {:user_name => 'test_user3', :user_pass => 'pass', :is_admin => false},
-			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true, :email => 'haotianyi0@126.com'}
+			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true, :email => 'test_admin001@163.com'}
 			 ] 
 
 test_form = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)

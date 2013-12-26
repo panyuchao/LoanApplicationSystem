@@ -169,7 +169,7 @@ class AppsController < ApplicationController
 		applicant_id = Form.find_by_id(form_id).user_id
 		applicant = User.find_by_id(applicant_id)
 		mailto = applicant.email
-		if (mailto =~ /(.*)@(.*)\.(.*)$/i) == false then
+		if mailto == nil || (mailto =~ /(.*)@(.*)\.(.*)$/i) == false then
 			return
 		end
 		mailfrom = ActionMailer::Base.smtp_settings[:user_name]	
