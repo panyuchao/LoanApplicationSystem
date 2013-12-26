@@ -6,7 +6,7 @@ class UserMailer < ActionMailer::Base
           :from => 'gaoweihaomarui@gmail.com',   
           :date => Time.now , 
           :body => "dfdsf"})  
-    @url  = 'http://example.com/login'  
+   # @url  = 'http://example.com/login'  
     mail(params)  
   end   
 end
