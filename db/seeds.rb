@@ -74,85 +74,105 @@ test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => fa
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true, :email => 'test_admin001@163.com'}
 			 ] 
 
-test_form1 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form1 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form1.save!
 
-test_form2 = Form.new(:applicant => 'test_user2', :app_type => 'loan', :check_status => 0)
+test_form2 = Form.new(:applicant => 'test_user2', :app_type => 'loan', :check_status => 0, :tot_amount => 0)
 test_form2.save!
 
-test_form3 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form3 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form3.save!
 
-test_form4 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form4 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form4.save!
 
-test_form5 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form5 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form5.save!
 
-test_form6 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form6 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form6.save!
 
-test_form7 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form7 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form7.save!
 
-test_form8 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form8 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form8.save!
 
-test_form9 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form9 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form9.save!
 
-test_form10 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0)
+test_form10 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form10.save!
 
 test_apps1.each do |x|
   app = App.create!(x)
   test_form1.apps << app
+  test_form1.tot_amount = test_form1.tot_amount + x[:amount]
 end
+test_form1.save!
 
 test_apps2.each do |x|
   app = App.create!(x)
   test_form2.apps << app
+  test_form2.tot_amount = test_form2.tot_amount + x[:amount]
 end
+test_form2.save!
 
 test_apps3.each do |x|
   app = App.create!(x)
   test_form3.apps << app
+  test_form3.tot_amount = test_form3.tot_amount + x[:amount]
 end
+test_form3.save!
 
 test_apps4.each do |x|
   app = App.create!(x)
   test_form4.apps << app
+  test_form4.tot_amount = test_form4.tot_amount + x[:amount]
 end
+test_form4.save!
 
 test_apps5.each do |x|
   app = App.create!(x)
   test_form5.apps << app
+  test_form5.tot_amount = test_form5.tot_amount + x[:amount]
 end
+test_form5.save!
 
 test_apps6.each do |x|
   app = App.create!(x)
   test_form6.apps << app
+  test_form6.tot_amount = test_form6.tot_amount + x[:amount]
 end
+test_form6.save!
 
 test_apps7.each do |x|
   app = App.create!(x)
   test_form7.apps << app
+  test_form7.tot_amount = test_form7.tot_amount + x[:amount]
 end
+test_form7.save!
 
 test_apps8.each do |x|
   app = App.create!(x)
   test_form8.apps << app
+  test_form8.tot_amount = test_form8.tot_amount + x[:amount]
 end
+test_form8.save!
 
 test_apps9.each do |x|
   app = App.create!(x)
   test_form9.apps << app
+  test_form9.tot_amount = test_form9.tot_amount + x[:amount]
 end
+test_form9.save!
 
 test_apps10.each do |x|
   app = App.create!(x)
   test_form10.apps << app
+  test_form10.tot_amount = test_form10.tot_amount + x[:amount]
 end
+test_form10.save!
 
 test_users.each do |x|
 	User.create!(x)
