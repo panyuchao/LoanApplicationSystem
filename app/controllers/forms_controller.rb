@@ -41,7 +41,7 @@ class FormsController < ApplicationController
 		if params[:commit] != nil then
 			valid_form = true
 			empty_form = true
-			for i in 1..@TOT_APPS do
+			for i in 0..@TOT_APPS do
 				if !empty_form_entry(i) then
 					empty_form = false
 					if !valid_form_entry(i) then
@@ -61,7 +61,7 @@ class FormsController < ApplicationController
 			end
 			tot_amount = 0
 			@app_form = Form.new
-			for i in 1..@TOT_APPS do
+			for i in 0..@TOT_APPS do
 				if !empty_form_entry(i) then
 					entry_temp = params[:form_entry][i.to_s]
 					amount = params[:form_entry][i.to_s][:amount].to_f
@@ -76,7 +76,10 @@ class FormsController < ApplicationController
 			@app_form.check_status = 0
 			@app_form.save!
 			@current_user.forms << @app_form
-			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps"
+			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps" and return
+		end
+		if params[:app_type] == "student" then
+		  render "new_student_form"
 		end
 		# didn't commit, just render new_form
 	end
