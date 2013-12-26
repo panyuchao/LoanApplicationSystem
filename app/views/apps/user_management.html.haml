@@ -1,4 +1,4 @@
-%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+"是":"否"%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
 %div.container
@@ -34,7 +34,6 @@
     %thead
       %tr
         %th 用户名
-        %th 密码
         %th 是否管理员
         %th 电子邮箱
         %th 删除
@@ -42,8 +41,7 @@
       - @user.each do |a|
         %tr{:class => "warning"}
           %td= a.user_name
-          %td= '********'
-          %td= a.is_admin
+          %td= (if a.is_admin then "是" else "否" end)
           %td= a.email
           %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
             
