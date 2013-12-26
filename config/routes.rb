@@ -11,12 +11,13 @@ LoanApplicationSystem::Application.routes.draw do
   # User 
   match "/:ver/login" => 'user#login'
   match "/:ver/:current_user/logout" => 'user#logout'
+  match "/:ver/:current_user/edit_profile" => 'user#edit_profile'
   
   # App
   
   match "/:ver/:details/delete" => 'apps#delete'
   match "/:ver/:details/check" => 'apps#check'
-  match "/:ver/:current_user/user_management" => 'apps#user_management'
+  match "/:ver/:current_user/user_management" => 'user#user_management'
   match "/:ver/:user_name/removeuser" => 'user#remove'
   match "/:ver/:current_user/new_user" => 'apps#new_user'
   match "/:ver/:current_user/new_userc" => 'user#new_userc'

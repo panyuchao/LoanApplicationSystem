@@ -1,0 +1,45 @@
+- language = (params[:ver] == 'ch' ? 0:1)
+%img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+%h1
+
+%nav{:class => "navbar navbar-default", :role => "navigation"}
+  %div{:class => "navbar-header"}
+    %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+      %span{:class => "sr-only"}Toggle navigation
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+    %a{:class => "navbar-brand"}= language == 1 ? "My applications":"我的申请"
+  %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+    %ul{:class => "nav navbar-nav"}
+      - User.get_user_tags.each do |x|
+        %li{:class => ((x[2] == active_bar)? "active":"")}
+          %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[2]}"}<
+            =x[language]
+            %span{:class => "badge pull-right"}
+      %li.dropdown
+        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
+          =language == 1 ? "New Application":"填写新申请"
+          %b.caret
+        %ul{:class => "dropdown-menu"}
+          - User.get_user_new_tags.each do |x|
+            %li
+              %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/#{x[2]}"}<
+                =x[language]
+         
+    %ul{:class => "nav navbar-nav navbar-right"}
+      %li.dropdown
+        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          =language == 1 ? "Settings":"设置"
+          %b.caret 
+        %ul{:class => "dropdown-menu"}
+          %li
+            %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/edit_profile"} 
+              =language == 1 ? "Personal Info":"个人信息"
+      %li
+        - redirect = language == 1 ? "ch":"en"
+        %a{:href =>"/#{redirect}/#{@current_user.user_name}/#{active_bar}"} 
+          =language == 1 ? "中文版":"English"
+      %li
+        %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 
+          =language == 1 ? "logout":"注销"

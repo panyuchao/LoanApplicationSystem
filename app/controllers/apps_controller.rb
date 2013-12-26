@@ -1,37 +1,16 @@
 # encoding: utf-8
-
+require 'valid_check'
 class AppsController < ApplicationController
-	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'reviewed', 'user_management']
-	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'reviewed', 'user_management']
+	include ValidCheck
+	
+	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'reviewed']
+	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'reviewed']
+	
 	def show
 #		id = params[:id] # retrieve movie ID from URI route
 		# will render app/views/movies/show.<extension> by default
 	end
-
-
-	def check_username
-		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
-			if params[:ver] != nil
-				redirect_to "/#{params[:ver]}/login" 
-			else
-				redirect_to "/ch/login"
-			end
-			return 
-		end
-		if params[:current_user] != session[:current_user][:username] then 
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-		end
-		@current_user = User.find_by_user_name(session[:current_user][:username])
-	end
 	
-	def check_admin
-		if !@current_user.is_admin then
-			flash[:notice] = params[:ver] == 'ch'? "你没有权限这样做" : "You don't have privilege!"
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
-		end
-	end
-
 	def index
 	end
 
@@ -92,14 +71,7 @@ class AppsController < ApplicationController
 
 	def destroy
 	end
-        
-        def user_management
- 	    @current_user = User.find_by_user_name(session[:current_user][:username])
-            @user = User.all
-            @check_status_num = Form.get_check_status_num
-        end
 
-        
 	def changes
 		statusx = params[:s0].to_i
 		statusy = params[:s1].to_i

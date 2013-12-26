@@ -1,0 +1,29 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+- language = (params[:ver] == 'ch' ? 0:1)
+%div.container
+  = render "user_navigation", :active_bar => 'edit_profile'
+  %table
+    %tbody{:align => 'right'}
+      %tr
+        %td= language == 0 ? "姓名":"Name"
+        %td 
+          %input{:name => "realname"}
+      %tr
+        %td= language == 0 ? "邮箱":"Email"
+        %td
+          %input{:name => "email"}
+      %tr
+        %td= language == 0 ? "原密码":"Origin Password"
+        %td
+          %input{:name => "password"}
+      %tr
+        %td= language == 0 ? "新密码":"New Password"
+        %td
+          %input{:name => "new_password"}
+      %tr
+        %td= language == 0 ? "确认新密码":"Verify Password"
+        %td
+          %input{:name => "verify_password"}
+  
+  %p2b= "#{flash[:notice]}" 

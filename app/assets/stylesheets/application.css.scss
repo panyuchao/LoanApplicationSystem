@@ -154,3 +154,9 @@ table#movies th.hilite {
 	font-family: "微软雅黑";
 }
 
+.justify{  
+    height:1.1em;  
+    overflow:hidden;  
+    text-align:justify;  
+    text-justify : distribute-all-lines;
+} 

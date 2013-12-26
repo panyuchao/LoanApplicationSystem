@@ -37,7 +37,7 @@
             %b.caret 
           %ul{:class => "dropdown-menu"}
             %li
-              %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/user_management"} 
+              %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/edit_profile"} 
                 =language == 1 ? "Personal Info":"个人信息"
         %li
           - redirect = language == 1 ? "ch":"en"

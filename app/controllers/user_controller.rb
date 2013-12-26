@@ -1,4 +1,12 @@
+# encoding: utf-8
+require 'valid_check'
+
 class UserController < ApplicationController
+	include ValidCheck
+	
+	before_filter :check_username, :only => ['user_management', 'edit_profile']
+	before_filter :check_admin, :only => ['user_management']
+	
 	def login
 		if session[:current_user] != nil
 			redirect_to "/ch/#{session[:current_user][:username]}/apps" and return
@@ -34,4 +42,14 @@ class UserController < ApplicationController
 		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/user_management"
 	end
 
+	def user_management
+		@current_user = User.find_by_user_name(session[:current_user][:username])
+		@user = User.all
+		@check_status_num = Form.get_check_status_num
+	end
+
+	def edit_profile
+		
+		@check_status_num = Form.get_check_status_num
+	end
 end
