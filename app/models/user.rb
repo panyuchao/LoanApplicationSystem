@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def self.get_user_new_tags
-	  [ ["报销申请", "Reimbursement", "new_reim_form"], ["借款申请", "Loan", "new_loan_form"] ]
+	  [ ["财务 报销单", "Reimbursement", "new_reim_form"], ["财务 借款单", "Loan", "new_loan_form"], ["学生出访/会议 报销单", "Student", "new_student_form"] ]
 	end
 
   def self.get_user_show_th

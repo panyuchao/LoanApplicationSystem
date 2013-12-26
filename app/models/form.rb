@@ -9,7 +9,7 @@ class Form < ActiveRecord::Base
 	end
 
 	def self.get_app_type
-		{"报销" => 0, "借款" => 1, "reim" => 0, "loan" => 1}
+		{"报销" => 0, "借款" => 1, "学生" => 2, "reim" => 0, "loan" => 1, "student" => 2}
 	end
 
 	def self.get_admin_tags
@@ -43,6 +43,14 @@ class Form < ActiveRecord::Base
 	
 	def self.get_reim_th
 	  [["序号", "ID", 4], ["内容", "Details", 69], ["金额", "Amount", 12], ["报销方式", "Pay method", 15]]
+	end
+	
+	def self.tot_student_details
+	  8
+	end
+	
+	def self.get_student_details
+	  ["机票/火车票", "签证费", "北京市内交通", "注册费", "驻地城间交通", "住宿费", "生活费", "其它"]
 	end
 
 	def self.get_pdf_th

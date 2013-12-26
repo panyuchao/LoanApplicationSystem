@@ -14,14 +14,13 @@ LoanApplicationSystem::Application.routes.draw do
   
   # App
   
-
   match "/:ver/:details/delete" => 'apps#delete'
   match "/:ver/:details/check" => 'apps#check'
   match "/:ver/:current_user/user_management" => 'apps#user_management'
   match "/:ver/:user_name/removeuser" => 'user#remove'
   match "/:ver/:current_user/new_user" => 'apps#new_user'
   match "/:ver/:current_user/new_userc" => 'user#new_userc'
-  match "/:ver/:current_user/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'  
+  match "/:ver/:current_user/change_to_status_(:s1)_from_(:s0)/:id" => 'apps#changes'
   
   # Form
   match "/:ver/:current_user/new_(:app_type)_form" => 'forms#new_form'
