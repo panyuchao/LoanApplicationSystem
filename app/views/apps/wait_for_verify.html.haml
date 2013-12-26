@@ -41,7 +41,7 @@
         %th.thcenter{:width => "15%"} 申请人
         %th.thcenter{:width => "25%"} 申请时间
         %th.thcenter{:width => "20%"} 总金额
-        %th.thcenter{:width => "10%"} 申请类型
+        %th.thcenter{:width => "15%"} 申请类型
         %th.thcenter{:width => "10%"} 审核结果
         %th.thcenter{:width => "5%"} 确认
         %th.thcenter{:width => "5%"} 删除
@@ -55,7 +55,7 @@
             %td= a.applicant
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= a.tot_amount
-            %td= Form.get_app_type.keys[Form.get_app_type[a.app_type]]
+            %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
             %td= a.check_status == 1? '通过':'不通过'
             %td
               %button{:type => "submit", :class => "btn btn-default btn-sm"}
