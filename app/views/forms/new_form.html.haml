@@ -63,7 +63,12 @@
             %td
               %input{:class => "noneinput-center", :name => "form_entry[#{i}][amount]", :value => (params[:form_entry] != nil && params[:form_entry][i.to_s] != nil ? params[:form_entry][i.to_s][:amount] : nil)}
             %td
-              %input{:class => "noneinput", :name => "form_entry[#{i}][pay_method]"}
+              %select{:class => "form-control", :name => "form_entry[#{i}][pay_method]"}
+                %option 现金
+                %option 支票
+                %option 汇款
+                - if params[:app_type] == "reim"
+                  %option 银行卡
     %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"
     
   %strong= flash[:notice]
