@@ -106,7 +106,7 @@ class AppsController < ApplicationController
 		if bad_change_status(statusx, statusy) then
 			flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
-		end
+		end 
 		@form_now = Form.find(params[:id])
 		if @form_now == nil then
 			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
