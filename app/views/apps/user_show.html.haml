@@ -63,7 +63,7 @@
           %td= Form.get_app_tags[Form.get_app_type[a.app_type]][language]
           %td= a.tot_amount
           %td= Form.get_check_tags[a.check_status][0]
-          %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
+          %td= link_to '撤销', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
         %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
           %td
           %td{:colspan => '5'}
