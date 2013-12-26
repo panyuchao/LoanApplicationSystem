@@ -40,8 +40,8 @@
         %th.thcenter{:width => "5%"} 编号
         %th.thcenter{:width => "15%"} 申请人
         %th.thcenter{:width => "30%"} 申请时间
-        %th.thcenter{:width => "20%"} 总金额
-        %th.thcenter{:width => "15%"} 申请类型
+        %th.thcenter{:width => "15%"} 总金额
+        %th.thcenter{:width => "20%"} 申请类型
         %th.thcenter{:width => "15%"} 审核结果
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
@@ -51,7 +51,7 @@
           %td= a.applicant
           %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
           %td= a.tot_amount
-          %td= Form.get_app_type.keys[Form.get_app_type[a.app_type]]
+          %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
           %td
             =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
             =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"

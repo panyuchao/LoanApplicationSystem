@@ -60,10 +60,10 @@
           %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
           %td= a.id
           %td= a.created_at
-          %td= Form.get_app_type.keys[Form.get_app_type[a.app_type]]
+          %td= Form.get_app_tags[Form.get_app_type[a.app_type]][language]
           %td= a.tot_amount
           %td= Form.get_check_tags[a.check_status][0]
-          %td= link_to '撤销', '/ch/'+a.created_at.to_i.to_s+'/delete'
+          %td= link_to '撤销', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
         %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
           %td
           %td{:colspan => '5'}
@@ -71,11 +71,11 @@
               %table.table{:class => "table", :border => "solid 3px red"}
                 %thead
                   %tr{:class => "warning"}
-                    %th.thcenter{:width => "5%"} 序号
-                    %th.thcenter{:width => "30%"} 内容
-                    %th.thcenter{:width => "20%"} 金额
-                    %th.thcenter{:width => "15%"} 报销方式
-                    %th.thcenter{:width => "30%"} 帐号
+                    %th.thcenter{:width => "5%"}= Form.get_form_tags[0][language]
+                    %th.thcenter{:width => "30%"}= Form.get_form_tags[1][language]
+                    %th.thcenter{:width => "20%"}= Form.get_form_tags[2][language]
+                    %th.thcenter{:width => "15%"}= Form.get_form_tags[3][language]
+                    %th.thcenter{:width => "30%"}= Form.get_form_tags[4][language]
                 %tbody{:align => 'center'}
                   - x = 0
                   - a.apps.each do |b|
@@ -83,7 +83,7 @@
                       %td= x += 1
                       %td= b.details
                       %td= b.amount
-                      %td= b.pay_method
+                      %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
                       %td= b.account_num
 
   = flash.each do |key, value|

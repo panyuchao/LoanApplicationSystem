@@ -64,11 +64,11 @@
               %input{:class => "noneinput-center", :name => "form_entry[#{i}][amount]", :value => (params[:form_entry] != nil && params[:form_entry][i.to_s] != nil ? params[:form_entry][i.to_s][:amount] : nil)}
             %td
               %select{:class => "form-control", :name => "form_entry[#{i}][pay_method]"}
-                %option 现金
-                %option 支票
-                %option 汇款
+                %option= Form.get_pay_method_tags[0][language]
+                %option= Form.get_pay_method_tags[1][language]
+                %option= Form.get_pay_method_tags[2][language]
                 - if params[:app_type] == "reim"
-                  %option 银行卡
+                  %option= Form.get_pay_method_tags[3][language]
     %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"
     
   %strong= flash[:notice]

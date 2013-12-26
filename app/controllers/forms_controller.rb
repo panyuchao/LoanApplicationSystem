@@ -66,7 +66,7 @@ class FormsController < ApplicationController
 					entry_temp = params[:form_entry][i.to_s]
 					amount = params[:form_entry][i.to_s][:amount].to_f
 					tot_amount += amount
-					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => "现金")
+					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => params[:form_entry][i.to_s][:pay_method])
 					@app_form.apps << @form_entry
 				end
 			end

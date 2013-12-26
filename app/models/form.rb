@@ -8,8 +8,12 @@ class Form < ActiveRecord::Base
 		7
 	end
 
+  def self.get_app_tags
+    [["财务 报销单", "Reimbursement"], ["财务 借款单", "Loan Application"], ["学生出访/会议 报销单", "Student"]]
+  end
+
 	def self.get_app_type
-		{"报销" => 0, "借款" => 1, "学生" => 2, "reim" => 0, "loan" => 1, "student" => 2}
+		{"报销" => 0, "reim" => 0, "借款" => 1, "loan" => 1, "学生" => 2, "student" => 2}
 	end
 
 	def self.get_admin_tags
@@ -55,5 +59,17 @@ class Form < ActiveRecord::Base
 
 	def self.get_pdf_th
 		[["序号",7], ["内容",38], ["申请人",12], ["申请时间",15], ["金额",12], ["报销方式",16]]
+	end
+	
+	def self.get_pay_method_tags
+	  [["现金", "Cash"], ["支票", "Cheque"], ["汇款", "Bank"], ["银行卡", "Card"]]
+	end
+	
+	def self.get_pay_method_type
+		{"现金" => 0, "Cash" => 0, "支票" => 1, "Cheque" => 1, "汇款" => 2, "Bank" => 2, "银行卡" => 3, "Card" => 3}
+	end
+	
+	def self.get_form_tags
+	  [["序号", "id"], ["内容", "details"], ["金额", "amount"], ["报销方式", "pay method"], ["帐号", "account number"]]
 	end
 end
