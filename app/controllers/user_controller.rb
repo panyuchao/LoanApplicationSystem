@@ -2,7 +2,7 @@ class UserController < ApplicationController
 	def login
 		if session[:current_user] != nil
 			redirect_to "/ch/#{session[:current_user][:username]}/apps" and return
-                end
+    end
 		if params[:user] != nil then
 			@current_user = User.find_by_user_name(params[:user][:username])
 			if @current_user != nil && @current_user.user_pass == params[:user][:password] then
