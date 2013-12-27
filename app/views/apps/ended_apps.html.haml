@@ -1,0 +1,90 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+
+%div.container
+  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+  %h1
+              
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 已结束的申请
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - Form.get_admin_tags.each do |x|
+          %li{:class => ((x[1] == "ended_apps")? "active":"")}
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
+              =x[0]
+              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/output.pdf"} 导出表单
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+
+  %table.table
+    %thead
+      %tr
+        %th.thcenter{:width => "5%"} 展开
+        %th.thcenter{:width => "5%"} 编号
+        %th.thcenter{:width => "15%"} 申请人
+        %th.thcenter{:width => "25%"} 申请时间
+        %th.thcenter{:width => "20%"} 总金额
+        %th.thcenter{:width => "15%"} 申请类型
+        %th.thcenter{:width => "10%"} 审核结果
+        %th.thcenter{:width => "5%"} 确认
+        %th.thcenter{:width => "5%"} 删除
+
+    %tbody{:align => 'center'}
+      - @get_forms.each do |a|
+        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}
+          %tr{:class => "warning"}
+            %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+            %td= a.id
+            %td= a.applicant
+            %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            %td= a.tot_amount
+            %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
+            %td= a.check_status == 1? '通过':'不通过'
+            %td
+              %button{:type => "submit", :class => "btn btn-default btn-sm"}
+                %span{:class => "glyphicon glyphicon-ok-circle"}
+            %td
+              %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "delete"}
+                %span{:class => "glyphicon glyphicon-remove"}
+          %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
+            %td
+            %td{:colspan => '7'}
+              %div{:class => "panel-body"}
+                %table.table{:class => "table", :border => "solid 3px red"}
+                  %thead
+                    %tr{:class => "warning"}
+                      %th.thcenter{:width => "5%"} 序号
+                      %th.thcenter{:width => "30%"} 内容
+                      %th.thcenter{:width => "20%"} 金额
+                      %th.thcenter{:width => "15%"} 报销方式
+                      %th.thcenter{:width => "30%"} 帐号
+                  %tbody{:align => 'center'}
+                    - x = 0
+                    - a.apps.each do |b|
+                      %tr
+                        %td= x += 1
+                        %td= b.details
+                        %td= b.amount
+                        %td= b.pay_method
+                        %td
+                          %input{ :class => "noneinput", :name => "account_num[#{b.id}]"}
+  
+  %p2b= "#{flash[:notice]}"
+  

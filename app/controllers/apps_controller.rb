@@ -3,8 +3,8 @@ require 'valid_check'
 class AppsController < ApplicationController
 	include ValidCheck
 	
-	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed']
-	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'failed_to_verify', 'reviewed']
+	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
+	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
 	
 	def show
 #		id = params[:id] # retrieve movie ID from URI route
@@ -113,6 +113,11 @@ class AppsController < ApplicationController
 		@get_forms = Form.find(:all, :conditions => {:check_status => 3})
 		@check_status_num = Form.get_check_status_num
 		render "admin_reviewed"
+	end
+	
+	def ended_apps
+	  @get_forms = Form.find(:all, :conditions => {:check_status => 4})
+	  @check_status_num = Form.get_check_status_num
 	end
 
 	def send_email(form_id, statusx, statusy)

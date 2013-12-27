@@ -17,7 +17,7 @@ class Form < ActiveRecord::Base
 	end
 
 	def self.get_admin_tags
-		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["未通过审核", "failed_to_verify"], ["已通过审核", "reviewed"], ["已结束的申请", "end"] ]
+		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["未通过审核", "failed_to_verify"], ["已通过审核", "reviewed"], ["已结束的申请", "ended_apps"] ]
 	end
 	
 	def self.get_check_tags
