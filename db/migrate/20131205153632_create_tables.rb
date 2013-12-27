@@ -17,7 +17,6 @@ class CreateTables < ActiveRecord::Migration
       t.timestamps
     end
     create_table :forms do |t|
-    	t.string :applicant
     	t.string :app_type
     	t.float :tot_amount
     	t.integer :check_status
