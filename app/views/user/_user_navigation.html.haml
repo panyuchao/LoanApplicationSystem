@@ -1,7 +1,9 @@
 - language = (params[:ver] == 'ch' ? 0:1)
+- @navigation_title = [["我的申请", "My applications"], ["新的申请", "New Application"], ["编辑个人资料", "Edit Profile"]]
+- @current_page = {"apps"=>0, "new_#{params[:app_type]}_form"=>1, "edit_profile"=>2}
+
 %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
 %h1
-
 %nav{:class => "navbar navbar-default", :role => "navigation"}
   %div{:class => "navbar-header"}
     %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
@@ -9,7 +11,7 @@
       %span{:class => "icon-bar"}
       %span{:class => "icon-bar"}
       %span{:class => "icon-bar"}
-    %a{:class => "navbar-brand"}= language == 1 ? "My applications":"我的申请"
+    %a{:class => "navbar-brand"}= @navigation_title[@current_page[active_bar]][language]
   %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
     %ul{:class => "nav navbar-nav"}
       - User.get_user_tags.each do |x|

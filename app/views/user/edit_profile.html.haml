@@ -3,27 +3,35 @@
 - language = (params[:ver] == 'ch' ? 0:1)
 %div.container
   = render "user_navigation", :active_bar => 'edit_profile'
-  %table
-    %tbody{:align => 'right'}
-      %tr
-        %td= language == 0 ? "姓名":"Name"
-        %td 
-          %input{:name => "realname"}
-      %tr
-        %td= language == 0 ? "邮箱":"Email"
-        %td
-          %input{:name => "email"}
-      %tr
-        %td= language == 0 ? "原密码":"Origin Password"
-        %td
-          %input{:name => "password"}
-      %tr
-        %td= language == 0 ? "新密码":"New Password"
-        %td
-          %input{:name => "new_password"}
-      %tr
-        %td= language == 0 ? "确认新密码":"Verify Password"
-        %td
-          %input{:name => "verify_password"}
+  %form{:action => "/#{params[:ver]}/#{params[:current_user]}/edit_profile"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= ["姓名", "Name"][language]
+          %td 
+            %input{:name => "realname", :value => @current_user.realname}
+        %tr
+          %td= ["邮箱", "Email"][language]
+          %td
+            %input{:name => "email", :value => @current_user.email}
+        %tr
+          %td= ["原密码", "Origin Password"][language]
+          %td
+            %input{:type => :password, :name => :password}
+        %tr
+          %td= ["新密码", "New Password"][language]
+          %td
+            %input{:name => "new_password", :type => "password"}
+          %td= ["(若不需要修改密码，请留空)", "(If you don't want to change password, please do not fill in this blank)"][language]
+        %tr
+          %td= ["确认新密码", "Verify Password"][language]
+          %td
+            %input{:name => "verify_password", :type => "password"}
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= ["保存", "Save"][language]
+          
+          
   
   %p2b= "#{flash[:notice]}" 
