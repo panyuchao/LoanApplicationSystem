@@ -68,10 +68,11 @@ class UserController < ApplicationController
   		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
   		end
   		
-  		@current_user.update_attributes(:realname => params[:realname], :email => params[:email])
+  		@current_user.update_attributes!(:realname => params[:realname], :email => params[:email])
   		if params[:new_password] != nil && params[:new_password] != "" then
-  			@current_user.update_attributes(:user_pass => params[:new_password])
+  			@current_user.update_attributes!(:user_pass => params[:new_password])
   		end
+  		flash[:notice] = params[:ver] == 'ch' ? "操作成功" : "Save Successfully"
   		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
 		end
 		# render edit_profile.html.haml
