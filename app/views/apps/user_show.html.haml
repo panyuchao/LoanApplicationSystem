@@ -2,51 +2,7 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 - language = (params[:ver] == 'ch' ? 0:1)
 %div{ :class => "container"}
-  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
-  %h1
-  
-  %nav{:class => "navbar navbar-default", :role => "navigation"}
-    %div{:class => "navbar-header"}
-      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
-        %span{:class => "sr-only"}Toggle navigation
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"}= language == 1 ? "My applications":"我的申请"
-    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
-      %ul{:class => "nav navbar-nav"}
-        - User.get_user_tags.each do |x|
-          %li{:class => ((x[2] == "apps")? "active":"")}
-            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[2]}"}<
-              =x[language]
-              %span{:class => "badge pull-right"}
-        %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
-            =language == 1 ? "New Application":"填写新申请"
-            %b.caret
-          %ul{:class => "dropdown-menu"}
-            - User.get_user_new_tags.each do |x|
-              %li
-                %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/#{x[2]}"}<
-                  =x[language]
-           
-      %ul{:class => "nav navbar-nav navbar-right"}
-        %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-            =language == 1 ? "Settings":"设置"
-            %b.caret 
-          %ul{:class => "dropdown-menu"}
-            %li
-              %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/edit_profile"} 
-                =language == 1 ? "Personal Info":"个人信息"
-        %li
-          - redirect = language == 1 ? "ch":"en"
-          %a{:href =>"/#{redirect}/#{@current_user.user_name}/apps"} 
-            =language == 1 ? "中文版":"English"
-        %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 
-            =language == 1 ? "logout":"注销"
-
+  = render "/user/user_navigation", :active_bar => "apps"
   %h1
   
   %table.table
@@ -64,27 +20,7 @@
           %td= a.tot_amount
           %td= Form.get_check_tags[a.check_status][0]
           %td= link_to '撤销', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
-        %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
-          %td
-          %td{:colspan => '5'}
-            %div{:class => "panel-body"}
-              %table.table{:class => "table", :border => "solid 3px red"}
-                %thead
-                  %tr{:class => "warning"}
-                    %th.thcenter{:width => "5%"}= Form.get_form_tags[0][language]
-                    %th.thcenter{:width => "30%"}= Form.get_form_tags[1][language]
-                    %th.thcenter{:width => "20%"}= Form.get_form_tags[2][language]
-                    %th.thcenter{:width => "15%"}= Form.get_form_tags[3][language]
-                    %th.thcenter{:width => "30%"}= Form.get_form_tags[4][language]
-                %tbody{:align => 'center'}
-                  - x = 0
-                  - a.apps.each do |b|
-                    %tr
-                      %td= x += 1
-                      %td= b.details
-                      %td= b.amount
-                      %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
-                      %td= b.account_num
+        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5
 
   = flash.each do |key, value|
     .alert{ :class => "alert-#{key}" }

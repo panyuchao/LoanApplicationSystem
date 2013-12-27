@@ -1,0 +1,20 @@
+- language = (params[:ver] == 'ch' ? 0:1)
+%tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
+  %td
+  %td{:colspan => "#{columns}"}
+    %div{:class => "panel-body"}
+      %table{:class => "table table-bordered", :align => "center"}
+        %thead
+          %tr
+            %th.thcenter{:width => "30%"} 事项
+            %th.thcenter{:width => "20%"} 金额
+            %th.thcenter{:width => "30%"} 事项
+            %th.thcenter{:width => "20%"} 金额
+        %tbody{:align => 'center'}
+          - b = a.apps
+          - for i in 0..Form.tot_student_details/2-1 do 
+            %tr
+            %td= Form.get_student_details[i]
+            %td= b[i].amount
+            %td= Form.get_student_details[i+Form.tot_student_details/2]
+            %td= b[i+Form.tot_student_details/2].amount

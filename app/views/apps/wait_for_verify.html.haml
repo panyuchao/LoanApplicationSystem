@@ -52,7 +52,7 @@
           %tr{:class => "warning"}
             %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
             %td= a.id
-            %td= a.applicant
+            %td= a.user.realname != nil ? a.user.realname: a.user.user_name
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= a.tot_amount
             %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
@@ -65,7 +65,7 @@
                 %span{:class => "glyphicon glyphicon-remove"}
           %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
             %td
-            %td{:colspan => '7'}
+            %td{:colspan => '8'}
               %div{:class => "panel-body"}
                 %table.table{:class => "table", :border => "solid 3px red"}
                   %thead

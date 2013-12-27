@@ -66,11 +66,10 @@ class FormsController < ApplicationController
 					entry_temp = params[:form_entry][i.to_s]
 					amount = params[:form_entry][i.to_s][:amount].to_f
 					tot_amount += amount
-					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => params[:form_entry][i.to_s][:pay_method])
+					@form_entry = App.create(:details => entry_temp[:details], :amount => amount, :pay_method => entry_temp[:pay_method])
 					@app_form.apps << @form_entry
 				end
 			end
-			@app_form.applicant = @current_user.user_name
 			@app_form.app_type = params[:app_type]
 			@app_form.tot_amount = tot_amount
 			@app_form.check_status = 0
@@ -78,10 +77,8 @@ class FormsController < ApplicationController
 			@current_user.forms << @app_form
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps" and return
 		end
-		if params[:app_type] == "student" then
-		  render "new_student_form"
-		end
-		# didn't commit, just render new_form
+		# didn't commit, just render "new_application"
+		render "new_application"
 	end
 
 end

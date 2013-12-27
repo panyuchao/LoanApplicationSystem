@@ -48,34 +48,10 @@
         %tr{:class => "warning"}
           %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
           %td= a.id
-          %td= a.applicant
+          %td= a.user.realname != nil ? a.user.realname: a.user.user_name
           %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
           %td= a.tot_amount
           %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
           %td= a.check_status == 3? '通过':'不通过'
-        %tr{:id => "collapse#{a.id}", :class => "panel-collapse collapse"}
-          %td
-          %td{:colspan => '5'}
-            %div{:class => "panel-body"}
-              %table.table{:class => "table", :border => "solid 3px red"}
-                %thead
-                  %tr{:class => "warning"}
-                    %th.thcenter{:width => "5%"} 序号
-                    %th.thcenter{:width => "30%"} 内容
-                    %th.thcenter{:width => "20%"} 金额
-                    %th.thcenter{:width => "15%"} 报销方式
-                    %th.thcenter{:width => "30%"} 帐号
-                %tbody{:align => 'center'}
-                  - x = 0
-                  - a.apps.each do |b|
-                    %tr
-                      %td= x += 1
-                      %td= b.details
-                      %td= b.amount
-                      %td= b.pay_method
-                      %td= b.account_num
-            
-
-  
-  
+        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
   %p2b= "#{flash[:notice]}"
