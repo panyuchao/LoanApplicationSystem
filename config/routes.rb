@@ -4,8 +4,9 @@ LoanApplicationSystem::Application.routes.draw do
   
   resources :apps
   
-  match '/:ver/:current_user/apps' => 'apps#show_forms'
-  match '/:ver/:current_user/wait_for_verify' => 'apps#wait_for_verify'
+  match "/:ver/:current_user/apps" => 'apps#show_forms'
+  match "/:ver/:current_user/wait_for_verify" => 'apps#wait_for_verify'
+  match "/:ver/:current_user/failed_to_verify" => 'apps#failed_to_verify'
   match "/:ver/:current_user/reviewed" => 'apps#reviewed'
   
   # User 

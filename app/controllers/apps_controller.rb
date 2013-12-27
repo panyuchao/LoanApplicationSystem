@@ -3,8 +3,8 @@ require 'valid_check'
 class AppsController < ApplicationController
 	include ValidCheck
 	
-	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'reviewed']
-	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'reviewed']
+	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed']
+	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'failed_to_verify', 'reviewed']
 	
 	def show
 #		id = params[:id] # retrieve movie ID from URI route
@@ -69,7 +69,7 @@ class AppsController < ApplicationController
 		if bad_change_status(statusx, statusy) then
 			flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
-		end 
+		end
 		@form_now = Form.find(params[:id])
 		if @form_now == nil then
 			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
@@ -100,12 +100,17 @@ class AppsController < ApplicationController
 	end
 
 	def wait_for_verify
-		@get_forms = Form.find(:all, :conditions => {:check_status => [1, 2]})
+		@get_forms = Form.find(:all, :conditions => {:check_status => 1})
 		@check_status_num = Form.get_check_status_num
+	end
+	
+	def failed_to_verify
+	  @get_forms = Form.find(:all, :conditions => {:check_status => 2})
+	  @check_status_num = Form.get_check_status_num
 	end
 		
 	def reviewed
-		@get_forms = Form.find(:all, :conditions => {:check_status => [3,4]})
+		@get_forms = Form.find(:all, :conditions => {:check_status => 3})
 		@check_status_num = Form.get_check_status_num
 		render "admin_reviewed"
 	end

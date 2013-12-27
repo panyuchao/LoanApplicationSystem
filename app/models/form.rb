@@ -17,11 +17,11 @@ class Form < ActiveRecord::Base
 	end
 
 	def self.get_admin_tags
-		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["已审核", "reviewed"] ]
+		[ ["未审核", "apps"], ["待确认", "wait_for_verify"], ["未通过审核", "failed_to_verify"], ["已通过审核", "reviewed"], ["已结束的申请", "end"] ]
 	end
 	
 	def self.get_check_tags
-	  [ ["未审核", "0"], ["正在审核中", "1"], ["正在审核中", "2"], ["已通过审核", "3"], ["未通过审核", "4"] ]
+	  [ ["未审核", "0"], ["正在审核中", "1"], ["未通过审核", "2"], ["已通过审核", "3"], ["已结束的报销/借款单", "4"] ]
 	end
 
 	def self.get_check_status_num
@@ -38,7 +38,7 @@ class Form < ActiveRecord::Base
 		if @all_forms != nil then
 			@all_forms.each do |x|
 				if x.check_status != nil then
-					@check_status_num[@admin_tags[(x.check_status+1)>>1]] += 1
+					@check_status_num[@admin_tags[x.check_status]] += 1
 				end
 			end
 		end
