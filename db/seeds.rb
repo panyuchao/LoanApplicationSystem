@@ -74,34 +74,34 @@ test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => fa
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true, :email => 'test_admin001@163.com'}
 			 ] 
 
-test_form1 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form1 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form1.save!
 
-test_form2 = Form.new(:applicant => 'test_user2', :app_type => 'loan', :check_status => 0, :tot_amount => 0)
+test_form2 = Form.new(:app_type => 'loan', :check_status => 0, :tot_amount => 0)
 test_form2.save!
 
-test_form3 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form3 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form3.save!
 
-test_form4 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form4 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form4.save!
 
-test_form5 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form5 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form5.save!
 
-test_form6 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form6 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form6.save!
 
-test_form7 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form7 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form7.save!
 
-test_form8 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form8 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form8.save!
 
-test_form9 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form9 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form9.save!
 
-test_form10 = Form.new(:applicant => 'test_user1', :app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form10 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
 test_form10.save!
 
 test_apps1.each do |x|
