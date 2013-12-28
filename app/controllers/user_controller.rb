@@ -148,8 +148,24 @@ class UserController < ApplicationController
 			letter = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
 			password = (0...12).map { letter[rand(letter.length)] }.join
 			new_user.update_attributes!(:user_name => user_name, :user_pass => password)
+			send_email(new_user)
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/user_management" and return
 		end
 		render 'admin_add_user'
+	end
+
+	def send_email(new_user)
+		mailfrom = ActionMailer::Base.smtp_settings[:user_name]		
+		mailto = new_user.email
+		subject = "IIIS财务报销申请系统用户注册通知邮件"
+		date = Time.now
+      		body = {
+      		  :applicant => new_user.realname, 
+      		  :new_email => new_user.email, 
+      		  :new_username => new_user.user_name,
+		  :new_password => new_user.user_pass, 
+        	  :admin_name => session[:current_user][:realname]
+      		}                        
+      		UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
 	end
 end
