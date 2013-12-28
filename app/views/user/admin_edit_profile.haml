@@ -2,8 +2,7 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
 %div.container
-  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
-  %h1
+  = image_tag("iiis.gif")
             
   %nav{:class => "navbar navbar-default", :role => "navigation"}
     %div{:class => "navbar-header"}
@@ -12,17 +11,17 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 未审核的申请
+      %a{:class => "navbar-brand"} 账户管理
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
         - Form.get_admin_tags.each do |x|
-          %li{:class => ((x[1] == "apps")? "active":"")}
+          %li{:class => ((x[1] == "reviewed")? "active":"")}
             %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
               =x[0]
               %span{:class => "badge pull-right"}= @check_status_num[x[0]]
       %ul{:class => "nav navbar-nav navbar-right"}
         %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
             设置
             %b.caret 
           %ul{:class => "dropdown-menu"}
@@ -30,32 +29,45 @@
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
               %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
         %li
-          %a{:href =>"/apps.pdf"} 导出表单
-        %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
-
-  %table.table
-    %thead
-      %tr
-        %th.thcenter{:width => "5%"} 展开
-        %th.thcenter{:width => "5%"} 编号
-        %th.thcenter{:width => "15%"} 申请人
-        %th.thcenter{:width => "30%"} 申请时间
-        %th.thcenter{:width => "15%"} 总金额
-        %th.thcenter{:width => "20%"} 申请类型
-        %th.thcenter{:width => "15%"} 审核结果
-    %tbody{:align => 'center'}
-      - @get_forms.each do |a|
-        %tr{:class => "warning"}
-          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
-          %td= a.id
-          %td= a.user.realname != nil ? a.user.realname: a.user.user_name
-          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
-          %td= a.tot_amount
-          %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
+  %form{:action => "/#{params[:ver]}/#{params[:current_user]}/edit_profile"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= "姓名"
+          %td 
+            %input{:name => "realname", :value => @current_user.realname}
+        %tr
+          %td= "邮箱"
           %td
-            =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
-            =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"
-        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => true
-     
+            %input{:name => "email", :value => @current_user.email}
+        %tr
+          %td= "自动通知邮箱"
+          %td
+            %input{:name => "nemail", :value => ActionMailer::Base.smtp_settings[:user_name]}
+          %td= "(目前只支持163邮箱)"
+        %tr
+          %td= "邮箱密码"
+          %td
+            %input{:type => :password, :name => :email_password}
+        %tr
+          %td= "原密码"
+          %td
+            %input{:type => :password, :name => :password}
+        %tr
+          %td= "新密码"
+          %td
+            %input{:name => "new_password", :type => "password"}
+          %td= "(若不需要修改密码，请留空)"
+        %tr
+          %td= "确认新密码"
+          %td
+            %input{:name => "verify_password", :type => "password"}
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= "保存"
+          
+          
+  
   %p2b= "#{flash[:notice]}" 
