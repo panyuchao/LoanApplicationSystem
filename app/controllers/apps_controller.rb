@@ -147,23 +147,23 @@ class AppsController < ApplicationController
       return
     end
     mailfrom = ActionMailer::Base.smtp_settings[:user_name]        
-    subject = "IIIS财务报销申请系统通知邮件"        
+    subject = "IIIS财务报销申请系统审核通知邮件"        
     date = Time.now
     if statusx == 1 and statusy == 3 then
       body = {
-        :applicant => applicant.user_name, 
+        :applicant => applicant.realname, 
         :form_created => this_form.created_at.strftime("%Y-%m-%d %H:%M:%S"), 
         :app_type => Form.get_app_type.keys[Form.get_app_type[this_form.app_type]], 
-        :admin_name => session[:current_user][:username]
+        :admin_name => session[:current_user][:realname]
       }                        
       UserMailer.accept_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
       #return if request.xhr?
     elsif statusx == 0 and statusy == 2 then
             body = {
-                    :applicant => applicant.user_name, 
+                    :applicant => applicant.realname, 
                     :form_created => this_form.created_at.strftime("%Y-%m-%d %H:%M:%S"), 
                     :app_type => Form.get_app_type.keys[Form.get_app_type[this_form.app_type]], 
-                    :admin_name => session[:current_user][:username]
+                    :admin_name => session[:current_user][:realname]
                     }        
             UserMailer.reject_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
             #return if request.xhr?

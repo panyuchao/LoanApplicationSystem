@@ -1,7 +1,4 @@
 source 'https://rubygems.org'
-
-gem "bundler", "~> 1.3.5"
-ruby '1.9.2'
 gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
@@ -24,7 +21,6 @@ group :test do
 end
 
 
-gem 'sqlite3', :group => [:development, :test]
 group :production do
 gem 'thin'
 gem 'pg'
@@ -65,7 +61,5 @@ gem 'rails_12factor'
 # gem 'debugger'
 gem 'haml'
 
-gem "spreadsheet"
-gem "to_xls", :git => "https://github.com/dblock/to_xls.git", :branch => "to-xls-on-models" 
 gem 'prawn', '~> 1.0.0.rc1'
 

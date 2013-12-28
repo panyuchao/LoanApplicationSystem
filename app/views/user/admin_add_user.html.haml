@@ -11,7 +11,7 @@
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
         %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 账户管理
+      %a{:class => "navbar-brand"} 添加新用户
     %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
       %ul{:class => "nav navbar-nav"}
         - Form.get_admin_tags.each do |x|
@@ -30,24 +30,28 @@
               %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
-      
-  %table.table
-    %thead
-      %tr
-        %th 用户名
-        %th 是否管理员
-        %th 电子邮箱
-        %th 删除
-    %tbody
-      - @user.each do |a|
-        %tr{:class => "warning"}
-          %td= a.user_name
-          %td= (if a.is_admin then "是" else "否" end)
-          %td= a.email
-          %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
-  
-  %li= link_to '添加新用户', "/#{params[:ver]}/#{@current_user.user_name}/add_user"
-
-  
+  %form{:action => "/#{params[:ver]}/#{params[:current_user]}/add_user"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= "姓名"
+          %td 
+            %input{:name => "realname"}
+        %tr
+          %td= "邮箱"
+          %td
+            %input{:name => "email"}
+        %tr
+          %td= "管理员"
+          %td
+            %select{:class => "form-control", :name => "is_admin"}
+              %option= "是"
+              %option= "否"
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= "保存"
+          
+          
   
   %p2b= "#{flash[:notice]}" 
