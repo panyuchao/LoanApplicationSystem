@@ -41,8 +41,8 @@
           %th.thcenter{:width => "30%"} 结束时间
           %th.thcenter{:width => "20%"} 申请类型
       %tbody
-        %td
-          %input{:class => "noneinput", :name => "applicant"}
+        %td{:align => 'center'}
+          %input{:class => "input", :name => "applicant"}
         %td{:align => 'center'}= date_select :search, :start_time, :default => {:day => 20}, :use_month_numbers => true
         %td{:align => 'center'}= date_select :search, :end_time, :use_month_numbers => true
         %td

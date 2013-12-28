@@ -180,14 +180,27 @@ class AppsController < ApplicationController
 	  else
 	    params[:start_time] = params[:search][:'start_time(1i)'] + "-" + (params[:search][:'start_time(2i)'].length == 1? "0" : "") + params[:search][:'start_time(2i)'] + "-" + (params[:search][:'start_time(3i)'].length == 1? "0" : "") + params[:search][:'start_time(3i)'] + " 00:00:00"
 	    params[:end_time] = params[:search][:'end_time(1i)'] + "-" + (params[:search][:'end_time(2i)'].length == 1? "0" : "") + params[:search][:'end_time(2i)'] + "-" + (params[:search][:'end_time(3i)'].length == 1? "0" : "") + params[:search][:'end_time(3i)'] + " 23:59:59"
-	    if params[:app_type] == "所有" then
-        @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time", :start_time => params[:start_time], :end_time => params[:end_time])
-    	else
-    	  params[:search_type] = Form.get_search_tags[Form.get_search_type[params[:app_type]]]
-    	  @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and app_type = :search_type", :start_time => params[:start_time], :end_time => params[:end_time], :search_type => params[:search_type])
-    	end
+	    if params[:applicant] != "" then
+        user = User.find_by_user_name(params[:applicant])
+        user_id = 0 
+        if user != nil then
+          user_id = user.id
+        end
+        params[:serach_id] = user_id
+	      if params[:app_type] == "所有" then
+          @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and check_status = 4 and user_id = :search_id", :start_time => params[:start_time], :end_time => params[:end_time], :search_id => user_id)
+      	else
+      	  params[:search_type] = Form.get_search_tags[Form.get_search_type[params[:app_type]]]
+      	  @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and app_type = :search_type and check_status = 4 and user_id = :search_id", :start_time => params[:start_time], :end_time => params[:end_time], :search_type => params[:search_type], :search_id => user_id)
+      	end
+      else
+	      if params[:app_type] == "所有" then
+          @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and check_status = 4", :start_time => params[:start_time], :end_time => params[:end_time])
+      	else
+      	  params[:search_type] = Form.get_search_tags[Form.get_search_type[params[:app_type]]]
+      	  @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and app_type = :search_type and check_status = 4", :start_time => params[:start_time], :end_time => params[:end_time], :search_type => params[:search_type])
+      	end
+      end
   	end
-	  flash[:notice] = params
 	end
-	
 end
