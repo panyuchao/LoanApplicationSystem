@@ -70,13 +70,8 @@ class UserController < ApplicationController
 			    flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  		end
-<<<<<<< HEAD
 	  		if !params[:email].match(/^(.+)\@(.+)$/) then
 	  		  flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
-=======
-	  		if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
-	  		  flash[:notice] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
->>>>>>> 0e31cb60f7c4d357a3b3f18bdb0d207ec36e7775
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  		end
 	  		if params[:new_password] != params[:verify_password] then
@@ -103,13 +98,8 @@ class UserController < ApplicationController
 			         	flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  			end
-<<<<<<< HEAD
 	  			if !params[:email].match(/^(.+)\@(.+)$/) then
 	  		  		flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
-=======
-	  			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
-	  		  		flash[:notice] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
->>>>>>> 0e31cb60f7c4d357a3b3f18bdb0d207ec36e7775
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  			end
 	  			if params[:new_password] != params[:verify_password] then
