@@ -59,6 +59,27 @@ class FormsController < ApplicationController
 				flash[:notice] = params[:ver] == 'ch' ? "申请表不能为空，请重新填写":"Form should not be empty, please fill again"
 				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
+			if params[:borrow] == 1 && !params[:borrow_amount].match(/^(\d{1,12})(\.\d{0,2})?$/) then
+			  flash[:notice] = "已借款金额填写错误，请重新填写"
+			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
+			end
+			if !params[:receipts].match(/^(\d{1,12})(\.\d{0,2})?$/) then
+			  flash[:notice] = params[:ver] == 'ch' ? "票据张数填写错误，请重新填写": "Receipt pages number invalid, please fill again"
+			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
+			end
+			other_info = "borrow(#{params[:borrow]}, #{params[:borrow_amount]}), receipts(#{params[:receipts]})"
+			if params[:app_type] == "student" then
+			  if params[:student_name] == nil || params[:student_name] == "" then
+			    flash[:notice] = "姓名不能为空，请重新填写"
+			    redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
+			  end
+			  if params[:student_country] == nil || params[:student_name] == "" then
+			    flash[:notice] = "国家/地区不能为空，请重新填写"
+			    redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
+			  end
+			  other_info = "#{other_info}, name(#{params[:student_name]}), country(#{params[:student_country]}), date(#{params[:student_date]})"
+			end
+			
 			tot_amount = 0
 			@app_form = Form.new
 			for i in 0..@TOT_APPS do
@@ -73,6 +94,7 @@ class FormsController < ApplicationController
 			@app_form.app_type = params[:app_type]
 			@app_form.tot_amount = tot_amount
 			@app_form.check_status = 0
+			@app_form.otherinfo = other_info
 			@app_form.save!
 			@current_user.forms << @app_form
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps" and return
