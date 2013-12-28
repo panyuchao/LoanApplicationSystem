@@ -43,7 +43,7 @@ class UserController < ApplicationController
 	def remove
 		username = params[:user_name]
 		delist = User.find_by_user_name(username)
-		if(session[:is_admin] == true && delist != nil && delist[:is_admin] == false)
+		if(session[:is_admin] == true && delist != nil)
 			User.destroy(delist)
 			flash[:success] = "#{username} has been removed."
 		else
