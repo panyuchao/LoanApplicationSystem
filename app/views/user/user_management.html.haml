@@ -10,7 +10,6 @@
         %th 用户名
         %th 姓名
         %th 是否管理员
-        %th 姓名
         %th 电子邮箱
         %th 删除
     %tbody
@@ -19,7 +18,6 @@
           %td= a.user_name
           %td= a.realname
           %td= (if a.is_admin then "是" else "否" end)
-          %td= a.realname
           %td= a.email
           %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
   
