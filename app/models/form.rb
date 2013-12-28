@@ -11,6 +11,14 @@ class Form < ActiveRecord::Base
   def self.get_app_tags
     [["财务 报销单", "Reimbursement"], ["财务 借款单", "Loan Application"], ["学生出访/会议 报销单", "Student"]]
   end
+  
+  def self.get_search_tags
+    ["reim", "loan", "student"]
+  end
+  
+  def self.get_search_type
+    {"财务 报销单" => 0, "财务 借款单" => 1, "学生出访/会议 报销单" => 2}
+  end
 
 	def self.get_app_type
 		{"报销" => 0, "reim" => 0, "借款" => 1, "loan" => 1, "学生" => 2, "student" => 2}

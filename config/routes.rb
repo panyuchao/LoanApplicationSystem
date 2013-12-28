@@ -9,6 +9,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/failed_to_verify" => 'apps#failed_to_verify'
   match "/:ver/:current_user/reviewed" => 'apps#reviewed'
   match "/:ver/:current_user/ended_apps" => 'apps#ended_apps'
+  match "/:ver/:current_user/search" => 'apps#search'
   
   # User 
   match "/:ver/login" => 'user#login'
