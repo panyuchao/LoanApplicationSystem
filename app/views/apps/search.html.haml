@@ -1,0 +1,79 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+
+%div.container
+  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+  %h1
+              
+  %nav{:class => "navbar navbar-default", :role => "navigation"}
+    %div{:class => "navbar-header"}
+      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+      %a{:class => "navbar-brand"} 搜索表单
+    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+      %ul{:class => "nav navbar-nav"}
+        - Form.get_admin_tags.each do |x|
+          %li
+            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
+              =x[0]
+              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+      %ul{:class => "nav navbar-nav navbar-right"}
+        %li.dropdown
+          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+            设置
+            %b.caret 
+          %ul{:class => "dropdown-menu"}
+            %li
+              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/search"} 搜索
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+  %form{:action => "/#{params[:ver]}/#{params[:current_user]}/search"}
+    %table.table
+      %thead
+        %tr
+          %th.thcenter{:width => "20%"} 申请人(不指定请留空)
+          %th.thcenter{:width => "30%"} 起始时间
+          %th.thcenter{:width => "30%"} 结束时间
+          %th.thcenter{:width => "20%"} 申请类型
+      %tbody
+        %td
+          %input{:class => "noneinput", :name => "applicant"}
+        %td{:align => 'center'}= date_select :search, :start_time, :default => {:day => 20}, :use_month_numbers => true
+        %td{:align => 'center'}= date_select :search, :end_time, :use_month_numbers => true
+        %td
+          %select{:class => "form-control", :name => "app_type"}
+            %option= "所有"
+            %option= Form.get_app_tags[0][0]
+            %option= Form.get_app_tags[1][0]
+            %option= Form.get_app_tags[2][0]
+    %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= "提交"
+
+  - if @get_forms.length > 0
+    %table.table
+      %thead
+        %tr
+          %th.thcenter{:width => "5%"} 展开
+          %th.thcenter{:width => "5%"} 编号
+          %th.thcenter{:width => "20%"} 申请人
+          %th.thcenter{:width => "30%"} 申请时间
+          %th.thcenter{:width => "20%"} 总金额
+          %th.thcenter{:width => "20%"} 申请类型
+
+      %tbody{:align => 'center'}
+        - @get_forms.each do |a|
+          %form
+            %tr{:class => "warning"}
+              %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+              %td= a.id
+              %td= a.user.realname != nil ? a.user.realname: a.user.user_name
+              %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
+              %td= a.tot_amount
+              %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
+            = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5, :readonly => true
+
+  %p2b= "#{flash[:notice]}"

@@ -3,8 +3,8 @@ require 'valid_check'
 class AppsController < ApplicationController
 	include ValidCheck
 	
-	before_filter :check_username, :only => ['output', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
-	before_filter :check_admin, :only => ['output', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
+	before_filter :check_username, :only => ['search', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
+	before_filter :check_admin, :only => ['search', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
 	
 	def show
 #		id = params[:id] # retrieve movie ID from URI route
@@ -156,7 +156,23 @@ class AppsController < ApplicationController
 			return		
 		end
 		UserMailer.send_mail(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
-		
+	end
+	
+	def search
+	  @check_status_num = Form.get_check_status_num
+	  if params[:commit] == nil then
+	    @get_forms = Form.where("created_at < :start_time", :start_time => '1900-1-1')
+	  else
+	    params[:start_time] = params[:search][:'start_time(1i)'] + "-" + (params[:search][:'start_time(2i)'].length == 1? "0" : "") + params[:search][:'start_time(2i)'] + "-" + (params[:search][:'start_time(3i)'].length == 1? "0" : "") + params[:search][:'start_time(3i)'] + " 00:00:00"
+	    params[:end_time] = params[:search][:'end_time(1i)'] + "-" + (params[:search][:'end_time(2i)'].length == 1? "0" : "") + params[:search][:'end_time(2i)'] + "-" + (params[:search][:'end_time(3i)'].length == 1? "0" : "") + params[:search][:'end_time(3i)'] + " 23:59:59"
+	    if params[:app_type] == "所有" then
+        @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and = :search_id", :start_time => params[:start_time], :end_time => params[:end_time])
+    	else
+    	  params[:search_type] = Form.get_search_tags[Form.get_search_type[params[:app_type]]]
+    	  @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and app_type = :search_type", :start_time => params[:start_time], :end_time => params[:end_time], :search_type => params[:search_type])
+    	end
+  	end
+	  flash[:notice] = params
 	end
 	
 end

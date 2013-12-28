@@ -29,7 +29,7 @@
             %li
               %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
         %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/output.pdf"} 导出表单
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/search"} 搜索
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
 
@@ -45,7 +45,7 @@
 
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
-        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}
+        %form
           %tr{:class => "warning"}
             %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
             %td= a.id
@@ -54,6 +54,6 @@
             %td= a.tot_amount
             %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
           = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5, :readonly => true
-  
+
   %p2b= "#{flash[:notice]}"
   
