@@ -2,7 +2,7 @@
 module ValidCheck
 	def check_username
 		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
+			flash[:error] = "Login timed out!"
 			if params[:ver] != nil
 				redirect_to "/#{params[:ver]}/login" 
 			else
@@ -18,7 +18,7 @@ module ValidCheck
 	
 	def check_admin
 		if !@current_user.is_admin then
-			flash[:notice] = params[:ver] == 'ch'? "你没有权限这样做" : "You don't have privilege!"
+			flash[:error] = params[:ver] == 'ch'? "你没有权限这样做" : "You don't have privilege!"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 		end
 	end

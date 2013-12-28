@@ -4,7 +4,7 @@ class FormsController < ApplicationController
 
 	def check_username
 		if session[:current_user] == nil then
-			flash[:notice] = "Login timed out!"
+			flash[:error] = "Login timed out!"
 			if params[:ver] == 'ch' || params[:ver] == 'en'
 				redirect_to "/#{params[:ver]}/index" 
 			else
@@ -52,29 +52,29 @@ class FormsController < ApplicationController
 				end
 			end	
 			if !valid_form then
-				flash[:notice] = params[:ver] == 'ch' ? "申请表填写错误，请重新填写":"Invalid Form, please fill again"
+				flash[:error] = params[:ver] == 'ch' ? "申请表填写错误，请重新填写":"Invalid Form, please fill again"
 				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
 			if empty_form then
-				flash[:notice] = params[:ver] == 'ch' ? "申请表不能为空，请重新填写":"Form should not be empty, please fill again"
+				flash[:error] = params[:ver] == 'ch' ? "申请表不能为空，请重新填写":"Form should not be empty, please fill again"
 				redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
-			if params[:borrow] == 1 && !params[:borrow_amount].match(/^(\d{1,12})(\.\d{0,2})?$/) then
-			  flash[:notice] = "已借款金额填写错误，请重新填写"
+			if params[:borrow] == 1 && (params[:borrow_amount] == nil || !params[:borrow_amount].match(/^(\d{1,12})(\.\d{0,2})?$/)) then
+			  flash[:error] = "已借款金额填写错误，请重新填写"
 			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
-			if !params[:receipts].match(/^(\d{1,12})(\.\d{0,2})?$/) then
-			  flash[:notice] = params[:ver] == 'ch' ? "票据张数填写错误，请重新填写": "Receipt pages number invalid, please fill again"
+			if params[:receipts] == nil || !params[:receipts].match(/^(\d{1,12})(\.\d{0,2})?$/) then
+			  flash[:error] = params[:ver] == 'ch' ? "票据张数填写错误，请重新填写": "Receipt pages number invalid, please fill again"
 			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
 			other_info = "borrow(#{params[:borrow]}, #{params[:borrow_amount]}), receipts(#{params[:receipts]})"
 			if params[:app_type] == "student" then
 			  if params[:student_name] == nil || params[:student_name] == "" then
-			    flash[:notice] = "姓名不能为空，请重新填写"
+			    flash[:error] = "姓名不能为空，请重新填写"
 			    redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			  end
 			  if params[:student_country] == nil || params[:student_name] == "" then
-			    flash[:notice] = "国家/地区不能为空，请重新填写"
+			    flash[:error] = "国家/地区不能为空，请重新填写"
 			    redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			  end
 			  other_info = "#{other_info}, name(#{params[:student_name]}), country(#{params[:student_country]}), date(#{params[:student_date]})"
@@ -97,6 +97,7 @@ class FormsController < ApplicationController
 			@app_form.otherinfo = other_info
 			@app_form.save!
 			@current_user.forms << @app_form
+			flash[:success] = params[:ver] == 'ch' ? "操作成功" : "Application successfully submitted"
 			redirect_to "/#{params[:ver]}/#{params[:current_user]}/apps" and return
 		end
 		# didn't commit, just render "new_application"

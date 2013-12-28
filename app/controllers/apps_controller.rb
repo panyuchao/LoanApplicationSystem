@@ -46,7 +46,7 @@ class AppsController < ApplicationController
 
 	def delete
 		@form_now = Form.find_by_id(params[:id])
-		flash[:notice] = @form_now
+#		flash[:notice] = @form_now
 		if @form_now != nil && @form_now.check_status == 0
   		@form_now.destroy
   	end
@@ -67,12 +67,12 @@ class AppsController < ApplicationController
 		statusx = params[:s0].to_i
 		statusy = params[:s1].to_i
 		if check_change_status(statusx, statusy) == false then
-			flash[:notice] = "Status#{statusx} cannot change to Status#{statusy}"
+			flash[:error] = "Status#{statusx} cannot change to Status#{statusy}"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
 		end
 		@form_now = Form.find(params[:id])
 		if @form_now == nil then
-			flash[:notice] = "Form with id{#{params[:id]} doesn't exist!"
+			flash[:error] = "Form with id{#{params[:id]} doesn't exist!"
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
 		end
 		if params[:delete] != nil then statusy = 2; end
@@ -81,7 +81,7 @@ class AppsController < ApplicationController
 			  @form_now.apps.each do |appi|
 				  appi.account_num = params[:account_num][appi.id.to_s].to_s
 				  if !appi.account_num.match(/^\d+$/) then
-					  flash[:notice] = "#{params[:account]} Invalid Account number!"
+					  flash[:error] = "Invalid Account number!"
 					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
 				  end
 			  end
@@ -89,7 +89,7 @@ class AppsController < ApplicationController
 			  @form_now.apps.each do |appi|
 				  appi.account_num = params[:account_num].to_s
 				  if !appi.account_num.match(/^\d+$/) then
-					  flash[:notice] = "#{params[:account]} Invalid Account number!"
+					  flash[:error] = "Invalid Account number!"
 					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
 				  end
 			  end
@@ -100,7 +100,7 @@ class AppsController < ApplicationController
 		end
 		@form_now.check_status = statusy
 		@form_now.save!
-		flash[:notice] = "操作成功"
+		flash[:success] = "操作成功"
 		send_email(@form_now.id, statusx, statusy)
 		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}"
 	end

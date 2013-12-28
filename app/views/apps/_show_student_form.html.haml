@@ -31,6 +31,12 @@
               %td.thcenter{:width => "6%"}= i+5
               %td.thcenter= Form.get_student_details[i+Form.tot_student_details/2]
               %td.thcenter= b[i+Form.tot_student_details/2].amount
+          %tr
+            %td.thcenter{:colspan => 2}= '合计'
+            %td{:colspan => 3}= a.tot_amount
+            %td= '帐号'
+            %td
+              %input{:class => "noneinput", :name => "account_num", :value => b[0].account_num, :readonly => readonly}
           - a.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)[,$]/)
           %tr
             %td.thleft{:colspan => 6}
@@ -41,7 +47,3 @@
             %td.thleft{:colspan => 2}
               ="附票据张数"
               %input{:value => $3}
-          %tr
-            %td= '帐号'
-            %td{:colspan => 10}
-              %input{:class => "noneinput", :name => "account_num", :value => b[0].account_num, :readonly => readonly}

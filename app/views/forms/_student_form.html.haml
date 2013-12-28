@@ -13,7 +13,9 @@
           %input{:class => "noneinput-center", :name => "student_country"}
         %td.thcenter{:width => "20%"} 出访日期
         %td.thcenter{:width => "24%"}
-          %input{:class => "noneinput-center", :name => "student_date"}
+          %script
+            $(function() { $( "#datepicker" ).datepicker();});
+          %input{:type => "text", :id => "datepicker", :class => "noneinput-center", :name => "student_date"}
     %tbody
       %tr
         %td.thcenter{:colspan => 3} 事项
@@ -42,4 +44,5 @@
           ="附票据张数"
           %input{:name => "receipts"}
   %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"
-
+  %p
+  %p.thleft 备注：如果在报销前已从财务处借过款，请在是否有借款一栏中标注事项及金额
