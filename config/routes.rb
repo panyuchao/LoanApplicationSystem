@@ -1,6 +1,6 @@
 
 LoanApplicationSystem::Application.routes.draw do
-	root :to => 'user#login'
+	root :to => 'user#index'
   
   resources :apps
   

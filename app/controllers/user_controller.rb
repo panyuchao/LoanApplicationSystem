@@ -7,12 +7,22 @@ class UserController < ApplicationController
 	before_filter :check_username, :only => ['user_management', 'edit_profile', 'save_profile']
 	before_filter :check_admin, :only => ['user_management']
 	
-	def login
+	def index
 		if session[:current_user] != nil
 			redirect_to "/ch/#{session[:current_user][:username]}/apps" and return
-    end
+		else
+			redirect_to "/ch/login"
+		end
+	end
+	
+	def login
 		if params[:user] != nil then
-			@current_user = User.find_by_user_name(params[:user][:username])
+			if params[:user][:username] =~ /(.*)@(.*).(.*)$/i	
+				@current_user = User.find_by_email(params[:user][:username])
+				params[:user][:username] = @current_user.user_name
+			else
+				@current_user = User.find_by_user_name(params[:user][:username])
+			end
 			if @current_user != nil && @current_user.user_pass == params[:user][:password] then
 				session[:current_user] = params[:user]
 				session[:is_admin] = @current_user.is_admin
