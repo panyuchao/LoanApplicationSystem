@@ -15,6 +15,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/logout" => 'user#logout'
   match "/:ver/:current_user/edit_profile" => 'user#edit_profile'
   match "/:ver/:current_user/save_profile" => 'user#save_profile'
+  match "/:ver/:current_user/add_user" => 'user#add_user'
   
   # App
   
