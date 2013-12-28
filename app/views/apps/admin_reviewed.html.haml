@@ -58,5 +58,5 @@
             %td
               %button{:type => "submit", :class => "btn btn-default btn-sm"}
                 %span{:class => "glyphicon glyphicon-ok-circle"}
-          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
+          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => true
   %p2b= "#{flash[:notice]}"

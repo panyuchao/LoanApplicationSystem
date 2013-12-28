@@ -14,7 +14,11 @@
           - b = a.apps
           - for i in 0..Form.tot_student_details/2-1 do 
             %tr
-            %td= Form.get_student_details[i]
-            %td= b[i].amount
-            %td= Form.get_student_details[i+Form.tot_student_details/2]
-            %td= b[i+Form.tot_student_details/2].amount
+              %td= Form.get_student_details[i]
+              %td= b[i].amount
+              %td= Form.get_student_details[i+Form.tot_student_details/2]
+              %td= b[i+Form.tot_student_details/2].amount
+          %tr
+            %td= '帐号'
+            %td{:colspan => 3}
+              %input{:class => "noneinput", :name => "account_num", :value => b[0].account_num, :readonly => readonly}

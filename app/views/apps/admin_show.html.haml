@@ -55,6 +55,6 @@
           %td
             =link_to '接受', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_1_from_0/#{a.id}"
             =link_to '拒绝', "/#{params[:ver]}/#{params[:current_user]}/change_to_status_2_from_0/#{a.id}"
-        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
+        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => true
      
   %p2b= "#{flash[:notice]}" 

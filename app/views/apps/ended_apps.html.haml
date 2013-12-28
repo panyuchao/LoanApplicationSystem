@@ -53,7 +53,7 @@
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= a.tot_amount
             %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
-          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5
+          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5, :readonly => true
   
   %p2b= "#{flash[:notice]}"
   

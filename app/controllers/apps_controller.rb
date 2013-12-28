@@ -77,16 +77,26 @@ class AppsController < ApplicationController
 		end
 		if params[:delete] != nil then statusy = 2; end
 		if statusx == 1 && statusy == 3 then
-			@form_now.apps.each do |appi|
-				appi.account_num = params[:account_num][appi.id.to_s].to_s
-				if !appi.account_num.match(/^\d+$/) then
-					flash[:notice] = "#{params[:account]} Invalid Account number!"
-					redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
-				end
+		  if @form_now.apps.length < 8 then
+			  @form_now.apps.each do |appi|
+				  appi.account_num = params[:account_num][appi.id.to_s].to_s
+				  if !appi.account_num.match(/^\d+$/) then
+					  flash[:notice] = "#{params[:account]} Invalid Account number!"
+					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
+				  end
+			  end
+			else
+			  @form_now.apps.each do |appi|
+				  appi.account_num = params[:account_num].to_s
+				  if !appi.account_num.match(/^\d+$/) then
+					  flash[:notice] = "#{params[:account]} Invalid Account number!"
+					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
+				  end
+			  end
 			end
-			@form_now.apps.each do |appi|
-				appi.save!
-			end
+		  @form_now.apps.each do |appi|
+			  appi.save!
+		  end
 		end
 		@form_now.check_status = statusy
 		@form_now.save!

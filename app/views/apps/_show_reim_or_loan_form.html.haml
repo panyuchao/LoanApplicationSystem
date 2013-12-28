@@ -19,4 +19,5 @@
               %td= b.details
               %td= b.amount
               %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
-              %td= b.account_num
+              %td
+                %input{ :class => "noneinput", :name => "account_num[#{b.id}]", :value => b.account_num, :readonly => readonly}
