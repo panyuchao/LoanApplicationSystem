@@ -145,7 +145,7 @@ class UserController < ApplicationController
 			User.create!(:email => params[:email], :realname => params[:realname], :is_admin => is_admin)
 			new_user = User.find_by_email(params[:email])
 			user_name = "user" + new_user.id.to_s
-			letter = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+			letter = [(0..9), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
 			password = (0...12).map { letter[rand(letter.length)] }.join
 			new_user.update_attributes!(:user_name => user_name, :user_pass => password)
 			send_email(new_user)
