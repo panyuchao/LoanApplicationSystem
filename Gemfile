@@ -68,4 +68,4 @@ gem 'haml'
 gem "spreadsheet"
 gem "to_xls", :git => "https://github.com/dblock/to_xls.git", :branch => "to-xls-on-models" 
 gem 'prawn', '~> 1.0.0.rc1'
-#gem "mail", "2.1.3"
+

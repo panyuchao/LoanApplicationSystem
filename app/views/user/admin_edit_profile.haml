@@ -30,23 +30,44 @@
               %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
         %li
           %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
-      
-  %table.table
-    %thead
-      %tr
-        %th 用户名
-        %th 是否管理员
-        %th 电子邮箱
-        %th 删除
-    %tbody
-      - @user.each do |a|
-        %tr{:class => "warning"}
-          %td= a.user_name
-          %td= (if a.is_admin then "是" else "否" end)
-          %td= a.email
-          %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
-            
-
-  
+  %form{:action => "/#{params[:ver]}/#{params[:current_user]}/edit_profile"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= "姓名"
+          %td 
+            %input{:name => "realname", :value => @current_user.realname}
+        %tr
+          %td= "邮箱"
+          %td
+            %input{:name => "email", :value => @current_user.email}
+        %tr
+          %td= "自动通知邮箱"
+          %td
+            %input{:name => "nemail", :value => ActionMailer::Base.smtp_settings[:user_name]}
+          %td= "(目前只支持163邮箱)"
+        %tr
+          %td= "邮箱密码"
+          %td
+            %input{:type => :password, :name => :email_password}
+        %tr
+          %td= "原密码"
+          %td
+            %input{:type => :password, :name => :password}
+        %tr
+          %td= "新密码"
+          %td
+            %input{:name => "new_password", :type => "password"}
+          %td= "(若不需要修改密码，请留空)"
+        %tr
+          %td= "确认新密码"
+          %td
+            %input{:name => "verify_password", :type => "password"}
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= "保存"
+          
+          
   
   %p2b= "#{flash[:notice]}" 

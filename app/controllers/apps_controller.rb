@@ -101,8 +101,8 @@ class AppsController < ApplicationController
 		@form_now.check_status = statusy
 		@form_now.save!
 		flash[:notice] = "操作成功"
-		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}"
 		send_email(@form_now.id, statusx, statusy)
+		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}"
 	end
 
 	def check_change_status(statusx, statusy)
@@ -135,28 +135,42 @@ class AppsController < ApplicationController
 	  @check_status_num = Form.get_check_status_num
 	end
 
-	def send_email(form_id, statusx, statusy)
-		this_form = Form.find_by_id(form_id)
-		applicant_id = Form.find_by_id(form_id).user_id
-		applicant = User.find_by_id(applicant_id)
-		mailto = applicant.email
-		if mailto == nil || (mailto =~ /(.*)@(.*)\.(.*)$/i) == false then
-			return
-		end
-		mailfrom = ActionMailer::Base.smtp_settings[:user_name]	
-		subject = "IIIS财务报销申请系统通知邮件"	
-		date = Time.now
-		if statusx == 0 and statusy == 1 then
-			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}接受。\n    请继续关注后续消息。\n    谢谢！\n"
-		elsif statusx == 0 and statusy == 2 then
-			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}拒绝。\n    谢谢！\n"
-		elsif statusx == 1 and statusy == 3 then
-			body = "#{applicant.user_name}，您好！\n    您在#{this_form.created_at.strftime("%Y-%m-%d %H:%M:%S")}提交的#{Form.get_app_type.keys[Form.get_app_type[this_form.app_type]]}申请已被管理员#{session[:current_user][:username]}确认。\n    请登录系统查询账号。\n    谢谢！\n"
-		else
-			return		
-		end
-		UserMailer.send_mail(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
-	end
+  def send_email(form_id, statusx, statusy)
+    unless (statusx == 1 and statusy == 3) or (statusx == 0 and statusy == 2)
+      return
+    end
+    this_form = Form.find_by_id(form_id)
+    applicant_id = Form.find_by_id(form_id).user_id
+    applicant = User.find_by_id(applicant_id)
+    mailto = applicant.email
+    if mailto == nil || (mailto =~ /(.*)@(.*)\.(.*)$/i) == false then
+      return
+    end
+    mailfrom = ActionMailer::Base.smtp_settings[:user_name]        
+    subject = "IIIS财务报销申请系统通知邮件"        
+    date = Time.now
+    if statusx == 1 and statusy == 3 then
+      body = {
+        :applicant => applicant.user_name, 
+        :form_created => this_form.created_at.strftime("%Y-%m-%d %H:%M:%S"), 
+        :app_type => Form.get_app_type.keys[Form.get_app_type[this_form.app_type]], 
+        :admin_name => session[:current_user][:username]
+      }                        
+      UserMailer.accept_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+      #return if request.xhr?
+    elsif statusx == 0 and statusy == 2 then
+            body = {
+                    :applicant => applicant.user_name, 
+                    :form_created => this_form.created_at.strftime("%Y-%m-%d %H:%M:%S"), 
+                    :app_type => Form.get_app_type.keys[Form.get_app_type[this_form.app_type]], 
+                    :admin_name => session[:current_user][:username]
+                    }        
+            UserMailer.reject_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+            #return if request.xhr?
+    else
+    return                
+  end
+    #UserMailer.send_mail(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
 	
 	def search
 	  @check_status_num = Form.get_check_status_num
