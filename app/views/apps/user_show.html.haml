@@ -23,9 +23,3 @@
           %td= link_to '撤销', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
         = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => true
 
-  = flash.each do |key, value|
-    .alert{ :class => "alert-#{key}" }
-      /%button.close{ :data => { :dismiss => "alert" } } 
-      %strong
-        = value  
-

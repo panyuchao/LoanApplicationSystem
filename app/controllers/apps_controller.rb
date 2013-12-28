@@ -21,7 +21,7 @@ class AppsController < ApplicationController
 			format.csv { send_data @apps.to_csv }
 			format.xls { send_data @apps.to_csv(col_sep: "\t") }
 			format.pdf {
-				@apps.to_pdf
+				@apps.to_pdf session[:form], session[:start_time], session[:end_time]
 				File.open("output.pdf", 'rb') do |f| 
 					send_data f.read, :disposition => "inline",:stream => false,:filename => 'result.pdf'
 				end
@@ -176,12 +176,15 @@ class AppsController < ApplicationController
 	def search
 	  @check_status_num = Form.get_check_status_num
 	  if params[:commit] == nil then
+	    if params[:output] != nil then
+	      redirect_to "/#{params[:ver]}/#{params[:current_user]}/output.pdf" and return
+	    end
 	    @get_forms = Form.where("created_at < :start_time", :start_time => '1900-1-1')
 	  else
 	    params[:start_time] = params[:search][:'start_time(1i)'] + "-" + (params[:search][:'start_time(2i)'].length == 1? "0" : "") + params[:search][:'start_time(2i)'] + "-" + (params[:search][:'start_time(3i)'].length == 1? "0" : "") + params[:search][:'start_time(3i)'] + " 00:00:00"
 	    params[:end_time] = params[:search][:'end_time(1i)'] + "-" + (params[:search][:'end_time(2i)'].length == 1? "0" : "") + params[:search][:'end_time(2i)'] + "-" + (params[:search][:'end_time(3i)'].length == 1? "0" : "") + params[:search][:'end_time(3i)'] + " 23:59:59"
 	    if params[:applicant] != "" then
-        user = User.find_by_user_name(params[:applicant])
+        user = User.find_by_realname(params[:applicant])
         user_id = 0 
         if user != nil then
           user_id = user.id
@@ -201,6 +204,9 @@ class AppsController < ApplicationController
       	  @get_forms = Form.where("created_at >= :start_time and created_at <= :end_time and app_type = :search_type and check_status = 4", :start_time => params[:start_time], :end_time => params[:end_time], :search_type => params[:search_type])
       	end
       end
+      session[:form] = @get_forms
+      session[:start_time] = params[:start_time]
+      session[:end_time] = params[:end_time]
   	end
 	end
 end

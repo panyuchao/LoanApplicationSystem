@@ -15,9 +15,8 @@ class App < ActiveRecord::Base
     end
   end
 =end  
-  def self.to_pdf
+  def self.to_pdf(forms, start_time, end_time)
   	page = 1
-  	forms = Form.order(:created_at).reverse
   	left = 20
   	right = 530
   	xlen = right-left
@@ -28,7 +27,9 @@ class App < ActiveRecord::Base
   	pdf.font_families.update("Sim Hei"=>{:normal =>"app/assets/fonts/simhei.ttf"})
 		pdf.font "Sim Hei"
 		
-  	current_height = top
+		pdf.text_box "清华大学交叉信息学院 财务报表", :size => 22, :at => [left, top+5], :width => 500, :align => :center
+		pdf.text_box "#{start_time.split(" ")[0]}\~#{end_time.split(" ")[0]}", :size => 14, :at => [left+80, top-23], :width => 500, :align => :center
+  	current_height = top - 30
   	title = "清华大学交叉信息研究院"
   	type_title = ["报销方式", "支付方式"]
   	pay_method = ["现", "支", "汇", "卡"]
@@ -71,9 +72,13 @@ class App < ActiveRecord::Base
 		  
 		  if app_type == 2 then
 		    pdf.stroke_line([left, current_height], [right, current_height])
+		    form.otherinfo.match(/name\((.*?)\), country\((.*?)\), date\((.*?)\)/)
 		    pdf.text_box "姓\s名", :at => [left, current_height-5], :width => width_student[0], :align => :center
+		    pdf.text_box "#{$1}", :at => [left+width_student[0], current_height-5], :width => width_student[1], :align => :center
 		    pdf.text_box "国家\/地区", :at => [left+width_student_sum[1], current_height-5], :width => width_student[2], :align => :center
+		    pdf.text_box "#{$2}", :at => [left+width_student_sum[2], current_height-5], :width => width_student[3], :align => :center
 		    pdf.text_box "出访日期", :at => [left+width_student_sum[3], current_height-5], :width => width_student[4], :align => :center
+		    pdf.text_box "#{$3}", :at => [left+width_student_sum[4], current_height-5], :width => width_student[5], :align => :center
 		    for i in 0..4 do 
   		    pdf.stroke_line([left+width_student_sum[i], current_height], [left+width_student_sum[i], current_height-height_student])
 		    end
@@ -113,9 +118,17 @@ class App < ActiveRecord::Base
 		    pdf.stroke_line([left, current_height+7*height_student], [left, current_height-2*height_student])
 		    pdf.stroke_line([right, current_height+7*height_student], [right, current_height-2*height_student])
 		    
-		    pdf.text_box "申请人:\s#{form.user.realname != nil ? form.user.realname: form.user.user_name}", :at => [left+width_student_sum[3]-10*xlen/100, current_height-4], :width => 30*xlen/100
-		    pdf.text_box "日期:\s#{form.created_at.strftime("%Y-%m-%d")}", :at => [left+width_student_sum[4], current_height-4], :width => width_student[5]
-		    pdf.text_box "附票据张数:", :at => [left+width_student_sum[3]+10*xlen/100, current_height-4-height_student], :width => width_student[5]+width_student[0]
+		    pdf.text_box "申请人:\s#{form.user.realname != nil ? form.user.realname: form.user.user_name}", :at => [left+width_student_sum[3]-10*xlen/100, current_height-5], :width => 30*xlen/100
+		    pdf.text_box "日期:\s#{form.created_at.strftime("%Y-%m-%d")}", :at => [left+width_student_sum[4], current_height-5], :width => width_student[5]
+		    form.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)/)
+	      pdf.text_box "是否有借款:\s□是\s□否", :at => [left+width_student_sum[0]-3, current_height-5-height], :width => width_student_sum[3]
+	      if $1 == '1' then
+	        pdf.text_box "√\s\s\s\s\s\s\s\s\s\s\s金额:\s#{$2}", :at => [left+width_student_sum[0]+68, current_height-5-height], :width => width_student_sum[3]
+	      else
+	        pdf.text_box "√", :at => [left+width_student_sum[0]+98, current_height-5-height], :width => width_student_sum[3]
+	      end
+	      pdf.text_box "附票据张数: #{$3}", :at => [left+width_student_sum[3]+10*xlen/100, current_height-5-height], :width => width_student[5]+width_student[0]
+	      
 	      current_height -= 2*height_student
 		    pdf.stroke_line([left, current_height], [right, current_height])
 # end of make student form		    
@@ -158,7 +171,7 @@ class App < ActiveRecord::Base
 		    form.apps.each do |app|
 		      pdf.text_box "#{app.details}", :at => [left+column_width_sum[1], current_height-3], :width => column_width[2], :align => :center
 		      pdf.text_box "#{app.amount}", :at => [left+column_width_sum[2], current_height-3], :width => column_width[3], :align => :center
-		      pdf.text_box "#{app.account_num}", :size => 8, :at => [left+column_width_sum[4], current_height-4], :width => column_width[5], :align => :center
+		      pdf.text_box "#{app.account_num}", :size => 8, :at => [left+column_width_sum[4], current_height-5], :width => column_width[5], :align => :center
 		      pdf.text_box "√", :at => [left+column_width_sum[3]+Form.get_pay_method_type[app.pay_method]*5*xlen/100, current_height-3], :width => 5*xlen/100, :align => :center
 		      current_height -= height
 		    end
@@ -166,7 +179,14 @@ class App < ActiveRecord::Base
 		    if app_type == 0 then
 		      pdf.text_box "申请人:\s#{form.user.realname != nil ? form.user.realname: form.user.user_name}", :at => [left+column_width_sum[2], current_height-2], :width => column_width[3]+column_width[4]
 		      pdf.text_box "日期:\s#{form.created_at.strftime("%Y-%m-%d")}", :at => [left+column_width_sum[3]+16*xlen/100, current_height-2], :width => column_width[5]+column_width[0]
-		      pdf.text_box "附票据张数:", :at => [left+column_width_sum[3]+11*xlen/100, current_height-2-height], :width => column_width[5]+column_width[0]
+		      form.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)/)
+		      pdf.text_box "是否有借款:\s□是\s□否", :at => [left+column_width_sum[1]-3, current_height-2-height], :width => column_width_sum[2]
+		      if $1 == '1' then
+		        pdf.text_box "√\s\s\s\s\s\s\s\s\s\s\s金额:\s#{$2}", :at => [left+column_width_sum[1]+68, current_height-2-height], :width => column_width_sum[2]
+		      else
+		        pdf.text_box "√", :at => [left+column_width_sum[1]+98, current_height-2-height], :width => column_width_sum[2]
+		      end
+		      pdf.text_box "附票据张数: #{$3}", :at => [left+column_width_sum[3]+11*xlen/100, current_height-2-height], :width => column_width[5]+column_width[0]
 		    else
 		      pdf.text_box "申请人:\s#{form.user.realname != nil ? form.user.realname: form.user.user_name}", :at => [left+column_width_sum[2], current_height-height-2], :width => column_width[3]+column_width[4]
 		      pdf.text_box "日期:\s#{form.created_at.strftime("%Y-%m-%d")}", :at => [left+column_width_sum[3]+16*xlen/100, current_height-height-2], :width => column_width[5]+column_width[0]

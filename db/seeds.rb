@@ -16,8 +16,7 @@ test_apps1 = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul
 
 test_apps2 = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul-2012', :pay_method => "现金"},
 			  	  {:details => 'test004', :amount => 3233, :created_at => '10-Aug-2013', :pay_method => "汇款"},
-				  {:details => 'test005', :amount => 534442, :created_at => '27-Jul-2012', :pay_method => "支票"},
-			  	  {:details => 'test006', :amount => 78293, :created_at => '23-Aug-2013', :pay_method => "银行卡"},
+				  {:details => 'test005', :amount => 534442, :created_at => '27-Jul-2012', :pay_method => "支票"}
 		  	]
 
 test_apps3 = [  {:details => 'test003', :amount => 13942, :created_at => '21-Jul-2011', :pay_method => "现金"},
@@ -68,40 +67,39 @@ test_apps10 = [  {:details => 'test003', :amount => 13942, :created_at => '21-Ju
 			  	  {:details => 'test006', :amount => 78293, :created_at => '23-Aug-2012', :pay_method => "银行卡"},
 		  	]
 
-test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false, :email => 'test_user001@163.com'},
-			  {:user_name => 'test_user2', :user_pass => 'pass', :is_admin => false},
-			  {:user_name => 'test_user3', :user_pass => 'pass', :is_admin => false},
+test_users = [{:user_name => 'test_user1', :user_pass => 'pass', :is_admin => false, :email => 'test_user001@163.com', :realname => 'Alice'},
+			  {:user_name => 'test_user2', :user_pass => 'pass', :is_admin => false, :realname => 'Bob', :email => 'abc@163.com'},
 			  {:user_name => 'admin', :user_pass => 'admin', :is_admin => true, :email => 'test_admin001@163.com'}
 			 ] 
 
-test_form1 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form1 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form1.save!
 
 test_form2 = Form.new(:app_type => 'loan', :check_status => 0, :tot_amount => 0)
 test_form2.save!
 
-test_form3 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form3 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form3.save!
 
-test_form4 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form4 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form4.save!
 
-test_form5 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form5 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form5.save!
 
-test_form6 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form6 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(1, 297), receipts(4)")
 test_form6.save!
 
-test_form7 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form7 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form7.save!
 
-test_form8 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form8 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form8.save!
 
-test_form9 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form9 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form9.save!
 
-test_form10 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0)
+test_form10 = Form.new(:app_type => 'reim', :check_status => 0, :tot_amount => 0, :otherinfo => "borrow(0, ), receipts(4)")
 test_form10.save!
 
 test_apps1.each do |x|

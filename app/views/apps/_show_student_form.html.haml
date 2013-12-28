@@ -33,8 +33,8 @@
               %td.thcenter= b[i+Form.tot_student_details/2].amount
           %tr
             %td.thcenter{:colspan => 2}= '合计'
-            %td{:colspan => 3}= a.tot_amount
-            %td= '帐号'
+            %td{:colspan => 4}= a.tot_amount
+            %td.thcenter= '帐号'
             %td
               %input{:class => "noneinput", :name => "account_num", :value => b[0].account_num, :readonly => readonly}
           - a.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)[,$]/)

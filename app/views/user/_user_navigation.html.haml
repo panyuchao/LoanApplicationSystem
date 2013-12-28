@@ -30,14 +30,9 @@
                 =x[language]
          
     %ul{:class => "nav navbar-nav navbar-right"}
-      %li.dropdown
-        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-          =language == 1 ? "Settings":"设置"
-          %b.caret 
-        %ul{:class => "dropdown-menu"}
-          %li
-            %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/edit_profile"} 
-              =language == 1 ? "Personal Info":"个人信息"
+      %li
+        %a{:href => "/#{params[:ver]}/#{@current_user.user_name}/edit_profile"} 
+          =language == 1 ? "Personal Info":"个人信息"
       %li
         - redirect = language == 1 ? "ch":"en"
         %a{:href =>"/#{redirect}/#{@current_user.user_name}/#{active_bar}"} 
@@ -45,3 +40,4 @@
       %li
         %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 
           =language == 1 ? "logout":"注销"
+= render "/common/alert"          

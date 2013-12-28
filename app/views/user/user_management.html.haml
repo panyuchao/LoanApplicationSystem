@@ -2,40 +2,14 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
 %div.container
-  = image_tag("iiis.gif")
-            
-  %nav{:class => "navbar navbar-default", :role => "navigation"}
-    %div{:class => "navbar-header"}
-      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
-        %span{:class => "sr-only"}Toggle navigation
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 账户管理
-    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
-      %ul{:class => "nav navbar-nav"}
-        - Form.get_admin_tags.each do |x|
-          %li{:class => ((x[1] == "reviewed")? "active":"")}
-            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
-              =x[0]
-              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
-      %ul{:class => "nav navbar-nav navbar-right"}
-        %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}<
-            设置
-            %b.caret 
-          %ul{:class => "dropdown-menu"}
-            %li
-              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
-              %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
-        %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+  = render "/user/admin_navigation", :active_bar => 'user_management'
       
   %table.table
     %thead
       %tr
         %th 用户名
         %th 是否管理员
+        %th 姓名
         %th 电子邮箱
         %th 删除
     %tbody
@@ -43,11 +17,9 @@
         %tr{:class => "warning"}
           %td= a.user_name
           %td= (if a.is_admin then "是" else "否" end)
+          %td= a.realname
           %td= a.email
           %td= link_to '删除', '/ch/'+a[:user_name]+'/removeuser'
   
   %li= link_to '添加新用户', "/#{params[:ver]}/#{@current_user.user_name}/add_user"
 
-  
-  
-  %p2b= "#{flash[:notice]}" 

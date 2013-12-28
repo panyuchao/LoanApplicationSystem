@@ -2,37 +2,7 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 
 %div.container
-  %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
-  %h1
-              
-  %nav{:class => "navbar navbar-default", :role => "navigation"}
-    %div{:class => "navbar-header"}
-      %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
-        %span{:class => "sr-only"}Toggle navigation
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-        %span{:class => "icon-bar"}
-      %a{:class => "navbar-brand"} 待确认的申请
-    %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
-      %ul{:class => "nav navbar-nav"}
-        - Form.get_admin_tags.each do |x|
-          %li{:class => ((x[1] == "wait_for_verify")? "active":"")}
-            %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
-              =x[0]
-              %span{:class => "badge pull-right"}= @check_status_num[x[0]]
-      %ul{:class => "nav navbar-nav navbar-right"}
-        %li.dropdown
-          %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
-            设置
-            %b.caret 
-          %ul{:class => "dropdown-menu"}
-            %li
-              %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
-              %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
-        %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/search"} 搜索
-        %li
-          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+  = render "/user/admin_navigation", :active_bar => 'wait_for_verify'
 
   %table.table
     %thead
@@ -65,6 +35,4 @@
               %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "delete"}
                 %span{:class => "glyphicon glyphicon-remove"}
           = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => false
-  
-  %p2b= "#{flash[:notice]}"
   

@@ -1,0 +1,37 @@
+- language = (params[:ver] == 'ch' ? 0:1)
+- @navigation_title = ["未审核的申请", "待确认的申请", "未通过的申请", "已审核的申请", "已结束的申请", "账户管理", "个人信息", "搜索表单", "添加新用户"]
+- @current_page = {"apps"=>0, "wait_for_verify"=>1, "failed_to_verify"=>2, "reviewed"=>3, "ended_apps"=>4, "user_management"=>5, "edit_profile"=>6, "search"=>7, "add_user"=>8}
+%img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+%h1
+          
+%nav{:class => "navbar navbar-default", :role => "navigation"}
+  %div{:class => "navbar-header"}
+    %button{:type => "button", :class => "navbar-toggle", 'data-toggle' => "collapse", 'data-target' => "#bs-example-navbar-collapse-1"}
+      %span{:class => "sr-only"}Toggle navigation
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+      %span{:class => "icon-bar"}
+    %a{:class => "navbar-brand"}= @navigation_title[@current_page[active_bar]]
+  %div{:class => "collapse navbar-collapse", :id => "bs-example-navbar-collapse-1"}
+    %ul{:class => "nav navbar-nav"}
+      - Form.get_admin_tags.each do |x|
+        %li{:class => ((x[1] == active_bar)? "active":"")}
+          %a{:href => "/#{params[:ver]}/#{params[:current_user]}/#{x[1]}", :name => @check_status_num[x[0]]}<
+            =x[0]
+            %span{:class => "badge pull-right"}= @check_status_num[x[0]]
+    %ul{:class => "nav navbar-nav navbar-right"}
+      %li.dropdown
+        %a{:class => "dropdown-toggle", 'data-toggle' => "dropdown"}< 
+          设置
+          %b.caret 
+        %ul{:class => "dropdown-menu"}
+          %li
+            %a{:href => "/ch/#{@current_user.user_name}/user_management"} 账户管理
+            %a{:href => "/ch/#{@current_user.user_name}/edit_profile"} 个人信息
+      - if active_bar == 'ended_apps' || active_bar == 'search'
+        %li
+          %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/search"} 搜索
+      %li
+        %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 注销
+
+= render "/common/alert"
