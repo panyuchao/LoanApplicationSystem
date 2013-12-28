@@ -8,6 +8,7 @@
     %thead
       %tr
         %th 用户名
+        %th 姓名
         %th 是否管理员
         %th 姓名
         %th 电子邮箱
@@ -16,6 +17,7 @@
       - @user.each do |a|
         %tr{:class => "warning"}
           %td= a.user_name
+          %td= a.realname
           %td= (if a.is_admin then "是" else "否" end)
           %td= a.realname
           %td= a.email
