@@ -39,19 +39,24 @@
         %th.thcenter{:width => "5%"} 展开
         %th.thcenter{:width => "5%"} 编号
         %th.thcenter{:width => "15%"} 申请人
-        %th.thcenter{:width => "25%"} 申请时间
-        %th.thcenter{:width => "20%"} 总金额
-        %th.thcenter{:width => "20%"} 申请类型
+        %th.thcenter{:width => "20%"} 申请时间
+        %th.thcenter{:width => "15%"} 总金额
+        %th.thcenter{:width => "15%"} 申请类型
         %th.thcenter{:width => "15%"} 审核结果
+        %th.thcenter{:width => "10%"} 已领款
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
-        %tr{:class => "warning"}
-          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
-          %td= a.id
-          %td= a.user.realname != nil ? a.user.realname: a.user.user_name
-          %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
-          %td= a.tot_amount
-          %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
-          %td= a.check_status == 3? '通过':'不通过'
-        = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
+        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_4_from_3/#{a.id}"}
+          %tr{:class => "warning"}
+            %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+            %td= a.id
+            %td= a.user.realname != nil ? a.user.realname: a.user.user_name
+            %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
+            %td= a.tot_amount
+            %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
+            %td= '已通过审核'
+            %td
+              %button{:type => "submit", :class => "btn btn-default btn-sm"}
+                %span{:class => "glyphicon glyphicon-ok-circle"}
+          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
   %p2b= "#{flash[:notice]}"

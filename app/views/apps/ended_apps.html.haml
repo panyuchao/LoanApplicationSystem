@@ -38,13 +38,10 @@
       %tr
         %th.thcenter{:width => "5%"} 展开
         %th.thcenter{:width => "5%"} 编号
-        %th.thcenter{:width => "15%"} 申请人
-        %th.thcenter{:width => "25%"} 申请时间
+        %th.thcenter{:width => "20%"} 申请人
+        %th.thcenter{:width => "30%"} 申请时间
         %th.thcenter{:width => "20%"} 总金额
-        %th.thcenter{:width => "15%"} 申请类型
-        %th.thcenter{:width => "10%"} 审核结果
-        %th.thcenter{:width => "5%"} 确认
-        %th.thcenter{:width => "5%"} 删除
+        %th.thcenter{:width => "20%"} 申请类型
 
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
@@ -56,14 +53,7 @@
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")
             %td= a.tot_amount
             %td= Form.get_app_tags[Form.get_app_type[a.app_type]][0]
-            %td= a.check_status == 1? '通过':'不通过'
-            %td
-              %button{:type => "submit", :class => "btn btn-default btn-sm"}
-                %span{:class => "glyphicon glyphicon-ok-circle"}
-            %td
-              %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "delete"}
-                %span{:class => "glyphicon glyphicon-remove"}
-          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8
+          = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 5
   
   %p2b= "#{flash[:notice]}"
   

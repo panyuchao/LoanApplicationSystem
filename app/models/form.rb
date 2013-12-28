@@ -23,6 +23,10 @@ class Form < ActiveRecord::Base
 	def self.get_check_tags
 	  [ ["未审核", "0"], ["正在审核中", "1"], ["未通过审核", "2"], ["已通过审核", "3"], ["已结束的报销/借款单", "4"] ]
 	end
+	
+	def self.get_change_status
+	  [ [0, 1], [0, 2], [1, 2], [1, 3], [3, 4] ]
+	end
 
 	def self.get_check_status_num
 		@admin_tags = []

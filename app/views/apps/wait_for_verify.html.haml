@@ -48,7 +48,7 @@
 
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
-        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_#{a.check_status+2}_from_#{a.check_status}/#{a.id}"}
+        %form{:action => "/#{params[:ver]}/#{params[:current_user]}/change_to_status_3_from_1/#{a.id}"}
           %tr{:class => "warning"}
             %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
             %td= a.id

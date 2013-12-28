@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20131226075347) do
   end
 
   create_table "forms", :force => true do |t|
+    t.string   "applicant"
     t.string   "app_type"
     t.float    "tot_amount"
     t.integer  "check_status"
