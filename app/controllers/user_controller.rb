@@ -17,52 +17,7 @@ class UserController < ApplicationController
 	end
 
 	def init
-		@current_user = User.find_by_ticket(params[:ticket])
-		if params[:commit] then
-			if params[:user_name] == nil || params[:realname] == "" then
-			    flash[:error] = params[:ver] == 'ch'? "用户名不能为空" : "User name should not be empty"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-			if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
-			    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-			if params[:realname] == nil || params[:realname] == "" then
-			    flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-	  		if !params[:email].match(/^(.+)\@(.+)$/) then
-	  		  flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-
-			if params[:email] != @current_user.email and User.find_by_email(params[:email]) != nil then
-			    flash[:error] = params[:ver] == 'ch'? "该邮箱已存在" : "This user name has existed"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-			if params[:new_password] == '' or params[:new_password] == nil then
-	  			flash[:error] = params[:ver] == 'ch' ? "密码不能为空" : "Password should not be empty"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return	
-			end		
-	  		if params[:new_password] != params[:verify_password] then
-	  			flash[:error] = params[:ver] == 'ch' ? "两次填写密码不一致" : "Inconsistent password"
-	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
-	  		end
-
-	  		@current_user.update_attributes!(:user_name => params[:user_name], :realname => params[:realname], :email => params[:email])
-			session[:current_user][:username] = @current_user.user_name			  				
-			@current_user.update_attributes!(:user_pass => params[:new_password], :ticket => '')
-			session[:current_user][:password] = @current_user.user_pass
-			session[:is_admin] = @current_user.is_admin
-	  		flash[:success] = params[:ver] == 'ch' ? "操作成功" : "Save Successfully"
-	  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
-
-		end
-
-		if @current_user == nil or params[:ticket].length != 64 then
-			redirect_to "/ch/login" and return
-		end
-		render 'init'		
+		redirect_to "/ch/login"
 	end
 	
 	def login
@@ -113,6 +68,7 @@ class UserController < ApplicationController
 	end
 
 	def edit_profile
+		@domain = "localhost:3000"
                 if !session[:is_admin]
 			@check_status_num = Form.get_check_status_num
 			if params[:commit] then

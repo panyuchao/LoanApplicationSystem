@@ -20,6 +20,10 @@
           %td
             %input{:name => "email", :value => @current_user.email}
         %tr
+          %td= "域名"
+          %td
+            %input{:name => "domail", :value => @domain}
+        %tr
           %td= "自动通知邮箱"
           %td
             %input{:name => "nemail", :value => ActionMailer::Base.smtp_settings[:user_name]}
