@@ -22,7 +22,7 @@
         %tr
           %td= "域名"
           %td
-            %input{:name => "domail", :value => @domain}
+            %input{:name => "domain", :value => @domain}
         %tr
           %td= "自动通知邮箱"
           %td
@@ -32,6 +32,7 @@
           %td= "邮箱密码"
           %td
             %input{:type => :password, :name => :email_password}
+          %td= "(若不需要修改密码，请留空)"
         %tr
           %td= "原密码"
           %td

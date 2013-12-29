@@ -113,7 +113,6 @@ class UserController < ApplicationController
 	end
 
 	def edit_profile
-		@domain = "localhost:3000"
                 if !session[:is_admin]
 			@check_status_num = Form.get_check_status_num
 			if params[:commit] then
@@ -157,19 +156,23 @@ class UserController < ApplicationController
 			render 'user_edit_profile'
 		else
 			@check_status_num = Form.get_check_status_num
+			@nemail = ActionMailer::Base.smtp_settings[:user_name]
+			my_rails_root = File.expand_path('../../..', __FILE__)
+			configs = YAML::load_file("#{my_rails_root}/config/config.yml")
+			@domain = configs["domain"].to_s
 			if params[:commit] then
 				if params[:password] != @current_user.user_pass then
 					flash[:error] = params[:ver] == 'ch' ? "密码填写错误" : "Wrong password"
 	  		                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 				end
-				if params[:user_name] == nil || params[:realname] == "" then
+				if params[:user_name] == nil || params[:user_name] == "" then
 				    flash[:error] = params[:ver] == 'ch'? "用户名不能为空" : "User name should not be empty"
 		  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 		  		end
-			if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
-			    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
-	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
-	  		end
+				if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
+				    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
+		  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+		  		end
 			        if params[:realname] == nil || params[:realname] == "" then
 			         	flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
@@ -182,6 +185,14 @@ class UserController < ApplicationController
 				    flash[:error] = params[:ver] == 'ch'? "该邮箱已存在" : "This user name has existed"
 		  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 		  		end
+				if !params[:nemail].match(/^(.+)\@(.+)$/) then
+	  		  		flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
+	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  			end
+				if params[:domain] == nil or params[:domain] == '' then
+	  		  		flash[:error] = params[:ver] == 'ch' ? "域名不能为空" : "Domain name should not be empty"
+	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  			end
 	  			if params[:new_password] != params[:verify_password] then
 	  				flash[:error] = params[:ver] == 'ch' ? "两次填写密码不一致" : "Inconsistent password"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
@@ -192,7 +203,9 @@ class UserController < ApplicationController
 	  			if params[:new_password] != nil && params[:new_password] != "" then
 	  				@current_user.update_attributes!(:user_pass => params[:new_password])
 	  			end
-				
+				ActionMailer::Base.smtp_settings[:user_name] = params[:nemail]
+			        configs["domain"] = params[:domain]
+				File.open("#{my_rails_root}/config/config.yml", 'w') {|f| f.write configs.to_yaml }
 				if params[:email_password] != nil && params[:email_password] != "" then
 					ActionMailer::Base.smtp_settings[:password] = params[:email_password]
 				end
