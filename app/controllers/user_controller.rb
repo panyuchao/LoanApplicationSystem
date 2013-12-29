@@ -16,6 +16,52 @@ class UserController < ApplicationController
 		end
 	end
 
+	def init_admin
+		if User.count > 0 then
+			redirect_to "/ch/login" and return
+		end
+		if params[:commit] then
+			if params[:realname] == nil or params[:realname] == '' then
+			         flash[:notice] = "姓名不能为空"
+	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
+			end
+			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
+	  			 flash[:notice] = "邮箱填写错误" 
+	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
+	  		end
+			if !params[:nemail].match(/^(.+)\@(.+)\.(.+)$/) then
+	  			 flash[:notice] = "邮箱填写错误"
+	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
+	  		end
+			if params[:npassword] == nil or params[:npassword] == '' then
+			         flash[:notice] = "邮箱密码不能为空"
+	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
+			end
+			if params[:domain] == nil or params[:domain] == '' then
+			         flash[:notice] = "域名不能为空"
+	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
+			end
+			is_admin = true
+			ActionMailer::Base.smtp_settings[:user_name] = params[:nemail]
+			my_rails_root = File.expand_path('../../..', __FILE__)
+			configs = YAML::load_file("#{my_rails_root}/config/config.yml")
+			configs["domain"] = params[:domain]
+			File.open("#{my_rails_root}/config/config.yml", 'w') {|f| f.write configs.to_yaml }
+			ActionMailer::Base.smtp_settings[:password] = params[:npassword]
+			
+			User.create!(:email => params[:email], :realname => params[:realname], :is_admin => is_admin)
+			new_user = User.find_by_email(params[:email])
+			user_name = "user" + new_user.id.to_s
+			letter = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+			ticket = (0...64).map { letter[rand(letter.length)] }.join
+			new_user.update_attributes!(:user_name => user_name, :ticket => ticket)
+
+			send_email(new_user)
+			flash[:notice] = "账号创建成功！请查收确认邮件。"
+			redirect_to "/#{params[:ver]}/login" and return
+		end
+	end
+
 	def init
 		@current_user = User.find_by_ticket(params[:ticket])
 		if params[:commit] then
@@ -50,9 +96,11 @@ class UserController < ApplicationController
 	  		end
 
 	  		@current_user.update_attributes!(:user_name => params[:user_name], :realname => params[:realname], :email => params[:email])
+			session[:current_user] = {}			
 			session[:current_user][:username] = @current_user.user_name			  				
 			@current_user.update_attributes!(:user_pass => params[:new_password], :ticket => '')
 			session[:current_user][:password] = @current_user.user_pass
+			session[:current_user][:realname] = @current_user.realname
 			session[:is_admin] = @current_user.is_admin
 	  		flash[:success] = params[:ver] == 'ch' ? "操作成功" : "Save Successfully"
 	  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
@@ -79,12 +127,16 @@ class UserController < ApplicationController
 			end
 			if @current_user != nil && @current_user.user_pass == params[:user][:password] then
 				session[:current_user] = params[:user]
+				session[:current_user][:realname] = @current_user.realname
 				session[:is_admin] = @current_user.is_admin
 				redirect_to "/#{params[:ver]}/#{@current_user.user_name}/apps"
 			else
 				flash[:error] = "Invalid username/password!"
 				redirect_to "/#{params[:ver]}/login"
 			end
+		end
+		if User.count == 0 then
+			redirect_to "/#{params[:ver]}/init_admin"
 		end
 	end
 	
@@ -258,9 +310,14 @@ class UserController < ApplicationController
 		configs = YAML::load_file("#{my_rails_root}/config/config.yml")
 		domain = configs["domain"].to_s
 		url = 'http://' + domain + '/ch/initialize/' + new_user.ticket + '/'
+		if session.has_key?(:current_user) then
+			admin_name = session[:current_user][:realname]
+		else
+			admin_name = new_user.realname
+		end
       		body = {
       		  :applicant => new_user.realname, 
-        	  :admin_name => session[:current_user][:realname],
+        	  :admin_name => admin_name,
 		  :url => url
       		}                        
       		UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver

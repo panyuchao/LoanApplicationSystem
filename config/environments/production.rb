@@ -73,7 +73,7 @@ LoanApplicationSystem::Application.configure do
     :port => 25,  
     :domain => "163.com",  
     :authentication => :login,  
-    :user_name => "test_admin001@163.com",  
-    :password => "admin001",
+    :user_name => "",  
+    :password => "",
   }
 end

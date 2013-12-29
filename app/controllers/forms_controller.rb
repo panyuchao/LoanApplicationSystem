@@ -63,10 +63,10 @@ class FormsController < ApplicationController
 			  flash[:error] = "已借款金额填写错误，请重新填写"
 			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
 			end
-			if params[:receipts] == nil || !params[:receipts].match(/^(\d{1,12})(\.\d{0,2})?$/) then
-			  flash[:error] = params[:ver] == 'ch' ? "票据张数填写错误，请重新填写": "Receipt pages number invalid, please fill again"
-			  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
-			end
+			#if params[:receipts] == nil || !params[:receipts].match(/^(\d{1,12})(\.\d{0,2})?$/) then
+			#  flash[:error] = params[:ver] == 'ch' ? "票据张数填写错误，请重新填写": "Receipt pages number invalid, please fill again"
+			#  redirect_to "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form" and return
+			#end
 			other_info = "borrow(#{params[:borrow]}, #{params[:borrow_amount]}), receipts(#{params[:receipts]})"
 			if params[:app_type] == "student" then
 			  if params[:student_name] == nil || params[:student_name] == "" then

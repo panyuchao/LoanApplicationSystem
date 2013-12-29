@@ -12,6 +12,7 @@ LoanApplicationSystem::Application.routes.draw do
   match "/:ver/:current_user/search" => 'apps#search'
   
   # User 
+  match "/:ver/init_admin" => "user#init_admin"
   match "/:ver/initialize/:ticket/" => 'user#init'
   match "/:ver/login" => 'user#login'
   match "/:ver/:current_user/logout" => 'user#logout'

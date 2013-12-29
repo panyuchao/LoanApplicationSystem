@@ -1,0 +1,44 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+- @navigation_title = [["我的申请", "My applications"], ["新的申请", "New Application"], ["编辑个人资料", "Edit Profile"]]
+- @current_page = {"apps"=>0, "new_#{params[:app_type]}_form"=>1, "edit_profile"=>2}
+
+%img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+%h1
+
+
+
+= render "/common/alert"
+%p 欢迎首次来到本系统！请创建本系统的第一个管理员账号.
+      
+%div.container
+  %form{:action => "/#{params[:ver]}/init_admin"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= "姓名"
+          %td 
+            %input{:name => "realname"}
+        %tr
+          %td= "邮箱"
+          %td
+            %input{:name => "email"}
+        %tr
+          %td= "自动通知邮箱"
+          %td
+            %input{:name => "nemail"}
+          %td= "(目前只支持163邮箱)"
+        %tr
+          %td= "邮箱密码"
+          %td
+            %input{:name => "npassword", :type => "password"}
+        %tr
+          %td= "网站域名"
+          %td
+            %input{:name => "domain", :value => "localhost:3000"}
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= "保存"
+= render "/common/alert"
+
