@@ -37,13 +37,13 @@
             %td.thcenter= '帐号'
             %td
               %input{:class => "noneinput", :name => "account_num", :value => b[0].account_num, :readonly => readonly}
-          - a.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)[,$]/)
           %tr
+            - a.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)/)
             %td.thleft{:colspan => 6}
-              是否有借款
-              %input{:type => "radio", :name => "borrow", "value" => "1", :checked => ($1=='1')} 是
+              = "是否有借款"
+              %input{:type => "radio", "value" => "1", :checked => $1 == '1'} 是
               %input{:value => $2}
-              %input{:type => "radio", :name => "borrow", "value" => "0", :checked => ($1=='0')} 否
+              %input{:type => "radio", "value" => "0", :checked => $1 == '0'} 否
             %td.thleft{:colspan => 2}
               ="附票据张数"
               %input{:value => $3}

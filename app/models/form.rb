@@ -32,6 +32,10 @@ class Form < ActiveRecord::Base
 	  [ ["未审核", "0"], ["正在审核中", "1"], ["未通过审核", "2"], ["等待领款", "3"], ["已结束审核", "4"] ]
 	end
 	
+		def self.get_user_check_tags
+	  [ ["未审核", "Not Reviewed"], ["正在审核中", "Verifying"], ["未通过审核", "Rejected"], ["等待领款", "Accepted"], ["已结束审核", "Ended"] ]
+	end
+	
 	def self.get_change_status
 	  [ [0, 1], [0, 2], [1, 2], [1, 3], [3, 4] ]
 	end

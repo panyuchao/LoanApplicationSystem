@@ -1,26 +1,61 @@
 - language = (params[:ver] == 'ch' ? 0:1)
 %h2.thcenter= params[:app_type] == "reim" ? (language == 1 ? "IIIS Reimbursement Form":"清华大学交叉信息研究院财务 报销单"):(language == 1 ? "Loan Application":"清华大学交叉信息研究院财务 借款单")
 %form{:action => "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form"}
-  %table{:class => "table table-bordered table-hover", :align => "center"}
+  %table#reimloan{:class => "table table-bordered table-hover"}
     %thead
       %tr
-      - Form.get_reim_th.each do |x|
-        %th.thcenter{:width => "#{x[2]}%"}= x[language]
+        %th.thcenter{:rowspan => '2', :width => "2%"}= ' '
+        %th.thcenter{:rowspan => '2', :width => "2%"} 
+          %p= ["序号", 'No.'][language]
+        %th.thcenter{:rowspan => '2', :width => "50%"} 
+          %p= ["内容", 'Details'][language]
+        %th.thcenter{:rowspan => '2', :width => "15%"} 
+          %p= ["金额", 'Amount'][language]
+        - if params[:app_type] == 'reim'
+          %th.thcenter{:colspan => '4'}= ["报销方式", 'Payment Methods'][language]
+        - else
+          %th.thcenter{:colspan => '3'}= ['支付方式', 'Payment Methods'][language]
+      %tr
+        %th.thcenter{:width => "3%"}= ['现', 'Cash'][language]
+        %th.thcenter{:width => "3%"}= ['支', 'Cheque'][language]
+        %th.thcenter{:width => "3%"}= ['汇', 'Bank'][language]
+        - if params[:app_type] == 'reim' 
+          %th.thcenter{:width => "3%"}= ['卡', 'Card'][language]
     %tbody
       - for i in 1..@TOT_APPS do 
         %tr
-          %td{:align => "center"}= i
+          -if i == 1 
+            %td.thcenter{:rowspan => '7'} 
+              %p= ['摘要', ''][language]
+          %td.thcenter= i
           %td
             %input{:class => "noneinput", :name => "form_entry[#{i}][details]", :value => (params[:form_entry] != nil && params[:form_entry][i.to_s] != nil ? params[:form_entry][i.to_s][:details] : nil)}
           %td
             %input{:class => "noneinput-center", :name => "form_entry[#{i}][amount]", :value => (params[:form_entry] != nil && params[:form_entry][i.to_s] != nil ? params[:form_entry][i.to_s][:amount] : nil)}
-          %td
-            %select{:class => "form-control", :name => "form_entry[#{i}][pay_method]"}
-              %option= Form.get_pay_method_tags[0][language]
-              %option= Form.get_pay_method_tags[1][language]
-              %option= Form.get_pay_method_tags[2][language]
-              - if params[:app_type] == "reim"
-                %option= Form.get_pay_method_tags[3][language]
+          %td.thcenter
+            %input{:type => "radio", :name => "form_entry[#{i}][pay_method]", "value" => Form.get_pay_method_tags[0][language]} 
+          %td.thcenter
+            %input{:type => "radio", :name => "form_entry[#{i}][pay_method]", "value" => Form.get_pay_method_tags[1][language]} 
+          %td.thcenter
+            %input{:type => "radio", :name => "form_entry[#{i}][pay_method]", "value" => Form.get_pay_method_tags[2][language]} 
+          - if params[:app_type] == "reim"
+            %td.thcenter
+              %input{:type => "radio", :name => "form_entry[#{i}][pay_method]", "value" => Form.get_pay_method_tags[3][language]} 
+      - if params[:app_type] == 'reim' 
+        -if params[:ver] == 'ch'
+          %tr
+            %td.thleft{:colspan => 3}
+              是否有借款
+              %input{:type => "radio", :name => "borrow", "value" => "1"} 是
+              %input{:name => "borrow_amount", :placeholder => '如选是，请填写金额'}
+              %input{:type => "radio", :name => "borrow", "value" => "0", :checked => true} 否
+            %td.thleft{:colspan => 5}
+              ="附票据张数"
+              %input{:name => "receipts"}       
+        - else    
+          %td.thleft{:colspan => 8}      
+            Total Pages of Submitted Receipts/Invoices:
+            %input{:name => "receipts"}        
   %div.row
     %div{:class => "col-md-11"}
       %table{:border => "0"}

@@ -125,7 +125,7 @@ class UserController < ApplicationController
 				session[:current_user] = params[:user]
 				session[:current_user][:realname] = @current_user.realname
 				session[:is_admin] = @current_user.is_admin
-				redirect_to "/#{params[:ver]}/#{@current_user.user_name}/apps"
+				redirect_to "/#{params[:ver]}/#{@current_user.user_name}/apps" and return
 			else
 				flash[:error] = params[:ver] == 'ch'? "错误的用户名/密码": "Invalid username/password!"
 				redirect_to "/#{params[:ver]}/login" and return
@@ -149,7 +149,7 @@ class UserController < ApplicationController
 	def forgot_password
 		if params[:commit] then
 			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
-	  			 flash[:notice] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
+	  			 flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
 	  		  	 redirect_to "/#{params[:ver]}/forgot_password" and return
 	  		end
 			
@@ -158,7 +158,7 @@ class UserController < ApplicationController
 			ticket = (0...64).map { letter[rand(letter.length)] }.join
 			cur_user.update_attributes!(:ticket => ticket)
 			send_email(cur_user, 0)
-			flash[:notice] = params[:ver] == 'ch' ? "请进入邮箱查收验证邮件！" : "Please check the confirmation email!"
+			flash[:success] = params[:ver] == 'ch' ? "请进入邮箱查收验证邮件！" : "Please check the confirmation email!"
 			redirect_to "/#{params[:ver]}/login" and return
 		end		
 	end
