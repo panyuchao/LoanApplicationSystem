@@ -337,7 +337,7 @@ class UserController < ApplicationController
         	  :admin_name => admin_name,
 		  :url => url
       		}
-		if new_flag then                        
+		if new_flag == 1 then                        
       			UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
 		else
       			UserMailer.forgot_password_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
