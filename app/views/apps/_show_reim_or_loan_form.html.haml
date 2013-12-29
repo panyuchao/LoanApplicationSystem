@@ -3,27 +3,6 @@
   %td
   %td{:colspan => "#{columns}"}
     %div{:class => "panel-body"}
-      %table.table{:class => "table", :border => "solid 3px red"}
-        %thead
-          %tr{:class => "warning"}
-            %th.thcenter{:width => "5%"}= Form.get_form_tags[0][language]
-            %th.thcenter{:width => "30%"}= Form.get_form_tags[1][language]
-            %th.thcenter{:width => "20%"}= Form.get_form_tags[2][language]
-            %th.thcenter{:width => "15%"}= Form.get_form_tags[3][language]
-            %th.thcenter{:width => "30%"}= Form.get_form_tags[4][language]
-        %tbody{:align => 'center'}
-          - x = 0
-          - a.apps.each do |b|
-            %tr
-              %td= x += 1
-              %td= b.details
-              %td= b.amount
-              - if b.pay_method != nil
-                %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
-              - else
-                %td 未填写
-              %td
-                %input{ :class => "noneinput", :name => "account_num[#{b.id}]", :value => b.account_num, :readonly => readonly}
       %table#reimloan{:class => "table table-bordered table-hover"}
         %thead
           %tr
