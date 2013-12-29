@@ -22,23 +22,23 @@ class UserController < ApplicationController
 		end
 		if params[:commit] then
 			if params[:realname] == nil or params[:realname] == '' then
-			         flash[:notice] = "姓名不能为空"
+			         flash[:error] = "姓名不能为空"
 	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
 			end
 			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
-	  			 flash[:notice] = "邮箱填写错误" 
+	  			 flash[:error] = "邮箱填写错误" 
 	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
 	  		end
 			if !params[:nemail].match(/^(.+)\@(.+)\.(.+)$/) then
-	  			 flash[:notice] = "邮箱填写错误"
+	  			 flash[:error] = "邮箱填写错误"
 	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
 	  		end
 			if params[:npassword] == nil or params[:npassword] == '' then
-			         flash[:notice] = "邮箱密码不能为空"
+			         flash[:error] = "邮箱密码不能为空"
 	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
 			end
 			if params[:domain] == nil or params[:domain] == '' then
-			         flash[:notice] = "域名不能为空"
+			         flash[:error] = "域名不能为空"
 	  		  	 redirect_to "/#{params[:ver]}/init_admin" and return
 			end
 			is_admin = true
@@ -57,7 +57,7 @@ class UserController < ApplicationController
 			new_user.update_attributes!(:user_name => user_name, :ticket => ticket)
 
 			send_email(new_user)
-			flash[:notice] = "账号创建成功！请查收确认邮件。"
+			flash[:success] = "账号创建成功！请查收确认邮件。"
 			redirect_to "/#{params[:ver]}/login" and return
 		end
 	end
@@ -121,18 +121,18 @@ class UserController < ApplicationController
 			else
 				@current_user = User.find_by_user_name(params[:user][:username])
 			end
-			if @current_user.ticket != '' and @current_user.ticket != nil then
-				flash[:error] = "User is not initialized!"
-				redirect_to "/#{params[:ver]}/login"
-			end
 			if @current_user != nil && @current_user.user_pass == params[:user][:password] then
 				session[:current_user] = params[:user]
 				session[:current_user][:realname] = @current_user.realname
 				session[:is_admin] = @current_user.is_admin
 				redirect_to "/#{params[:ver]}/#{@current_user.user_name}/apps"
 			else
-				flash[:error] = "Invalid username/password!"
-				redirect_to "/#{params[:ver]}/login"
+				flash[:error] = params[:ver] == 'ch'? "错误的用户名/密码": "Invalid username/password!"
+				redirect_to "/#{params[:ver]}/login" and return
+			end
+			if @current_user.ticket != '' and @current_user.ticket != nil then
+				flash[:warning] = params[:ver] == 'ch'? "用户未初始化，请遵循邮件指示操作": "User is not initialized, please follow instructions in email"
+				redirect_to "/#{params[:ver]}/login" and return
 			end
 		end
 		if User.count == 0 then
@@ -272,15 +272,15 @@ class UserController < ApplicationController
 		@check_status_num = Form.get_check_status_num
 		if params[:commit] then
 			if params[:realname] == nil or params[:realname] == '' then
-			         flash[:notice] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
+			         flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  	 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/add_user" and return
 			end
 			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
-	  			 flash[:notice] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
+	  			 flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
 	  		  	 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/add_user" and return
 	  		end
 			if User.find_by_email(params[:email]) != nil then
-	  			 flash[:notice] = "已存在此用户"
+	  			 flash[:error] = "已存在此用户"
 	  		  	 redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/add_user" and return
 			end
 			if params[:is_admin] == "是" then

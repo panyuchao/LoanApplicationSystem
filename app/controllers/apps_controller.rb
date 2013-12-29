@@ -81,7 +81,7 @@ class AppsController < ApplicationController
 			  @form_now.apps.each do |appi|
 				  appi.account_num = params[:account_num][appi.id.to_s].to_s
 				  if !appi.account_num.match(/^\d+$/) then
-					  flash[:error] = "Invalid Account number!"
+					  flash[:error] = "账号填写错误"
 					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
 				  end
 			  end
@@ -89,7 +89,7 @@ class AppsController < ApplicationController
 			  @form_now.apps.each do |appi|
 				  appi.account_num = params[:account_num].to_s
 				  if !appi.account_num.match(/^\d+$/) then
-					  flash[:error] = "Invalid Account number!"
+					  flash[:error] = "账号填写错误!"
 					  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/#{Form.get_admin_tags[statusx][1]}" and return
 				  end
 			  end

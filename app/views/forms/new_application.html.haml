@@ -2,8 +2,6 @@
 %link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
 - language = (params[:ver] == 'ch' ? 0:1)
 %div{ :class => "container"}
-  = render "/user/user_navigation", :active_bar => "new_#{params[:app_type]}_form"
-  = render "/common/alert", :alert => flash[:notice]
-  - if language == 1 && params[:app_type] == "student" 
-    = render "/common/alert", :alert => "This page doesn't have an English version"
+  - if language == 1 && params[:app_type] == "student" then alert = "This page doesn't have an English version" end
+  = render "/user/user_navigation", :active_bar => "new_#{params[:app_type]}_form", :alert => alert
   = render (params[:app_type] == "student" ? "student_form" : "reim_or_loan_form")

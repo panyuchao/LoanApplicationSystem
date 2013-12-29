@@ -40,4 +40,4 @@
       %li
         %a{:href =>"/#{params[:ver]}/#{@current_user.user_name}/logout"} 
           =language == 1 ? "logout":"注销"
-= render "/common/alert"          
+= render "/common/alert", :alert => alert

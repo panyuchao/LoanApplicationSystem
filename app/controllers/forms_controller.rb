@@ -1,22 +1,8 @@
 # encoding: utf-8
 
 class FormsController < ApplicationController
-
-	def check_username
-		if session[:current_user] == nil then
-			flash[:error] = "Login timed out!"
-			if params[:ver] == 'ch' || params[:ver] == 'en'
-				redirect_to "/#{params[:ver]}/index" 
-			else
-				redirect_to "/ch/index"
-			end
-			return true
-		end
-		if params[:current_user] != session[:current_user][:username] then
-			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return true
-		end
-		return false
-	end
+  include ValidCheck
+  before_filter :check_username, :only => ['new_form']
 	
 	def empty_form_entry(entry)
 		t = params[:form_entry][entry.to_s]
@@ -35,7 +21,6 @@ class FormsController < ApplicationController
 	end
 	
 	def new_form
-		if check_username then return end
 		@TOT_APPS = Form.TOT_APPS
 		@current_user = User.find_by_user_name(session[:current_user][:username])
 		if params[:commit] != nil then
