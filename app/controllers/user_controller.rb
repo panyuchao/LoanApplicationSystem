@@ -65,8 +65,16 @@ class UserController < ApplicationController
 				if params[:password] != @current_user.user_pass then
 					flash[:error] = params[:ver] == 'ch' ? "密码填写错误" : "Wrong password"
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
-				end
-			  if params[:realname] == nil || params[:realname] == "" then
+			end
+			if params[:user_name] == nil || params[:realname] == "" then
+			    flash[:error] = params[:ver] == 'ch'? "用户名不能为空" : "User name should not be empty"
+	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  		end
+			if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
+			    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
+	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  		end
+			if params[:realname] == nil || params[:realname] == "" then
 			    flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  		end
@@ -74,12 +82,17 @@ class UserController < ApplicationController
 	  		  flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  		end
+			if params[:email] != @current_user.email and User.find_by_email(params[:email]) != nil then
+			    flash[:error] = params[:ver] == 'ch'? "该邮箱已存在" : "This user name has existed"
+	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  		end
 	  		if params[:new_password] != params[:verify_password] then
 	  			flash[:error] = params[:ver] == 'ch' ? "两次填写密码不一致" : "Inconsistent password"
 	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  		end
 	  		
-	  		@current_user.update_attributes!(:realname => params[:realname], :email => params[:email])
+	  		@current_user.update_attributes!(:user_name => params[:user_name], :realname => params[:realname], :email => params[:email])
+			session[:current_user][:username] = @current_user.user_name
 	  		if params[:new_password] != nil && params[:new_password] != "" then
 	  			@current_user.update_attributes!(:user_pass => params[:new_password])
 	  		end
@@ -94,6 +107,14 @@ class UserController < ApplicationController
 					flash[:error] = params[:ver] == 'ch' ? "密码填写错误" : "Wrong password"
 	  		                redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 				end
+				if params[:user_name] == nil || params[:realname] == "" then
+				    flash[:error] = params[:ver] == 'ch'? "用户名不能为空" : "User name should not be empty"
+		  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+		  		end
+			if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
+			    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
+	  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+	  		end
 			        if params[:realname] == nil || params[:realname] == "" then
 			         	flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
@@ -102,12 +123,17 @@ class UserController < ApplicationController
 	  		  		flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  			end
+				if params[:email] != @current_user.email and User.find_by_email(params[:email]) != nil then
+				    flash[:error] = params[:ver] == 'ch'? "该邮箱已存在" : "This user name has existed"
+		  		  redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
+		  		end
 	  			if params[:new_password] != params[:verify_password] then
 	  				flash[:error] = params[:ver] == 'ch' ? "两次填写密码不一致" : "Inconsistent password"
 	  		  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/edit_profile" and return
 	  			end
 	  		
-	  			@current_user.update_attributes!(:realname => params[:realname], :email => params[:email])
+	  			@current_user.update_attributes!(:user_name => params[:user_name], :realname => params[:realname], :email => params[:email])
+				session[:current_user][:username] = @current_user.user_name
 	  			if params[:new_password] != nil && params[:new_password] != "" then
 	  				@current_user.update_attributes!(:user_pass => params[:new_password])
 	  			end

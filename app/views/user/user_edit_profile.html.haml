@@ -7,6 +7,10 @@
     %table
       %tbody{:align => 'right'}
         %tr
+          %td= ["用户名", "User Name"][language]
+          %td 
+            %input{:name => "user_name", :value => @current_user.user_name}
+        %tr
           %td= ["姓名", "Name"][language]
           %td 
             %input{:name => "realname", :value => @current_user.realname}
