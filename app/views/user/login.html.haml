@@ -11,6 +11,7 @@
     %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
     %label.checkbox
       %input{:type => "checkbox", :value => "remember-me"}= ["记住我", "Remember me"][language]
+      %p2= link_to ["忘记密码？", "Forgot password?"][language], "/#{params[:ver]}/forgot_password"
     %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :value => '登录'}= ["登录", "login"][language]
 %div{:align => "middle", :class => "container"}
   %body

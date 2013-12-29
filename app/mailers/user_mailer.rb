@@ -45,4 +45,19 @@ class UserMailer < ActionMailer::Base
          template_path: 'user_mailer',
          template_name: 'new_user')
   end  
+
+  def forget_password_email(params) 
+      @subject = params[:subject]
+      @to = params[:to]
+      @from = params[:from]
+      @sent_on = Time.now
+      @body = params[:body]
+      @headers = {}
+      mail(to: @to,
+         subject: @subject,
+	 from: @from,
+	 date: @sent_on,
+         template_path: 'user_mailer',
+         template_name: 'forget_password')
+  end 
 end

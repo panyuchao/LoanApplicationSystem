@@ -145,6 +145,23 @@ class UserController < ApplicationController
 		flash[:success] = "Logout succeeded!"
 		redirect_to "/#{params[:ver]}/login"
 	end
+
+	def forgot_password
+		if params[:commit] then
+			if !params[:email].match(/^(.+)\@(.+)\.(.+)$/) then
+	  			 flash[:notice] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
+	  		  	 redirect_to "/#{params[:ver]}/forgot_password" and return
+	  		end
+			
+			cur_user = User.find_by_email(params[:email])
+			letter = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+			ticket = (0...64).map { letter[rand(letter.length)] }.join
+			cur_user.update_attributes!(:ticket => ticket)
+			send_email(cur_user, 0)
+			flash[:notice] = params[:ver] == 'ch' ? "请进入邮箱查收验证邮件！" : "Please check the confirmation email!"
+			redirect_to "/#{params[:ver]}/login" and return
+		end		
+	end
 	
 	def remove
 		username = params[:user_name]
@@ -301,10 +318,10 @@ class UserController < ApplicationController
 		render 'admin_add_user'
 	end
 
-	def send_email(new_user)
+	def send_email(new_user, new_flag = 1)
 		mailfrom = ActionMailer::Base.smtp_settings[:user_name]		
 		mailto = new_user.email
-		subject = "IIIS财务报销申请系统用户注册通知邮件"
+		subject = ["IIIS财务报销申请系统密码找回通知邮件", "IIIS财务报销申请系统用户注册通知邮件"][new_flag]
 		date = Time.now
 		my_rails_root = File.expand_path('../../..', __FILE__)
 		configs = YAML::load_file("#{my_rails_root}/config/config.yml")
@@ -319,7 +336,11 @@ class UserController < ApplicationController
       		  :applicant => new_user.realname, 
         	  :admin_name => admin_name,
 		  :url => url
-      		}                        
-      		UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+      		}
+		if new_flag then                        
+      			UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+		else
+      			UserMailer.forgot_password_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
+		end
 	end
 end
