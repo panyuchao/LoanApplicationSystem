@@ -1,0 +1,42 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+- language = (params[:ver] == 'ch' ? 0:1)
+- language = (params[:ver] == 'ch' ? 0:1)
+- @navigation_title = [["我的申请", "My applications"], ["新的申请", "New Application"], ["编辑个人资料", "Edit Profile"]]
+- @current_page = {"apps"=>0, "new_#{params[:app_type]}_form"=>1, "edit_profile"=>2}
+
+%img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
+%h1
+
+%p 欢迎首次来到本系统！请配置你的个人信息。
+
+= render "/common/alert"      
+%div.container
+  %form{:action => "/#{params[:ver]}/initialize/#{params[:ticket]}"}
+    %table
+      %tbody{:align => 'right'}
+        %tr
+          %td= ["用户名", "User Name"][language]
+          %td 
+            %input{:name => "user_name", :value => @current_user.user_name}
+        %tr
+          %td= ["姓名", "Name"][language]
+          %td 
+            %input{:name => "realname", :value => @current_user.realname}
+        %tr
+          %td= ["邮箱", "Email"][language]
+          %td
+            %input{:name => "email", :value => @current_user.email}
+        %tr
+          %td= ["新密码", "New Password"][language]
+          %td
+            %input{:name => "new_password", :type => "password"}
+        %tr
+          %td= ["确认新密码", "Verify Password"][language]
+          %td
+            %input{:name => "verify_password", :type => "password"}
+        %tr
+          %td
+          %td 
+            %button{:class => "btn", :type => "submit", :name => 'commit'}= ["保存", "Save"][language]
+

@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'valid_check'
+require 'yaml'
 
 class UserController < ApplicationController
 	include ValidCheck
@@ -14,6 +15,55 @@ class UserController < ApplicationController
 			redirect_to "/ch/login"
 		end
 	end
+
+	def init
+		@current_user = User.find_by_ticket(params[:ticket])
+		if params[:commit] then
+			if params[:user_name] == nil || params[:realname] == "" then
+			    flash[:error] = params[:ver] == 'ch'? "用户名不能为空" : "User name should not be empty"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+			if params[:user_name] != @current_user.user_name and User.find_by_user_name(params[:user_name]) != nil then
+			    flash[:error] = params[:ver] == 'ch'? "该用户名已存在" : "This user name has existed"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+			if params[:realname] == nil || params[:realname] == "" then
+			    flash[:error] = params[:ver] == 'ch'? "姓名不能为空" : "Name should not be empty"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+	  		if !params[:email].match(/^(.+)\@(.+)$/) then
+	  		  flash[:error] = params[:ver] == 'ch' ? "邮箱填写错误" : "Wrong Email address"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+
+			if params[:email] != @current_user.email and User.find_by_email(params[:email]) != nil then
+			    flash[:error] = params[:ver] == 'ch'? "该邮箱已存在" : "This user name has existed"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+			if params[:new_password] == '' or params[:new_password] == nil then
+	  			flash[:error] = params[:ver] == 'ch' ? "密码不能为空" : "Password should not be empty"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return	
+			end		
+	  		if params[:new_password] != params[:verify_password] then
+	  			flash[:error] = params[:ver] == 'ch' ? "两次填写密码不一致" : "Inconsistent password"
+	  		  redirect_to "/#{params[:ver]}/initialize/#{params[:ticket]}" and return
+	  		end
+
+	  		@current_user.update_attributes!(:user_name => params[:user_name], :realname => params[:realname], :email => params[:email])
+			session[:current_user][:username] = @current_user.user_name			  				
+			@current_user.update_attributes!(:user_pass => params[:new_password], :ticket => '')
+			session[:current_user][:password] = @current_user.user_pass
+			session[:is_admin] = @current_user.is_admin
+	  		flash[:success] = params[:ver] == 'ch' ? "操作成功" : "Save Successfully"
+	  		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps" and return
+
+		end
+
+		if @current_user == nil or params[:ticket].length != 64 then
+			redirect_to "/ch/login" and return
+		end
+		render 'init'		
+	end
 	
 	def login
 		if params[:user] != nil then
@@ -22,6 +72,10 @@ class UserController < ApplicationController
 				params[:user][:username] = @current_user.user_name
 			else
 				@current_user = User.find_by_user_name(params[:user][:username])
+			end
+			if @current_user.ticket != '' and @current_user.ticket != nil then
+				flash[:error] = "User is not initialized!"
+				redirect_to "/#{params[:ver]}/login"
 			end
 			if @current_user != nil && @current_user.user_pass == params[:user][:password] then
 				session[:current_user] = params[:user]
@@ -168,12 +222,13 @@ class UserController < ApplicationController
 			else
 				 is_admin = false
 			end
+			
 			User.create!(:email => params[:email], :realname => params[:realname], :is_admin => is_admin)
 			new_user = User.find_by_email(params[:email])
 			user_name = "user" + new_user.id.to_s
 			letter = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
-			password = (0...12).map { letter[rand(letter.length)] }.join
-			new_user.update_attributes!(:user_name => user_name, :user_pass => password)
+			ticket = (0...64).map { letter[rand(letter.length)] }.join
+			new_user.update_attributes!(:user_name => user_name, :ticket => ticket)
 			send_email(new_user)
 			redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/user_management" and return
 		end
@@ -185,12 +240,14 @@ class UserController < ApplicationController
 		mailto = new_user.email
 		subject = "IIIS财务报销申请系统用户注册通知邮件"
 		date = Time.now
+		my_rails_root = File.expand_path('../../..', __FILE__)
+		configs = YAML::load_file("#{my_rails_root}/config/config.yml")
+		domain = configs["domain"].to_s
+		url = 'http://' + domain + '/ch/initialize/' + new_user.ticket + '/'
       		body = {
       		  :applicant => new_user.realname, 
-      		  :new_email => new_user.email, 
-      		  :new_username => new_user.user_name,
-		  :new_password => new_user.user_pass, 
-        	  :admin_name => session[:current_user][:realname]
+        	  :admin_name => session[:current_user][:realname],
+		  :url => url
       		}                        
       		UserMailer.new_user_email(:subject => subject, :to => mailto, :from => mailfrom, :date => date, :body => body).deliver
 	end
