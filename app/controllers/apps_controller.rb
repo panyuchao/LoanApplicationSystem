@@ -3,7 +3,7 @@ require 'valid_check'
 class AppsController < ApplicationController
 	include ValidCheck
 	
-	before_filter :check_username, :only => ['search', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
+	before_filter :check_username, :only => ['search', 'show_forms', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps', 'delete']
 	before_filter :check_admin, :only => ['search', 'wait_for_verify', 'failed_to_verify', 'reviewed', 'ended_apps']
 	
 	def show
@@ -49,6 +49,7 @@ class AppsController < ApplicationController
 #		flash[:notice] = @form_now
 		if @form_now != nil && @form_now.check_status == 0
   		@form_now.destroy
+    	flash[:success] = params[:ver] == 'ch' ? "操作成功": "Delete Succeeded"
   	end
 		redirect_to "/#{params[:ver]}/#{session[:current_user][:username]}/apps"
 	end

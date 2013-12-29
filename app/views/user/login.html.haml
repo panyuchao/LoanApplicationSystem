@@ -8,10 +8,15 @@
   %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-middle"}
     %h3.form-signin-heading= ['欢迎来到本系统，请登录', "Welcome! Please login"][language]
     %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
+    %br
     %input.form-control{:type => "password", :placeholder => "Password", :required => true, :id => :user_password, :name => "user[password]"}
-    %label.checkbox
-      %input{:type => "checkbox", :value => "remember-me"}= ["记住我", "Remember me"][language]
-      %p2= link_to ["忘记密码？", "Forgot password?"][language], "/#{params[:ver]}/forgot_password"
+    -#%label.checkbox
+    -#%input{:type => "checkbox", :value => "remember-me"}= ["记住我", "Remember me"][language]
+    
+    %div.row
+      %div{:class => "col-md-2"}
+      %div{:class => "col-md-10", :align => "right"}
+        %p2= link_to ["忘记密码？", "Forgot password?"][language], "/#{params[:ver]}/forgot_password"
     %button{:class => "btn btn-lg btn-primary btn-block", :type => "submit", :value => '登录'}= ["登录", "login"][language]
 %div{:align => "middle", :class => "container"}
   %body

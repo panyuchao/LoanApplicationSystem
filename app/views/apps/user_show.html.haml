@@ -18,7 +18,7 @@
           %td= a.created_at
           %td= Form.get_app_tags[Form.get_app_type[a.app_type]][language]
           %td= a.tot_amount
-          %td= Form.get_check_tags[a.check_status][0]
-          %td= link_to '撤销', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
+          %td= Form.get_user_check_tags[a.check_status][language]
+          %td= link_to 'x', "/#{params[:ver]}/#{@current_user.user_name}/delete/#{a.id}"
         = render (a.app_type == "student"? "show_student_form" : "show_reim_or_loan_form"), :a => a, :columns => 8, :readonly => true
 

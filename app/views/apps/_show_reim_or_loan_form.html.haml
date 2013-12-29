@@ -18,6 +18,65 @@
               %td= x += 1
               %td= b.details
               %td= b.amount
-              %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
+              - if b.pay_method != nil
+                %td= Form.get_pay_method_tags[Form.get_pay_method_type[b.pay_method]][language]
+              - else
+                %td 未填写
               %td
                 %input{ :class => "noneinput", :name => "account_num[#{b.id}]", :value => b.account_num, :readonly => readonly}
+      %table#reimloan{:class => "table table-bordered table-hover"}
+        %thead
+          %tr
+            %th.thcenter{:rowspan => '2', :width => "2%"}= "\s\s   "  
+            %th.thcenter{:rowspan => '2', :width => "2%"} 
+              %p= ["序号", 'No.'][language]
+            %th.thcenter{:rowspan => '2', :width => "50%"} 
+              %p= ["内容", 'Details'][language]
+            %th.thcenter{:rowspan => '2', :width => "15%"} 
+              %p= ["金额", 'Amount'][language]
+            - if a.app_type == 'reim'
+              %th.thcenter{:colspan => '4'}= ["报销方式", 'Payment Methods'][language]
+            - else
+              %th.thcenter{:colspan => '3'}= ['支付方式', 'Payment Methods'][language]
+            %th.thcenter{:rowspan => '2', :width => "15%"} 
+              %p= ["账号", 'Account No.'][language]
+          %tr
+            %th.thcenter{:width => "3%"}= ['现', 'Cash'][language]
+            %th.thcenter{:width => "3%"}= ['支', 'Cheque'][language]
+            %th.thcenter{:width => "3%"}= ['汇', 'Bank'][language]
+            - if a.app_type == 'reim' 
+              %th.thcenter{:width => "3%"}= ['卡', 'Card'][language]
+        %tbody
+          - b = a.apps
+          - for i in 1..7 do
+            %tr
+              -if i == 1
+                %td.thcenter{:rowspan => '7'} 
+                  %p= ['摘要', ''][language]
+              %td.thcenter= i
+              %td= (i<=b.length)? b[i-1].details: ''
+              %td= (i<=b.length)? b[i-1].amount: ''
+              %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==0)? "√":""
+              %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==1)? "√":""
+              %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==2)? "√":""
+              - if a.app_type == "reim"
+                %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==3)? "√":""
+              %td.thcenter
+                - if i <= b.length
+                  %input{ :class => "noneinput", :name => "account_num[#{b[i-1].id}]", :value => b[i-1].account_num, :readonly => readonly}
+          - if a.app_type == 'reim' 
+            -if params[:ver] == 'ch'
+              %tr
+                - a.otherinfo.match(/^borrow\((.*?), (.*?)\), receipts\((.*?)\)/)
+                %td.thleft{:colspan => 3}
+                  = "是否有借款"
+                  %input{:type => "radio", "value" => "1", :checked => $1 == '1'} 是
+                  %input{:value => $2}
+                  %input{:type => "radio", "value" => "0", :checked => $1 == '0'} 否
+                %td.thleft{:colspan => 8}
+                  ="附票据张数"
+                  %input{:value => $3}       
+            - else    
+              %td.thleft{:colspan => 8}      
+                Total Pages of Submitted Receipts/Invoices:
+                %input{:name => "receipts"}                               

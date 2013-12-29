@@ -52,6 +52,11 @@ p0 {
   font-family: "Times New Roman",Georgia,Serif;
   font-size: 12pt;
 }
+
+tablevcenter {
+  margin: 0 0 10px;
+}
+
 p1 {
   margin: 100px 50px 150px 200px;
   padding: 0;
@@ -74,22 +79,15 @@ p2b {
   font-weight: bold;
   font-size: 15pt;
 }
-table#movies {
-  margin: 10px;
-  border-collapse: collapse;
-  width: 100%;
-  border-bottom: 2px solid black;
+table#reimloan th {
+  text-align:center;
+  vertical-align:middle;
 }
-table#movies th {
-  border: 2px solid white;
-  font-weight: bold;
-  background-color: #FF77FF;
-}
-table#movies th, table#movies td {
+table#reimloan th, table#reimloan td {
   padding: 4px;
-  text-align: left;
+  vertical-align:middle;
 }
-table#movies th.hilite {
+table#reimloan th.hilite {
   background-color: #FFBBFF;
 }
 
@@ -150,7 +148,8 @@ table#movies th.hilite {
 }
 
 .thcenter{
-	text-align:center;
+  text-align:center;
+  vertical-align:middle;
 	font-family: "微软雅黑";
 }
 .thleft{
@@ -158,9 +157,3 @@ table#movies th.hilite {
 	font-family: "微软雅黑";
 }
 
-.justify{  
-    height:1.1em;  
-    overflow:hidden;  
-    text-align:justify;  
-    text-justify : distribute-all-lines;
-} 
