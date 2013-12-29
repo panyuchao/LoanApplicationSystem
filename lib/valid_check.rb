@@ -2,7 +2,7 @@
 module ValidCheck
 	def check_username
 		if session[:current_user] == nil then
-			flash[:error] = "Login timed out!"
+			flash[:error] = params[:ver] == 'ch'? "登陆超时" : "Login timed out"
 			if params[:ver] != nil
 				redirect_to "/#{params[:ver]}/login" 
 			else

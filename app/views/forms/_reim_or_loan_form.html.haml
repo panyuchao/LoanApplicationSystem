@@ -1,7 +1,7 @@
 - language = (params[:ver] == 'ch' ? 0:1)
-%h2= params[:app_type] == "reim" ? (language == 1 ? "Reimbursement Application":"清华大学交叉信息研究院财务 报销单"):(language == 1 ? "Loan Application":"清华大学交叉信息研究院财务 借款单")
+%h2.thcenter= params[:app_type] == "reim" ? (language == 1 ? "IIIS Reimbursement Form":"清华大学交叉信息研究院财务 报销单"):(language == 1 ? "Loan Application":"清华大学交叉信息研究院财务 借款单")
 %form{:action => "/#{params[:ver]}/#{params[:current_user]}/new_#{params[:app_type]}_form"}
-  %table{:class => "table table-bordered", :align => "center"}
+  %table{:class => "table table-bordered table-hover", :align => "center"}
     %thead
       %tr
       - Form.get_reim_th.each do |x|
@@ -21,5 +21,22 @@
               %option= Form.get_pay_method_tags[2][language]
               - if params[:app_type] == "reim"
                 %option= Form.get_pay_method_tags[3][language]
-  %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"
-  
+  %div.row
+    %div{:class => "col-md-11"}
+      %table{:border => "0"}
+        %tr
+          %td 
+            %a= ["备注：", "Note:"][language]
+          %td 
+            %a= ["1. 3000元以上人民币不可报销现金，可选择其他方式，如不确定，可不填", "1. Cash is not available if it's more than 3000 CNY"][language]
+        %tr
+          %td 
+          %td 
+            %a= ["2. 摘要内容需要详细填写，不可过于概括", "2. Please specify the items in Details"][language]
+        - if params[:app_type] == 'reim' && language == 0
+          %tr
+            %td 
+            %td
+              %a 3. 如果在报销前已从财务处借过款，请在是否有借款一栏中标注事项及金额
+    %div{:class => "col-md-1", :align => :right}
+      %button{:type => "submit", :class => "btn btn-default btn-sm", :name => "commit"}= language == 1 ? "Submit":"提交"

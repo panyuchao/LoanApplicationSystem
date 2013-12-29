@@ -4,7 +4,7 @@
 %div.container
   %img{ :alt => "Logo", :src => "/assets/logo.gif", :height => '80px'}
   %h1
-  = render "/common/alert", :alert => flash[:notice]
+  = render "/common/alert"
   %form.form-signin{:action => '/ch/login', :method => 'post', :class => "pull-middle"}
     %h3.form-signin-heading= ['欢迎来到本系统，请登录', "Welcome! Please login"][language]
     %input{:class => "form-control", :type => "text", :placeholder => "Email address", :required => true, :autofocus => true, :id => :user_username, :name => "user[username]"}
