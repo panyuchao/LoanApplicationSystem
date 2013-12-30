@@ -27,8 +27,16 @@ class App < ActiveRecord::Base
   	pdf.font_families.update("Sim Hei"=>{:normal =>"app/assets/fonts/simhei.ttf"})
 		pdf.font "Sim Hei"
 		
-		pdf.text_box "清华大学交叉信息学院 财务报表", :size => 22, :at => [left, top+5], :width => 500, :align => :center
-		pdf.text_box "#{start_time.split(" ")[0]}\~#{end_time.split(" ")[0]}", :size => 14, :at => [left+80, top-23], :width => 500, :align => :center
+		pdf.text_box "清华大学交叉信息学院财务 报销/借款 审核汇总", :size => 22, :at => [left, top+5], :width => 500, :align => :center
+		start_time = start_time.split(" ")[0].split("-")
+		end_time = end_time.split(" ")[0].split("-")	
+		format = ["年", "月", "日"]
+		tstart = ""; tend = ""
+		for i in 0..2 do
+		  tstart = tstart + start_time[i] + format[i]
+		  tend = tend + end_time[i] + format[i]
+		end
+		pdf.text_box "(#{tstart} 至 #{tend})", :size => 14, :at => [left+120, top-23], :width => 500, :align => :center
   	current_height = top - 30
   	title = "清华大学交叉信息研究院"
   	type_title = ["报销方式", "支付方式"]

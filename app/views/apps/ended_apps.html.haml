@@ -1,12 +1,11 @@
-%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
-%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+= render "/common/prepare"
 
 %div.container
   = render "/user/admin_navigation", :active_bar => 'ended_apps'
 
-  %table.table
+  %table.table{:class => "table-hover"}
     %thead
-      %tr
+      %tr{:class => 'success'}
         %th.thcenter{:width => "5%"} 展开
         %th.thcenter{:width => "5%"} 编号
         %th.thcenter{:width => "20%"} 申请人
@@ -17,8 +16,9 @@
     %tbody{:align => 'center'}
       - @get_forms.each do |a|
         %form
-          %tr{:class => "warning"}
-            %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+          %tr
+            %td
+              %button{:type => "button", :id => "button#{a.id}", :class => "btn btn-xs", 'data-complete-text' => '-','data-origin-text' => '+', 'data-toggle' => "button", :class => "btn btn-xs", :onClick => "change('#{a.id}')", :value => '+'}= '+'
             %td= a.id
             %td= a.user.realname != nil ? a.user.realname: a.user.user_name
             %td= a.created_at.strftime("%Y-%m-%d %H:%M:%S")

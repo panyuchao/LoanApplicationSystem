@@ -34,15 +34,15 @@
                   %p= ['摘要', ''][language]
               %td.thcenter= i
               %td= (i<=b.length)? b[i-1].details: ''
-              %td= (i<=b.length)? b[i-1].amount: ''
+              %td.thcenter= (i<=b.length)? b[i-1].amount: ''
               %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==0)? "√":""
               %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==1)? "√":""
               %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==2)? "√":""
               - if a.app_type == "reim"
                 %td.thcenter= (i<=b.length&&Form.get_pay_method_type[b[i-1].pay_method]==3)? "√":""
-              %td.thcenter
+              %td
                 - if i <= b.length
-                  %input{ :class => "noneinput", :name => "account_num[#{b[i-1].id}]", :value => b[i-1].account_num, :readonly => readonly}
+                  %input{ :class => "noneinput-center", :name => "account_num[#{b[i-1].id}]", :value => b[i-1].account_num, :readonly => readonly}
           - if a.app_type == 'reim' 
             -if params[:ver] == 'ch'
               %tr
