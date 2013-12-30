@@ -1,0 +1,19 @@
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
+%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+- language = (params[:ver] == 'ch' ? 0:1)
+:javascript
+  function change(x) {
+    a = 'button'
+    a = a + x
+    b = '#' + a
+    if( document.getElementById(a).value == '+') {
+      $(b).button('complete')
+      document.getElementById(a).value = '-'
+      $('#collapse'+x).collapse('show')
+    } else {
+      $(b).button('origin')
+      $('#collapse'+x).collapse('hide')
+      document.getElementById(a).value = '+'
+    }
+  }
+
