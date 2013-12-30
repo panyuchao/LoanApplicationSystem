@@ -1,19 +1,20 @@
-%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap.min.css"}
-%link{:rel => "stylesheet", :href => "http://cdn.bootcss.com/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css"}
+= render '/common/prepare'
 - language = (params[:ver] == 'ch' ? 0:1)
+
 %div{ :class => "container"}
   = render "/user/user_navigation", :active_bar => "apps"
   %h1
   
-  %table.table
+  %table.table{:class=>"table-hover"}
     %thead
-      %tr
+      %tr{:class => 'success'}
         - User.get_user_show_th.each do |x|
           %th.thcenter{:width => "#{x[2]}%"}= x[language]
     %tbody{:align => 'center'}
       - @apps_reim.each do |a|
-        %tr{:class => "warning"}
-          %td{"data-toggle" => "collapse", "data-parent" => "#accordion", :href => "#collapse#{a.id}"} +
+        %tr
+          %td
+            %button{:type => "button", :id => "button#{a.id}", :class => "btn btn-xs", 'data-complete-text' => '-','data-origin-text' => '+', 'data-toggle' => "button", :class => "btn btn-xs", :onClick => "change('#{a.id}')", :value => '+'}= '+'
           %td= a.id
           %td= a.created_at
           %td= Form.get_app_tags[Form.get_app_type[a.app_type]][language]
